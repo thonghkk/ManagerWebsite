@@ -31,7 +31,7 @@ function wireUpEvents() {
   });
 
   ['modal-item', 'modal-category', 'modal-note', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(id => {
-    const closeBtn = $(id).querySelector('.close-btn');
+    const closeBtn = $(id).querySelector('.modal-close');
     if (closeBtn) closeBtn.addEventListener('click', () => closeModal(id));
   });
 

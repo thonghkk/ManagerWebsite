@@ -26,14 +26,38 @@ function wireUpEvents() {
 
   $('btn-add-item').addEventListener('click', () => {
     const activeCatId = getActiveCatId();
-    if (!activeCatId) return;
-    openItemModal(activeCatId, null);
+    if (activeCatId) openItemModal(activeCatId, null);
+  });
+
+  const sidebar = $('sidebar');
+  // Auto-collapse sidebar on mobile startup
+  if (window.innerWidth <= 640) {
+    sidebar.classList.add('collapsed');
+  }
+
+  $('hamburger').addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+  });
+
+  $('sidebar-close-btn').addEventListener('click', () => {
+    sidebar.classList.add('collapsed');
   });
 
   ['modal-item', 'modal-category', 'modal-note', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(id => {
+    // Close button (X)
     const closeBtn = $(id).querySelector('.modal-close');
     if (closeBtn) closeBtn.addEventListener('click', () => closeModal(id));
+    
+    // Cancel button (Hủy)
+    const cancelBtn = $(id).querySelector('.btn-secondary');
+    // Only bind if it's explicitly a cancel button and not 'edit' or other secondary actions in some modals
+    if (cancelBtn && cancelBtn.textContent.includes('Hủy')) {
+      cancelBtn.addEventListener('click', () => closeModal(id));
+    }
   });
+
+  // Specific cancel for confirm modal which always implies closing
+  $('modal-confirm-cancel').addEventListener('click', () => closeModal('modal-confirm'));
 
   window.addEventListener('click', (e) => {
     MODAL_IDS.forEach(id => {
@@ -88,6 +112,13 @@ function wireUpEvents() {
   // Hotkeys
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') MODAL_IDS.forEach(closeModal);
+  });
+
+  // Handle sidebar closing on pick (mobile)
+  $('sidebar-nav').addEventListener('click', (e) => {
+    if (window.innerWidth <= 640 && e.target.closest('.nav-item')) {
+      sidebar.classList.add('collapsed');
+    }
   });
 }
 

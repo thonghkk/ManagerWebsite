@@ -9,6 +9,9 @@ let editingCategory = null; // catId or null
 let noteViewingItem = null; // { catId, itemId }
 export let currentDetailItem = null; // { catId, itemId }
 let inputModalCallback = null;
+let initialInputVal = '';
+let initialItemData = { name: '', note: '' };
+let initialCategoryData = { name: '', icon: '' };
 
 export function openModal(id) {
   $(id).classList.add('open');
@@ -23,6 +26,7 @@ export function openInputModal(title, label, value, callback) {
   $('modal-input-title').textContent = title;
   $('modal-input-label').innerHTML = `${label} <span class="required">*</span>`;
   $('modal-input-textarea').value = value || '';
+  initialInputVal = value || '';
   inputModalCallback = callback;
   openModal('modal-input');
   setTimeout(() => $('modal-input-textarea').focus(), 50);
@@ -32,6 +36,10 @@ export function saveInputModal() {
   const val = $('modal-input-textarea').value.trim();
   if (!val) {
     showToast('Nội dung không được để trống!', 'error');
+    return;
+  }
+  if (val === initialInputVal.trim()) {
+    closeModal('modal-input');
     return;
   }
   if (inputModalCallback) {
@@ -50,6 +58,7 @@ export function openItemModal(catId, itemId) {
   $('modal-item-title').textContent = item ? 'Sửa Item' : 'Thêm Item';
   $('item-name-input').value = item ? item.name : '';
   $('item-note-input').value = item ? item.note : '';
+  initialItemData = { name: item ? item.name : '', note: item ? item.note : '' };
 
   openModal('modal-item');
   setTimeout(() => $('item-name-input').focus(), 50);
@@ -60,6 +69,12 @@ export function handleSaveItem() {
   if (!name) { showToast('Vui lòng nhập tên mục!', 'error'); return; }
 
   const note = $('item-note-input').value.trim();
+  
+  if (name === initialItemData.name && note === initialItemData.note) {
+    closeModal('modal-item');
+    return;
+  }
+
   saveItem(editingItem.catId, editingItem.itemId, { name, note });
   showToast(editingItem.itemId ? 'Đã cập nhật!' : 'Đã thêm mục mới!', 'success');
   closeModal('modal-item');
@@ -148,6 +163,7 @@ export function openCategoryModal(catId) {
   $('modal-category-title').textContent = cat ? 'Sửa Danh mục' : 'Thêm Danh mục';
   $('category-name-input').value = cat ? cat.name : '';
   $('category-icon-input').value = cat ? cat.icon : '📦';
+  initialCategoryData = { name: cat ? cat.name : '', icon: cat ? cat.icon : '📦' };
 
   openModal('modal-category');
   setTimeout(() => $('category-name-input').focus(), 50);
@@ -157,6 +173,11 @@ export function handleSaveCategory() {
   const name = $('category-name-input').value.trim();
   const icon = $('category-icon-input').value.trim() || '📦';
   if (!name) { showToast('Vui lòng nhập tên danh mục!', 'error'); return; }
+
+  if (name === initialCategoryData.name && icon === initialCategoryData.icon) {
+    closeModal('modal-category');
+    return;
+  }
 
   saveCategory(editingCategory, { name, icon });
   showToast(editingCategory ? 'Đã cập nhật danh mục!' : 'Đã thêm danh mục mới!', 'success');

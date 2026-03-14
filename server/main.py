@@ -44,7 +44,23 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == '__main__':
+    import socket
+    def get_local_ip():
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            # doesn't even have to be reachable
+            s.connect(('8.8.8.8', 1))
+            IP = s.getsockname()[0]
+        except Exception:
+            IP = '127.0.0.1'
+        finally:
+            s.close()
+        return IP
+
+    local_ip = get_local_ip()
     with socketserver.TCPServer(("", PORT), AppHandler) as httpd:
-        print(f"🚀 Server running on http://localhost:{PORT}")
-        print(f"📁 Serving client from: {CLIENT_DIR}")
+        print(f"🚀 Server running locally on: http://localhost:{PORT}")
+        if local_ip != '127.0.0.1':
+            print(f"🌐 Server sharing on LAN:    http://{local_ip}:{PORT}")
+        print(f"📁 Serving client from:      {CLIENT_DIR}")
         httpd.serve_forever()

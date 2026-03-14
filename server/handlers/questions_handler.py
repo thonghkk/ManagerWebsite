@@ -7,6 +7,9 @@ def handle_get_questions(handler, storage):
         data = {}
     handler.send_response(200)
     handler.send_header('Content-type', 'application/json; charset=utf-8')
+    handler.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+    handler.send_header('Pragma', 'no-cache')
+    handler.send_header('Expires', '0')
     handler.end_headers()
     handler.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 

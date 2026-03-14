@@ -126,7 +126,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "fundamentals",
@@ -213,7 +214,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "ui-xml",
@@ -284,7 +286,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "ui-compose",
@@ -347,7 +350,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "architecture",
@@ -426,7 +430,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "jetpack",
@@ -505,7 +510,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "concurrency",
@@ -568,7 +574,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "networking",
@@ -631,7 +638,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "storage",
@@ -686,7 +694,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "performance",
@@ -749,7 +758,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "testing",
@@ -804,7 +814,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "build",
@@ -859,7 +870,8 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "advanced",
@@ -922,12 +934,14 @@
         "customQuestions": [],
         "answers": {}
       }
-    ]
+    ],
+    "completed": false
   },
   {
     "id": "mmq0yurwhnye5",
     "name": "Design pattern",
     "icon": "🏗️",
-    "items": []
+    "items": [],
+    "completed": false
   }
 ]

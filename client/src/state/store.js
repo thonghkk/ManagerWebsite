@@ -61,6 +61,13 @@ export async function loadState() {
 }
 
 export function saveState() {
+  // Update "completed" status for each category before saving to server
+  state.categories.forEach(cat => {
+    const total = cat.items.length;
+    const done = cat.items.filter(i => i.done).length;
+    cat.completed = total > 0 && total === done;
+  });
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.categories));
   
   api.saveData(state.categories).catch(err => console.error('Python Server is not running'));

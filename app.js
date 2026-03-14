@@ -147,17 +147,21 @@ function renderCheckItem(catId, item) {
     ? `<div class="item-note-preview">${escHtml(item.note.split('\n')[0].slice(0, 80))}</div>`
     : '';
 
+  const hasDetail = typeof ITEM_DETAILS !== 'undefined' && ITEM_DETAILS[item.id];
+
   return `
     <div class="check-item ${item.done ? 'done-item' : ''}" data-cat-id="${catId}" data-item-id="${item.id}">
       <div class="checkbox" data-action="toggle">✓</div>
       <div class="item-body">
-        <div class="item-name">
+        <div class="item-name ${hasDetail ? 'has-detail' : ''}" ${hasDetail ? 'data-action="detail"' : ''}>
           ${escHtml(item.name)}
           ${noteTag}
+          ${hasDetail ? '<span class="detail-indicator" title="Xem chi tiết">ℹ️</span>' : ''}
         </div>
         ${notePreview}
       </div>
       <div class="item-actions">
+        ${hasDetail ? '<button class="action-btn info" data-action="detail" title="Xem chi tiết">📖</button>' : ''}
         <button class="action-btn note" data-action="note" title="Xem / Sửa note">📝</button>
         <button class="action-btn edit" data-action="edit" title="Sửa tên">✏️</button>
         <button class="action-btn del"  data-action="delete" title="Xoá">🗑️</button>
@@ -182,6 +186,7 @@ function attachItemEvents() {
     else if (action === 'edit')   openItemModal(catId, itemId);
     else if (action === 'note')   openNoteViewer(catId, itemId);
     else if (action === 'delete') openConfirmDelete('item', catId, itemId);
+    else if (action === 'detail') openDetailModal(catId, itemId);
   });
 }
 
@@ -240,6 +245,33 @@ function saveItem() {
   closeModal('modal-item');
   renderSidebar();
   renderMain();
+}
+
+// ── Detail Modal ──────────────────────────────
+function openDetailModal(catId, itemId) {
+  const cat  = state.categories.find(c => c.id === catId);
+  const item = cat ? cat.items.find(i => i.id === itemId) : null;
+  if (!item) return;
+
+  const detail = (typeof ITEM_DETAILS !== 'undefined') && ITEM_DETAILS[item.id];
+  if (!detail) { showToast('Chưa có thông tin chi tiết cho mục này.', ''); return; }
+
+  $('modal-detail-title').textContent = detail.title || item.name;
+  $('detail-summary').textContent = detail.summary || '';
+
+  const pointsEl = $('detail-points');
+  pointsEl.innerHTML = (detail.points || []).map(p => `<li>${escHtml(p)}</li>`).join('');
+  $('detail-points-section').style.display = detail.points && detail.points.length ? '' : 'none';
+
+  const tipsEl = $('detail-tips');
+  tipsEl.innerHTML = (detail.interviewTips || []).map(t => `<li>${escHtml(t)}</li>`).join('');
+  $('detail-tips-section').style.display = detail.interviewTips && detail.interviewTips.length ? '' : 'none';
+
+  const link = $('detail-source-link');
+  if (detail.url) { link.href = detail.url; link.style.display = ''; }
+  else { link.style.display = 'none'; }
+
+  openModal('modal-detail');
 }
 
 // ── Note Viewer ────────────────────────────────
@@ -391,8 +423,11 @@ function wireEvents() {
   $('modal-confirm-cancel').addEventListener('click', () => closeModal('modal-confirm'));
   $('modal-confirm-ok').addEventListener('click',     confirmDelete);
 
+  // Modal: detail
+  $('modal-detail-close').addEventListener('click', () => closeModal('modal-detail'));
+
   // Close modals clicking overlay
-  ['modal-item', 'modal-note', 'modal-category', 'modal-confirm'].forEach(id => {
+  ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail'].forEach(id => {
     $(id).addEventListener('click', (e) => {
       if (e.target === $(id)) closeModal(id);
     });
@@ -401,7 +436,7 @@ function wireEvents() {
   // Keyboard: Escape closes any open modal
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      ['modal-item', 'modal-note', 'modal-category', 'modal-confirm'].forEach(closeModal);
+      ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail'].forEach(closeModal);
     }
   });
 }

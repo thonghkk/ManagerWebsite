@@ -140,10 +140,42 @@
     </div>
   </div>
 
+  <!-- Modal: Item Detail -->
+  <div class="modal-overlay" id="modal-detail" role="dialog" aria-modal="true">
+    <div class="modal modal-detail-view">
+      <div class="modal-header detail-header">
+        <div class="detail-header-left">
+          <span class="detail-badge">📖 Chi tiết</span>
+          <h2 id="modal-detail-title">Detail</h2>
+        </div>
+        <button class="modal-close" id="modal-detail-close">✕</button>
+      </div>
+      <div class="modal-body detail-body">
+        <div class="detail-summary-box" id="detail-summary-box">
+          <p id="detail-summary"></p>
+        </div>
+        <div class="detail-section" id="detail-points-section">
+          <h3 class="detail-section-title">⚡ Điểm quan trọng</h3>
+          <ul class="detail-points" id="detail-points"></ul>
+        </div>
+        <div class="detail-section" id="detail-tips-section">
+          <h3 class="detail-section-title">🎯 Interview Tips</h3>
+          <ul class="detail-tips" id="detail-tips"></ul>
+        </div>
+        <div class="detail-link-row">
+          <a id="detail-source-link" href="#" target="_blank" rel="noopener" class="detail-link">
+            🔗 Xem tài liệu đầy đủ →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
   <script src="data.js"></script>
+  <script src="details.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

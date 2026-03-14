@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Android Full Knowledge List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <div>
+          <div class="logo-title">Android</div>
+          <div class="logo-sub">Knowledge Hub</div>
+        </div>
+      </div>
+      <div class="sidebar-stats">
+        <div class="stat-item">
+          <span id="stat-done">0</span>
+          <span class="stat-label">Done</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span id="stat-total">0</span>
+          <span class="stat-label">Total</span>
+        </div>
+      </div>
+      <div class="overall-progress">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="overall-progress-fill"></div>
+        </div>
+        <span class="progress-pct" id="overall-progress-pct">0%</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- JS rendered -->
+    </nav>
+
+    <button class="btn-add-category" id="btn-add-category">
+      <span>+</span> Add Category
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="main">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger" title="Toggle sidebar">☰</button>
+      <div class="topbar-title" id="topbar-title">Select a category</div>
+      <div class="topbar-actions">
+        <button class="btn-primary" id="btn-add-item">+ Add Item</button>
+      </div>
+    </header>
+
+    <div class="content-area" id="content-area">
+      <div class="welcome-screen">
+        <div class="welcome-icon">📱</div>
+        <h1>Android Full Knowledge List</h1>
+        <p>Chọn một danh mục bên trái để xem và quản lý danh sách kiến thức.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: Add / Edit Item -->
+  <div class="modal-overlay" id="modal-item" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-item-title">Add Item</h2>
+        <button class="modal-close" id="modal-item-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Tên mục <span class="required">*</span></label>
+        <input class="form-input" type="text" id="item-name-input" placeholder="Nhập tên kiến thức..." />
+        <label class="form-label" style="margin-top:16px">Ghi chú / Note</label>
+        <textarea class="form-textarea" id="item-note-input" placeholder="Ghi chú chi tiết, ví dụ, link tham khảo..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-item-cancel">Hủy</button>
+        <button class="btn-primary" id="modal-item-save">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Note Viewer -->
+  <div class="modal-overlay" id="modal-note" role="dialog" aria-modal="true">
+    <div class="modal modal-note-view">
+      <div class="modal-header">
+        <h2 id="modal-note-title">Note</h2>
+        <button class="modal-close" id="modal-note-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="note-content" id="modal-note-content"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="modal-note-edit">Sửa</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Category -->
+  <div class="modal-overlay" id="modal-category" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-category-title">Add Category</h2>
+        <button class="modal-close" id="modal-category-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Tên danh mục <span class="required">*</span></label>
+        <input class="form-input" type="text" id="category-name-input" placeholder="Nhập tên danh mục..." />
+        <label class="form-label" style="margin-top:16px">Biểu tượng (emoji)</label>
+        <input class="form-input" type="text" id="category-icon-input" placeholder="📦" maxlength="4" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-category-cancel">Hủy</button>
+        <button class="btn-primary" id="modal-category-save">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete -->
+  <div class="modal-overlay" id="modal-confirm" role="dialog" aria-modal="true">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Xác nhận xoá</h2>
+        <button class="modal-close" id="modal-confirm-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-confirm-msg">Bạn có chắc muốn xoá mục này?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-confirm-cancel">Hủy</button>
+        <button class="btn-danger" id="modal-confirm-ok">Xoá</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

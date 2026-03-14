@@ -161,12 +161,31 @@
         <div class="detail-section" id="detail-tips-section">
           <h3 class="detail-section-title">🎯 Interview Tips</h3>
           <ul class="detail-tips" id="detail-tips"></ul>
+          <button class="btn-secondary btn-sm" id="btn-add-tip" style="margin-top: 12px; font-size: 12px;">+ Thêm câu hỏi interview</button>
         </div>
         <div class="detail-link-row">
           <a id="detail-source-link" href="#" target="_blank" rel="noopener" class="detail-link">
             🔗 Xem tài liệu đầy đủ →
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Generic Input (For Custom Tips & Answers) -->
+  <div class="modal-overlay" id="modal-input" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-input-title">Input Dialog</h2>
+        <button class="modal-close" id="modal-input-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label" id="modal-input-label">Nội dung <span class="required">*</span></label>
+        <textarea class="form-textarea" id="modal-input-textarea" placeholder="Nhập văn bản..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-input-cancel">Hủy</button>
+        <button class="btn-primary" id="modal-input-save">Lưu</button>
       </div>
     </div>
   </div>

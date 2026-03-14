@@ -609,6 +609,10 @@ body {
   pointer-events: all;
 }
 
+#modal-confirm, #modal-input {
+  z-index: 1100;
+}
+
 .modal {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -830,7 +834,7 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 12px;
 }
 
 .detail-points li {
@@ -848,14 +852,60 @@ body {
   font-size: 12px;
 }
 
-.detail-tips li {
-  font-size: 13.5px;
-  color: var(--yellow);
-  line-height: 1.5;
-  padding: 8px 12px;
+.tip-item {
+  display: flex;
+  flex-direction: column;
   background: rgba(251,191,36,0.08);
   border-left: 3px solid var(--yellow);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.tip-item:hover {
+  background: rgba(251,191,36,0.12);
+}
+
+.tip-question-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 12px;
+  gap: 12px;
+}
+
+.tip-question-text {
+  font-size: 13.5px;
+  color: var(--yellow);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.tip-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.tip-item:hover .tip-actions {
+  opacity: 1;
+}
+
+.tip-answer-box {
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(251,191,36,0.1);
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
 }
 
 .detail-link-row {

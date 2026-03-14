@@ -10,25 +10,99 @@ let state = {
   activeCatId: null,
 };
 
-let pendingDelete = null; // { type: 'item'|'category', catId, itemId }
+let pendingDelete = null; // { type: 'item'|'category', catId, itemId } or { type: 'tip', catId, itemId, index }
 let editingItem = null;   // { catId, itemId } or null
 let editingCategory = null; // catId or null
 let noteViewingItem = null; // { catId, itemId }
 
+let currentDetailItem = null; // { catId, itemId }
+let inputModalCallback = null; // config callback cho thẻ Input đa năng
+
 // ── Persistence ────────────────────────────────
 function saveState() {
+  // Luôn lưu phòng hờ ở localStorage
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.categories));
+  
+  // Gửi dữ liệu App về database.json
+  fetch('http://localhost:8080/api/data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(state.categories),
+  }).catch(err => console.error('Python Server is not running'));
+
+  // Tách riêng dữ liệu câu hỏi gửi về questions.json
+  const questionsData = {};
+  state.categories.forEach(cat => {
+    cat.items.forEach(item => {
+      if ((item.customQuestions && item.customQuestions.length > 0) || 
+          (item.answers && Object.keys(item.answers).length > 0)) {
+        questionsData[item.id] = {
+          catId: cat.id,
+          itemName: item.name,
+          customQuestions: item.customQuestions || [],
+          answers: item.answers || {}
+        };
+      }
+    });
+  });
+
+  fetch('http://localhost:8080/api/questions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(questionsData),
+  }).catch(err => console.error('Error saving questions'));
 }
 
-function loadState() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (raw) {
-    try {
-      state.categories = JSON.parse(raw);
-      return;
-    } catch (_) { /* fall through */ }
+async function loadState() {
+  let loadedData = null;
+  let loadedQuestions = null;
+  try {
+    const resData = await fetch('http://localhost:8080/api/data');
+    if (resData.ok) {
+      const data = await resData.json();
+      if (Array.isArray(data) && data.length > 0) loadedData = data;
+    }
+    const resQ = await fetch('http://localhost:8080/api/questions');
+    if (resQ.ok) {
+        loadedQuestions = await resQ.json();
+    }
+  } catch (err) {
+    console.warn('Python server not found, falling back to localStorage');
   }
-  state.categories = JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+  if (!loadedData) {
+    // Backup loading from localStorage
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try {
+        loadedData = JSON.parse(raw);
+      } catch (_) { /* fall through */ }
+    }
+  }
+
+  if (!loadedData) {
+    // Fallback loading from DEFAULT_DATA
+    loadedData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+
+  loadedQuestions = loadedQuestions || {};
+
+  // Normalize data and apply custom questions from questions.json
+  loadedData.forEach(cat => {
+    cat.items.forEach(item => {
+      const qData = loadedQuestions[item.id];
+      // Ưu tiên dữ liệu từ questions.json nếu có
+      if (qData) {
+          item.customQuestions = qData.customQuestions || [];
+          item.answers = qData.answers || {};
+      } else {
+          item.customQuestions = item.customQuestions || [];
+          item.answers = item.answers || {};
+      }
+    });
+  });
+
+  state.categories = loadedData;
   saveState();
 }
 
@@ -247,8 +321,8 @@ function saveItem() {
   renderMain();
 }
 
-// ── Detail Modal ──────────────────────────────
 function openDetailModal(catId, itemId) {
+  currentDetailItem = { catId, itemId };
   const cat  = state.categories.find(c => c.id === catId);
   const item = cat ? cat.items.find(i => i.id === itemId) : null;
   if (!item) return;
@@ -263,15 +337,72 @@ function openDetailModal(catId, itemId) {
   pointsEl.innerHTML = (detail.points || []).map(p => `<li>${escHtml(p)}</li>`).join('');
   $('detail-points-section').style.display = detail.points && detail.points.length ? '' : 'none';
 
-  const tipsEl = $('detail-tips');
-  tipsEl.innerHTML = (detail.interviewTips || []).map(t => `<li>${escHtml(t)}</li>`).join('');
-  $('detail-tips-section').style.display = detail.interviewTips && detail.interviewTips.length ? '' : 'none';
+  renderTips(item, detail.interviewTips || []);
 
   const link = $('detail-source-link');
   if (detail.url) { link.href = detail.url; link.style.display = ''; }
   else { link.style.display = 'none'; }
 
   openModal('modal-detail');
+}
+
+function renderTips(item, defaultTips) {
+  const tipsEl = $('detail-tips');
+  
+  // Khởi tạo collections nếu chưa có
+  if (!item.customQuestions) item.customQuestions = [];
+  if (!item.answers) item.answers = {};
+
+  const allTips = [];
+  defaultTips.forEach(tip => allTips.push({ type: 'default', text: tip, id: tip }));
+  item.customQuestions.forEach((q, idx) => allTips.push({ type: 'custom', text: q, id: String(idx) }));
+
+  let html = '';
+  allTips.forEach((tip) => {
+    const answer = item.answers[tip.id] || '';
+    html += `
+      <li class="tip-item">
+        <div class="tip-question-row">
+          <div class="tip-question-text">${escHtml(tip.text)}</div>
+          <div class="tip-actions">
+            <button class="action-btn edit tip-btn" data-action="edit-answer" data-id="${escHtml(tip.id)}" title="Trả lời / Sửa">✏️</button>
+            ${tip.type === 'custom' ? `<button class="action-btn del tip-btn" data-action="delete-tip" data-idx="${tip.id}" title="Xoá câu hỏi">🗑️</button>` : ''}
+          </div>
+        </div>
+        ${answer ? `<div class="tip-answer-box">${escHtml(answer)}</div>` : ''}
+      </li>
+    `;
+  });
+
+  tipsEl.innerHTML = html;
+  
+  // Hiển thị phần Tips nếu có bất kỳ tip nào
+  $('detail-tips-section').style.display = allTips.length ? '' : 'none';
+  // Luôn luôn hiển thị Add Button, nên ta chuyển logic 'none' chỉ áp dụng cho mảng rỗng nếu cần,
+  // nhưng ở đây có nút Add Button thì không nên ẩn section.
+  $('detail-tips-section').style.display = ''; 
+}
+
+// ── Generic Input Modal ─────────────────────────
+function openInputModal(title, label, value, callback) {
+  $('modal-input-title').textContent = title;
+  $('modal-input-label').innerHTML = `${label} <span class="required">*</span>`;
+  $('modal-input-textarea').value = value || '';
+  inputModalCallback = callback;
+  openModal('modal-input');
+  setTimeout(() => $('modal-input-textarea').focus(), 50);
+}
+
+function saveInputModal() {
+  const val = $('modal-input-textarea').value.trim();
+  if (!val) {
+    showToast('Nội dung không được để trống!', 'error');
+    return;
+  }
+  if (inputModalCallback) {
+    inputModalCallback(val);
+  }
+  closeModal('modal-input');
 }
 
 // ── Note Viewer ────────────────────────────────
@@ -320,13 +451,15 @@ function saveCategory() {
 }
 
 // ── Confirm Delete ─────────────────────────────
-function openConfirmDelete(type, catId, itemId) {
-  pendingDelete = { type, catId, itemId };
+function openConfirmDelete(type, catId, itemId, index = null) {
+  pendingDelete = { type, catId, itemId, index };
 
   if (type === 'item') {
     const cat  = state.categories.find(c => c.id === catId);
     const item = cat ? cat.items.find(i => i.id === itemId) : null;
     $('modal-confirm-msg').textContent = `Xoá mục "${item ? item.name : ''}"?`;
+  } else if (type === 'tip') {
+    $('modal-confirm-msg').textContent = `Bạn có chắc muốn xoá câu hỏi interview này? (Các câu trả lời cũng sẽ bị mất)`;
   } else {
     const cat = state.categories.find(c => c.id === catId);
     $('modal-confirm-msg').textContent = `Xoá toàn bộ danh mục "${cat ? cat.name : ''}" và tất cả mục bên trong?`;
@@ -337,12 +470,41 @@ function openConfirmDelete(type, catId, itemId) {
 
 function confirmDelete() {
   if (!pendingDelete) return;
-  const { type, catId, itemId } = pendingDelete;
+  const { type, catId, itemId, index } = pendingDelete;
 
   if (type === 'item') {
     const cat = state.categories.find(c => c.id === catId);
     if (cat) cat.items = cat.items.filter(i => i.id !== itemId);
     showToast('Đã xoá mục!', 'success');
+  } else if (type === 'tip') {
+    const cat = state.categories.find(c => c.id === catId);
+    if (cat) {
+      const item = cat.items.find(i => i.id === itemId);
+      if (item && item.customQuestions && item.answers) {
+         // Lấy key đang theo Index của customQuestion.
+         const ansKey = String(index);
+         delete item.answers[ansKey];
+         item.customQuestions.splice(index, 1);
+         // Shift answers of subsequent custom questions down by 1
+         const newAnswers = {};
+         for (const [k, v] of Object.entries(item.answers)) {
+            // IF it is a number (a custom question ID) and it's > index, subtract 1
+            if (!isNaN(k)) {
+               const numK = parseInt(k, 10);
+               if (numK > parseInt(index, 10)) {
+                  newAnswers[String(numK - 1)] = v;
+               } else {
+                  newAnswers[k] = v;
+               }
+            } else {
+               // Default question IDs remain unchanged
+               newAnswers[k] = v;
+            }
+         }
+         item.answers = newAnswers;
+         showToast('Đã xoá câu hỏi!', 'success');
+      }
+    }
   } else {
     state.categories = state.categories.filter(c => c.id !== catId);
     if (state.activeCatId === catId) state.activeCatId = null;
@@ -352,7 +514,15 @@ function confirmDelete() {
   saveState();
   closeModal('modal-confirm');
   renderSidebar();
-  renderMain();
+  
+  if (type === 'tip') {
+     // Re-render detail tips without closing modal
+     const detailConfig = typeof ITEM_DETAILS !== 'undefined' ? ITEM_DETAILS[itemId] : null;
+     const catItem = state.categories.find(c => c.id === catId)?.items.find(i => i.id === itemId);
+     if (catItem && detailConfig) renderTips(catItem, detailConfig.interviewTips || []);
+  } else {
+     renderMain();
+  }
   pendingDelete = null;
 }
 
@@ -426,8 +596,59 @@ function wireEvents() {
   // Modal: detail
   $('modal-detail-close').addEventListener('click', () => closeModal('modal-detail'));
 
+  // Detail Modal Add Custom Tip Button
+  $('btn-add-tip').addEventListener('click', () => {
+     if (!currentDetailItem) return;
+     openInputModal('Thêm câu hỏi', 'Nội dung câu hỏi', '', (val) => {
+        const cat = state.categories.find(c => c.id === currentDetailItem.catId);
+        if (!cat) return;
+        const item = cat.items.find(i => i.id === currentDetailItem.itemId);
+        if (!item) return;
+
+        if (!item.customQuestions) item.customQuestions = [];
+        item.customQuestions.push(val);
+        saveState();
+        showToast('Đã thêm câu hỏi!', 'success');
+
+        const detailConfig = typeof ITEM_DETAILS !== 'undefined' ? ITEM_DETAILS[item.id] : null;
+        if (detailConfig) renderTips(item, detailConfig.interviewTips || []);
+     });
+  });
+
+  // Delegate cho danh sách Tips (Edit / Delete)
+  $('detail-tips').addEventListener('click', (e) => {
+     const el = e.target.closest('[data-action]');
+     if (!el) return;
+     const action = el.dataset.action;
+     
+     const cat = state.categories.find(c => c.id === currentDetailItem.catId);
+     const item = cat ? cat.items.find(i => i.id === currentDetailItem.itemId) : null;
+     if (!item) return;
+
+     if (action === 'edit-answer') {
+        const tipId = el.dataset.id;
+        const currentAns = item.answers && item.answers[tipId] ? item.answers[tipId] : '';
+        openInputModal('Trả lời câu hỏi', 'Câu trả lời của bạn', currentAns, (val) => {
+           if (!item.answers) item.answers = {};
+           item.answers[tipId] = val;
+           saveState();
+           showToast('Đã lưu câu trả lời!', 'success');
+           const detailConfig = typeof ITEM_DETAILS !== 'undefined' ? ITEM_DETAILS[item.id] : null;
+           if (detailConfig) renderTips(item, detailConfig.interviewTips || []);
+        });
+     } else if (action === 'delete-tip') {
+        const customIdx = el.dataset.idx;
+        openConfirmDelete('tip', currentDetailItem.catId, currentDetailItem.itemId, customIdx);
+     }
+  });
+
+  // Modal: Generic Input
+  $('modal-input-close').addEventListener('click', () => closeModal('modal-input'));
+  $('modal-input-cancel').addEventListener('click', () => closeModal('modal-input'));
+  $('modal-input-save').addEventListener('click', saveInputModal);
+
   // Close modals clicking overlay
-  ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail'].forEach(id => {
+  ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(id => {
     $(id).addEventListener('click', (e) => {
       if (e.target === $(id)) closeModal(id);
     });
@@ -436,17 +657,21 @@ function wireEvents() {
   // Keyboard: Escape closes any open modal
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail'].forEach(closeModal);
+      ['modal-item', 'modal-note', 'modal-category', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(closeModal);
     }
   });
 }
 
 // ── Bootstrap ──────────────────────────────────
-function init() {
-  loadState();
+async function init() {
+  await loadState();
+  if (!state.activeCatId && state.categories.length > 0) {
+    state.activeCatId = state.categories[0].id;
+  }
   wireEvents();
   renderSidebar();
   renderMain();
+  calcStats();
 }
 
 document.addEventListener('DOMContentLoaded', init);

@@ -1,5 +1,4 @@
-// Default data – loaded only if localStorage is empty
-const DEFAULT_DATA = [
+export const DEFAULT_DATA = [
   {
     id: "kotlin",
     name: "Kotlin",

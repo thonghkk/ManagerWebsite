@@ -1,5 +1,4 @@
-// Item details – keyed by item id
-const ITEM_DETAILS = {
+export const ITEM_DETAILS = {
   // ── Kotlin ───────────────────────────────────────────────────────────────
   k1: {
     title: 'Syntax cơ bản',

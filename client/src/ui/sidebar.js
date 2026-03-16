@@ -16,6 +16,8 @@ export function getCatStats(cat) {
   return { done, total: cat.items.length };
 }
 
+let hasScrolledToActive = false;
+
 export function renderSidebar() {
   const nav = $('sidebar-nav');
   const state = getState();
@@ -27,10 +29,13 @@ export function renderSidebar() {
   $('overall-progress-fill').style.width = pct + '%';
   $('overall-progress-pct').textContent  = pct + '%';
 
+  const currentScroll = nav.scrollTop;
   nav.innerHTML = '';
   // Wrap in a fragment for smoother single injection
   const fragment = document.createDocumentFragment();
   
+  let activeItemEl = null;
+
   state.categories.forEach(cat => {
     const { done, total } = getCatStats(cat);
     const isActive = cat.id === state.activeCatId;
@@ -39,6 +44,8 @@ export function renderSidebar() {
     const item = document.createElement('div');
     item.className = 'nav-item' + (isActive ? ' active' : '') + ' fade-up';
     item.dataset.catId = cat.id;
+    if (isActive) activeItemEl = item;
+    
     item.innerHTML = `
       <span class="nav-item-icon">${cat.icon}</span>
       <div class="nav-item-info">
@@ -50,6 +57,18 @@ export function renderSidebar() {
     fragment.appendChild(item);
   });
   nav.appendChild(fragment);
+
+  if (!hasScrolledToActive && activeItemEl) {
+    // On first load, scroll the active item into view
+    setTimeout(() => {
+      activeItemEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      hasScrolledToActive = true;
+    }, 50);
+  } else {
+    // On subsequent re-renders, preserve the exact scroll position
+    // so the UI doesn't jump to the top when an item is clicked
+    nav.scrollTop = currentScroll;
+  }
 
   attachSidebarEvents(nav);
 }

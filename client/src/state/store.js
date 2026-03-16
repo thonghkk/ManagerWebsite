@@ -66,7 +66,10 @@ export async function loadState() {
   });
 
   state.categories = loadedData;
-  if (!state.activeCatId && state.categories.length > 0) {
+  const savedCatId = localStorage.getItem('android_knowledge_active_cat');
+  if (savedCatId && state.categories.some(c => c.id === savedCatId)) {
+    state.activeCatId = savedCatId;
+  } else if (!state.activeCatId && state.categories.length > 0) {
     state.activeCatId = state.categories[0].id;
   }
   
@@ -115,6 +118,11 @@ export async function saveState(showUI = true) {
 
 export function setActiveCatId(catId) {
   state.activeCatId = catId;
+  if (catId) {
+    localStorage.setItem('android_knowledge_active_cat', catId);
+  } else {
+    localStorage.removeItem('android_knowledge_active_cat');
+  }
   eventBus.emit('categoryActivated', catId);
 }
 

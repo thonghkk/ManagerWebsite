@@ -4,7 +4,7 @@ import { getCatStats } from './sidebar.js';
 import { ITEM_DETAILS } from '../data/itemDetails.js';
 import { openCategoryModal, openConfirmDelete, openItemModal, openNoteViewer, openDetailModal } from './modals.js';
 
-let activePatternFilter = 'all';
+let activePatternFilter = localStorage.getItem('android_knowledge_active_filter') || 'all';
 
 export function renderMain() {
   const state = getState();
@@ -98,6 +98,7 @@ function attachMainEvents(area) {
     if (filterBtn) {
       e.stopPropagation();
       activePatternFilter = filterBtn.dataset.filter;
+      localStorage.setItem('android_knowledge_active_filter', activePatternFilter);
       renderMain(); // Re-render the main area to apply the filter
       return;
     }

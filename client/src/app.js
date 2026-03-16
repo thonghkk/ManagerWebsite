@@ -30,7 +30,6 @@ function wireUpEvents() {
   });
 
   const sidebar = $('sidebar');
-  // Auto-collapse sidebar on mobile startup
   if (window.innerWidth <= 640) {
     sidebar.classList.add('collapsed');
   }
@@ -44,19 +43,15 @@ function wireUpEvents() {
   });
 
   ['modal-item', 'modal-category', 'modal-note', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(id => {
-    // Close button (X)
     const closeBtn = $(id).querySelector('.modal-close');
     if (closeBtn) closeBtn.addEventListener('click', () => closeModal(id));
     
-    // Cancel button (Hủy)
     const cancelBtn = $(id).querySelector('.btn-secondary');
-    // Only bind if it's explicitly a cancel button and not 'edit' or other secondary actions in some modals
     if (cancelBtn && cancelBtn.textContent.includes('Hủy')) {
       cancelBtn.addEventListener('click', () => closeModal(id));
     }
   });
 
-  // Specific cancel for confirm modal which always implies closing
   $('modal-confirm-cancel').addEventListener('click', () => closeModal('modal-confirm'));
 
   window.addEventListener('click', (e) => {
@@ -72,22 +67,6 @@ function wireUpEvents() {
   $('modal-input-save').addEventListener('click', saveInputModal);
 
   // Detail Modal Events
-  $('detail-btn-edit-cat').addEventListener('click', () => {
-    if (currentDetailItem && currentDetailItem.catId) {
-      closeModal('modal-detail');
-      openCategoryModal(currentDetailItem.catId);
-    }
-  });
-
-  $('detail-btn-del-cat').addEventListener('click', () => {
-    if (currentDetailItem && currentDetailItem.catId) {
-      closeModal('modal-detail');
-      import('./ui/modals.js').then(({ openConfirmDelete }) => {
-        openConfirmDelete('category', currentDetailItem.catId, null);
-      });
-    }
-  });
-
   $('btn-add-tip').addEventListener('click', () => {
     const { catId, itemId } = currentDetailItem || {};
     if (!catId || !itemId) return;
@@ -116,21 +95,16 @@ function wireUpEvents() {
       });
     } else if (action === 'delete-tip') {
       const idx = el.dataset.idx;
-      // openConfirmDelete('tip', catId, itemId, idx);
-      // Let's implement this quickly by importing openConfirmDelete or doing it directly
-      // Since openConfirmDelete does exactly this:
       import('./ui/modals.js').then(({ openConfirmDelete }) => {
         openConfirmDelete('tip', catId, itemId, idx);
       });
     }
   });
 
-  // Hotkeys
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') MODAL_IDS.forEach(closeModal);
   });
 
-  // Handle sidebar closing on pick (mobile)
   $('sidebar-nav').addEventListener('click', (e) => {
     if (window.innerWidth <= 640 && e.target.closest('.nav-item')) {
       sidebar.classList.add('collapsed');
@@ -156,13 +130,10 @@ function wireUpSubscribers() {
 
   eventBus.on('itemToggled', () => {
     renderSidebar();
-    // In a sophisticated app, we only re-render the toggled item.
-    // For simplicity, re-render main
     renderMain();
   });
 
   eventBus.on('customTipChanged', ({ catId, itemId }) => {
-    // re-render tips if currently viewing
     if (currentDetailItem && currentDetailItem.catId === catId && currentDetailItem.itemId === itemId) {
       const cat = getState().categories.find(c => c.id === catId);
       const item = cat.items.find(i => i.id === itemId);

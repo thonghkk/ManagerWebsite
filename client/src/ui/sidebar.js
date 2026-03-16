@@ -46,10 +46,6 @@ export function renderSidebar() {
         <div class="nav-item-progress">${done}/${total} completed</div>
       </div>
       <span class="nav-badge ${allDone ? 'done' : ''}">${done}/${total}</span>
-      <div class="nav-item-actions">
-        <button class="nav-action-btn edit" title="Sửa danh mục" data-cat-action="edit" data-cat-id="${cat.id}">✏️</button>
-        <button class="nav-action-btn del" title="Xoá danh mục" data-cat-action="delete" data-cat-id="${cat.id}">🗑️</button>
-      </div>
     `;
     fragment.appendChild(item);
   });

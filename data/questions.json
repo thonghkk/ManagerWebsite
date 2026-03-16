@@ -6,7 +6,7 @@
       "In what situations should i use 'Lazy' ?"
     ],
     "answers": {
-      "0": "đúng lazyâsassasa",
+      "0": "đúng lazy",
       "Kotlin có primitive types không?": ".",
       "Khác biệt giữa val và const val?": "Val: dùng để gắn với 1 biến cố định, không thể thay đổi, phải gắn với 1 giá trị khi lúc tạo biến\nVar: Khi dùng có thể cập nhật được cho biến"
     }
@@ -24,6 +24,16 @@
     "itemName": "Generics",
     "customQuestions": [
       "Let compare <T> and Any in Kotlin ?"
+    ],
+    "answers": {}
+  },
+  "f6": {
+    "catId": "fundamentals",
+    "itemName": "Service",
+    "customQuestions": [
+      "Started(Background) Service dùng khi nào ? Cách sử dụng nó như nào?",
+      "Foceground Service dùng khi nào ? Cách sử dụng nó như nào?",
+      "Hãy so sánh từng loại Service với nhau."
     ],
     "answers": {}
   }

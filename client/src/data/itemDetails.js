@@ -464,4 +464,219 @@ export const ITEM_DETAILS = {
   ad5: { title: 'Large scale architecture', url: 'https://android-notebook.netlify.app/android/components', summary: 'Architecture cho app lớn: convention plugins, version catalog, shared module patterns.', points: ['Convention plugins chuẩn hoá build config', 'libs.versions.toml version catalog', 'Composable build logic', 'Dependency management tập trung'], interviewTips: ['Scalability concerns cho Android team lớn?'] },
   ad6: { title: 'Security (encryption, obfuscation)', url: 'https://android-notebook.netlify.app/android/components', summary: 'Android security: EncryptedSharedPreferences, Android Keystore, Certificate pinning, R8 obfuscation.', points: ['Android Keystore: lưu key an toàn', 'EncryptedSharedPreferences / EncryptedFile', 'Certificate pinning chống MITM', 'Biometric authentication API'], interviewTips: ['Lưu trữ token an toàn thế nào?'] },
   ad7: { title: 'Play Store optimization', url: 'https://android-notebook.netlify.app/android/components', summary: 'ASO (App Store Optimization), Android App Bundle, Play Asset Delivery, In-App Review.', points: ['AAB thay APK cho Play Store', 'Play Asset Delivery cho lớn assets', 'In-App Review API', 'Core App Quality guidelines'], interviewTips: ['AAB vs APK lợi ích?'] },
+
+  // ── Design Patterns ────────────────────────────────────────────────────────
+  dp1: {
+    title: 'Singleton',
+    summary: 'Đảm bảo chỉ có một instance duy nhất của class tồn tại trong toàn bộ ứng dụng.',
+    points: ['Database connection', 'Logger', 'Config manager', 'Room DB'],
+    code: `object DatabaseManager {
+    fun connect() { /* ... */ }
+    fun query(sql: String) { /* ... */ }
+}`,
+    interviewTips: ['Khi nào dùng Singleton?', 'Vấn đề thread-safe trong Singleton?']
+  },
+  dp2: {
+    title: 'Builder',
+    summary: 'Xây dựng object phức tạp theo từng bước, tách rời quá trình tạo khỏi representation.',
+    points: ['AlertDialog', 'OkHttpClient', 'Retrofit', 'Notification'],
+    code: `val dialog = AlertDialog.Builder(context)
+    .setTitle("Tiêu đề")
+    .setMessage("Nội dung")
+    .setPositiveButton("OK") { _, _ -> }
+    .build()`,
+    interviewTips: ['Builder vs Factory?', 'Tại sao dùng Builder thay vì constructor nhiều tham số?']
+  },
+  dp3: {
+    title: 'Factory Method',
+    summary: 'Định nghĩa interface tạo object, để subclass quyết định class nào được tạo.',
+    points: ['ViewModel Factory', 'Cross-platform UI', 'Plugin system'],
+    code: `abstract class Dialog {
+    abstract fun createButton(): Button
+}
+class WindowsDialog : Dialog() {
+    override fun createButton() = WindowsButton()
+}`,
+    interviewTips: ['Factory Method giải quyết vấn đề gì?']
+  },
+  dp4: {
+    title: 'Abstract Factory',
+    summary: 'Tạo ra họ các object liên quan mà không chỉ định class cụ thể.',
+    points: ['Dark/Light theme', 'Cross-platform', 'UI component family'],
+    code: `interface UIFactory {
+    fun createButton(): Button
+    fun createCheckbox(): Checkbox
+}
+class DarkThemeFactory : UIFactory { /*...*/ }`,
+    interviewTips: ['Abstract Factory vs Factory Method?']
+  },
+  dp5: {
+    title: 'Prototype',
+    summary: 'Clone object hiện tại thay vì tạo mới, hữu ích khi khởi tạo object tốn chi phí cao.',
+    points: ['Copy objects', 'Game entities', 'Config templates'],
+    code: `data class UserConfig(
+    val theme: String,
+    val locale: String
+)
+val copy = config.copy(theme = "dark")`,
+    interviewTips: ['Deep copy vs Shallow copy?']
+  },
+  dp6: {
+    title: 'Adapter',
+    summary: 'Chuyển đổi interface của class sang interface khác mà client mong đợi.',
+    points: ['RecyclerView.Adapter', '3rd party lib', 'Legacy code'],
+    code: `class ItemAdapter(
+    private val items: List<Item>
+) : RecyclerView.Adapter<ViewHolder>() {
+    override fun getItemCount() = items.size
+}`,
+    interviewTips: ['Adapter pattern trong Android?']
+  },
+  dp7: {
+    title: 'Decorator',
+    summary: 'Thêm behavior mới vào object tại runtime bằng cách wrap nó, không thay đổi class gốc.',
+    points: ['Java I/O Streams', 'Middleware', 'Logging wrapper'],
+    code: `val stream = BufferedInputStream(
+    FileInputStream("data.txt")
+)
+// BufferedInputStream "decorates" FileInputStream`,
+    interviewTips: ['Decorator vs Inheritance?']
+  },
+  dp8: {
+    title: 'Facade',
+    summary: 'Cung cấp interface đơn giản cho một hệ thống con phức tạp — che giấu sự phức tạp bên trong.',
+    points: ['Repository', 'SDK wrapper', 'Service layer'],
+    code: `class MediaFacade {
+    private val player = MediaPlayer()
+    private val buffer = BufferManager()
+    fun play(url: String) {
+        buffer.prepare(url); player.start()
+    }
+}`,
+    interviewTips: ['Facade giúp gì trong thiết kế hệ thống?']
+  },
+  dp9: {
+    title: 'Proxy',
+    summary: 'Cung cấp đối tượng thay thế để kiểm soát truy cập — lazy loading, caching, access control.',
+    points: ['Retrofit interface', 'Lazy loading', 'Auth guard', 'Cache proxy'],
+    code: `interface ApiService {
+    suspend fun getUsers(): List<User>
+}
+// Retrofit tạo Proxy implement ApiService
+val api = retrofit.create(ApiService::class.java)`,
+    interviewTips: ['Proxy vs Facade?']
+  },
+  dp10: {
+    title: 'Composite',
+    summary: 'Xử lý object đơn lẻ và nhóm object theo cách thống nhất — cấu trúc cây.',
+    points: ['View hierarchy', 'File system', 'Menu tree'],
+    code: `// Android: ViewGroup là Composite của View
+val layout = LinearLayout(context)
+layout.addView(TextView(context))
+layout.addView(ImageView(context))
+// draw() gọi đệ quy xuống toàn bộ cây`,
+    interviewTips: ['Composite pattern ứng dụng trong Android UI?']
+  },
+  dp11: {
+    title: 'Bridge',
+    summary: 'Tách abstraction khỏi implementation để cả hai có thể thay đổi độc lập nhau.',
+    points: ['Multi-platform renderer', 'Device drivers', 'Remote/Local data'],
+    code: `interface Renderer { fun render(shape: Shape) }
+class OpenGLRenderer : Renderer { /*...*/ }
+class VulkanRenderer  : Renderer { /*...*/ }
+class Circle(val renderer: Renderer) : Shape()`,
+    interviewTips: ['Bridge pattern giúp gì cho đa nền tảng?']
+  },
+  dp12: {
+    title: 'Observer',
+    summary: 'Một object thay đổi → thông báo tự động đến tất cả các object đang theo dõi nó.',
+    points: ['LiveData', 'StateFlow', 'RxJava', 'EventBus'],
+    code: `viewModel.uiState
+    .collect { state ->
+        updateUI(state)
+    }
+// StateFlow là Observer pattern`,
+    interviewTips: ['Observer pattern vs Callback?', 'Memory leak trong Observer?']
+  },
+  dp13: {
+    title: 'Strategy',
+    summary: 'Định nghĩa một họ thuật toán, đóng gói từng cái, cho phép hoán đổi linh hoạt tại runtime.',
+    points: ['Payment methods', 'Sort algorithms', 'Compression'],
+    code: `interface SortStrategy {
+    fun sort(data: List<Int>): List<Int>
+}
+class Sorter(var strategy: SortStrategy) {
+    fun sort(d: List<Int>) = strategy.sort(d)
+}`,
+    interviewTips: ['Strategy vs State pattern?']
+  },
+  dp14: {
+    title: 'Command',
+    summary: 'Đóng gói request như một object — hỗ trợ undo/redo, queue, logging các action.',
+    points: ['Undo/Redo', 'Transaction', 'Macro recording', 'Task queue'],
+    code: `interface Command {
+    fun execute()
+    fun undo()
+}
+class DeleteTextCommand : Command {
+    override fun execute() { /* xóa */ }
+    override fun undo() { /* khôi phục */ }
+}`,
+    interviewTips: ['Command pattern trong WorkManager?']
+  },
+  dp15: {
+    title: 'Chain of Responsibility',
+    summary: 'Truyền request qua chuỗi handler cho đến khi có handler xử lý được.',
+    points: ['OkHttp Interceptor', 'Touch events', 'Middleware'],
+    code: `// OkHttp Interceptor là Chain of Responsibility
+client = OkHttpClient.Builder()
+    .addInterceptor(AuthInterceptor())
+    .addInterceptor(LoggingInterceptor())
+    .addInterceptor(CacheInterceptor())
+    .build()`,
+    interviewTips: ['Chain of Responsibility trong Android Touch Event?']
+  },
+  dp16: {
+    title: 'Template Method',
+    summary: 'Định nghĩa skeleton của thuật toán trong base class, để subclass override các bước cụ thể.',
+    points: ['Activity lifecycle', 'Data export', 'Report generator'],
+    code: `abstract class DataExporter {
+    fun export() { read(); process(); write() }
+    abstract fun read()
+    abstract fun write()
+    open fun process() { /* default impl */ }
+}`,
+    interviewTips: ['Template Method vs Strategy?']
+  },
+  dp17: {
+    title: 'State',
+    summary: 'Object thay đổi behavior dựa trên state nội tại — như máy trạng thái (FSM).',
+    points: ['Media player', 'UI State Machine', 'Order status'],
+    code: `sealed class UiState {
+    object Loading : UiState()
+    data class Success(val data: List<Item>) : UiState()
+    data class Error(val msg: String) : UiState()
+}`,
+    interviewTips: ['State pattern giúp gì cho UI logic?']
+  },
+  dp18: {
+    title: 'Iterator',
+    summary: 'Cung cấp cách tuần tự truy cập các phần tử mà không expose cấu trúc bên trong.',
+    points: ['for-each', 'Kotlin Iterable', 'Custom collection'],
+    code: `class NumberRange(val from: Int, val to: Int) : Iterable<Int> {
+    override fun iterator() = (from..to).iterator()
+}
+for (n in NumberRange(1, 5)) println(n)`,
+    interviewTips: ['Iterator pattern lợi ích?']
+  },
+  dp19: {
+    title: 'Mediator',
+    summary: 'Giảm sự phụ thuộc trực tiếp giữa các object bằng cách giao tiếp qua một đối tượng trung gian.',
+    points: ['Chat room', 'Air traffic control', 'EventBus'],
+    code: `class EventBus {
+    private val listeners = mutableMapOf<String, MutableList<() -> Unit>>()
+    fun emit(event: String) = listeners[event]?.forEach { it() }
+}`,
+    interviewTips: ['Mediator vs Observer?']
+  },
 };

@@ -97,6 +97,28 @@ export function openDetailModal(catId, itemId) {
   pointsEl.innerHTML = (detail.points || []).map(p => `<li>${escHtml(p)}</li>`).join('');
   $('detail-points-section').style.display = detail.points && detail.points.length ? '' : 'none';
 
+  // Handle code display if exists
+  let codeHtml = '';
+  if (detail.code) {
+    codeHtml = `
+      <div class="detail-section">
+        <h3 class="detail-section-title">💻 Code Sample</h3>
+        <pre class="detail-code"><code>${escHtml(detail.code)}</code></pre>
+      </div>
+    `;
+  }
+  
+  // Find a place to insert code or just append to pointsEl's parent
+  const existingCode = $('detail-code-section');
+  if (existingCode) existingCode.remove();
+  
+  if (detail.code) {
+    const codeDiv = document.createElement('div');
+    codeDiv.id = 'detail-code-section';
+    codeDiv.innerHTML = codeHtml;
+    pointsEl.parentElement.after(codeDiv);
+  }
+
   renderTips(item, detail.interviewTips || []);
 
   const link = $('detail-source-link');

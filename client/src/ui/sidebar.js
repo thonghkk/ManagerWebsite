@@ -27,13 +27,16 @@ export function renderSidebar() {
   $('overall-progress-pct').textContent  = pct + '%';
 
   nav.innerHTML = '';
+  // Wrap in a fragment for smoother single injection
+  const fragment = document.createDocumentFragment();
+  
   state.categories.forEach(cat => {
     const { done, total } = getCatStats(cat);
     const isActive = cat.id === state.activeCatId;
     const allDone  = total > 0 && done === total;
 
     const item = document.createElement('div');
-    item.className = 'nav-item' + (isActive ? ' active' : '');
+    item.className = 'nav-item' + (isActive ? ' active' : '') + ' fade-up';
     item.dataset.catId = cat.id;
     item.innerHTML = `
       <span class="nav-item-icon">${cat.icon}</span>
@@ -46,6 +49,7 @@ export function renderSidebar() {
     item.addEventListener('click', () => {
       setActiveCatId(cat.id);
     });
-    nav.appendChild(item);
+    fragment.appendChild(item);
   });
+  nav.appendChild(fragment);
 }

@@ -1045,3 +1045,257 @@ body {
     overflow-y: auto;
   }
 }
+/* =============================================
+   DESIGN PATTERNS SPECIALIZED UI
+   ============================================= */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  animation: fadeIn 0.4s ease;
+}
+
+.pattern-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pattern-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: var(--accent);
+  transition: height var(--transition);
+}
+
+.pattern-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.pattern-card:hover::before {
+  height: 100%;
+}
+
+.pattern-card.done-pattern {
+  opacity: 0.7;
+}
+
+.pattern-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pattern-type-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.type-creational { background: rgba(79, 142, 247, 0.15); color: #4f8ef7; }
+.type-structural  { background: rgba(67, 217, 162, 0.15); color: #43d9a2; }
+.type-behavioral  { background: rgba(199, 125, 255, 0.15); color: #c77dff; }
+
+.pattern-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pattern-card-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.pattern-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pattern-chip {
+  font-size: 11px;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.pattern-card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.pattern-check-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  color: transparent;
+  transition: all var(--transition);
+}
+
+.pattern-card.done-pattern .pattern-check-btn {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.pattern-action-btns {
+  display: flex;
+  gap: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Code Sample in Detail Modal */
+#detail-code-section {
+  margin-top: 20px;
+}
+.detail-code {
+  background: #0f1117;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a9b7d6;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* =============================================
+   LOADING STATES & SKELETONS
+   ============================================= */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 15, 23, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-hover) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+  height: 200px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.skeleton-item {
+  height: 60px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+}
+
+/* Local Loading (for sidebar or content area) */
+.content-loading {
+  position: relative;
+  min-height: 200px;
+}
+
+.content-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg-base);
+  opacity: 0.5;
+  z-index: 5;
+}
+
+/* Smooth Transitions */
+.fade-up {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.blur-in {
+  animation: blurIn 0.3s ease forwards;
+}
+
+@keyframes blurIn {
+  from { filter: blur(4px); opacity: 0.5; }
+  to { filter: blur(0); opacity: 1; }
+}

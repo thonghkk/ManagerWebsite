@@ -11,3 +11,19 @@ export function escHtml(s) {
 }
 
 export const $ = (id) => document.getElementById(id);
+
+export function showLoading(text = 'Đang tải...') {
+  const overlay = $('loading-overlay');
+  const textEl = $('loading-text');
+  if (overlay && textEl) {
+    textEl.textContent = text;
+    overlay.classList.add('active');
+  }
+}
+
+export function hideLoading() {
+  const overlay = $('loading-overlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+  }
+}

@@ -24,10 +24,13 @@ export function renderMain() {
   const pct = total ? Math.round((done / total) * 100) : 0;
   $('topbar-title').textContent = `${cat.icon} ${cat.name}`;
 
-  const itemsHtml = cat.items.map(item => renderCheckItem(cat.id, item)).join('');
+  const isDesignPattern = cat.id === 'design-pattern';
+  const itemsHtml = cat.items.map(item => isDesignPattern 
+    ? renderPatternCard(cat.id, item) 
+    : renderCheckItem(cat.id, item)).join('');
 
   area.innerHTML = `
-    <div class="category-header">
+    <div class="category-header fade-up">
       <span class="category-header-icon">${cat.icon}</span>
       <div class="category-header-info">
         <div class="category-header-name">${escHtml(cat.name)}</div>
@@ -39,20 +42,102 @@ export function renderMain() {
         </div>
       </div>
       <div class="category-actions">
-        <button class="btn-icon edit-cat" title="Sửa danh mục" id="cat-edit-btn">✏️</button>
-        <button class="btn-icon del" title="Xoá danh mục" id="cat-del-btn">🗑️</button>
+        <button class="btn-icon edit-cat" title="Sửa danh mục" data-cat-action="edit" data-cat-id="${cat.id}">✏️</button>
+        <button class="btn-icon del" title="Xoá danh mục" data-cat-action="delete" data-cat-id="${cat.id}">🗑️</button>
       </div>
     </div>
-    <div class="checklist" id="checklist">
+    <div class="${isDesignPattern ? 'pattern-grid' : 'checklist'} blur-in" id="checklist">
       ${cat.items.length === 0
         ? `<div style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">Chưa có mục nào. Nhấn "+ Add Item" để thêm.</div>`
         : itemsHtml}
     </div>
   `;
 
-  $('cat-edit-btn').addEventListener('click', () => openCategoryModal(cat.id));
-  $('cat-del-btn').addEventListener('click', () => openConfirmDelete('category', cat.id, null));
-  attachItemEvents();
+  attachMainEvents(area);
+}
+
+// Global flag to prevent multiple listeners on the same persistent element
+let mainEventsAttached = false;
+
+function attachMainEvents(area) {
+  if (mainEventsAttached) return; 
+  mainEventsAttached = true;
+
+  area.addEventListener('click', (e) => {
+    // 1. Handle Category Actions
+    const catBtn = e.target.closest('[data-cat-action]');
+    if (catBtn) {
+      e.preventDefault();
+      const action = catBtn.dataset.catAction;
+      const catId  = catBtn.dataset.catId;
+      if (action === 'edit') openCategoryModal(catId);
+      else if (action === 'delete') openConfirmDelete('category', catId, null);
+      return;
+    }
+
+    // 2. Handle Item Actions
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    
+    // Find the container (check-item or pattern-card)
+    const row = el.closest('.check-item') || el.closest('.pattern-card');
+    if (!row) return;
+    
+    e.preventDefault();
+    const catId  = row.dataset.catId;
+    const itemId = row.dataset.itemId;
+    const action = el.dataset.action;
+
+    if (action === 'toggle') toggleItem(catId, itemId);
+    else if (action === 'edit')   openItemModal(catId, itemId);
+    else if (action === 'note')   openNoteViewer(catId, itemId);
+    else if (action === 'delete') openConfirmDelete('item', catId, itemId);
+    else if (action === 'detail') openDetailModal(catId, itemId);
+  });
+}
+
+function renderPatternCard(catId, item) {
+  const detail = ITEM_DETAILS[item.id] || {};
+  let typeClass = 'type-creational';
+  let typeLabel = 'Creational';
+
+  // Determine type based on item.id or name for demonstration
+  const creational = ['dp1', 'dp2', 'dp3', 'dp4', 'dp5'];
+  const structural = ['dp6', 'dp7', 'dp8', 'dp9', 'dp10', 'dp11'];
+  
+  if (structural.includes(item.id)) {
+    typeClass = 'type-structural';
+    typeLabel = 'Structural';
+  } else if (!creational.includes(item.id)) {
+    typeClass = 'type-behavioral';
+    typeLabel = 'Behavioral';
+  }
+
+  const chips = (detail.points || []).map(p => `<span class="pattern-chip">${escHtml(p)}</span>`).join('');
+
+  return `
+    <div class="pattern-card ${item.done ? 'done-pattern' : ''}" data-cat-id="${catId}" data-item-id="${item.id}">
+      <div class="pattern-card-header">
+        <span class="pattern-type-tag ${typeClass}">${typeLabel}</span>
+        <div class="pattern-check-btn" data-action="toggle">✓</div>
+      </div>
+      <h3 class="pattern-card-title">${escHtml(item.name)}</h3>
+      <p class="pattern-card-summary">${escHtml(detail.summary || '')}</p>
+      <div class="pattern-card-chips">
+        ${chips}
+      </div>
+      <div class="pattern-card-footer">
+        <div class="pattern-action-btns">
+            <button class="action-btn info" data-action="detail" title="Xem chi tiết">📖</button>
+            <button class="action-btn note" data-action="note" title="Ghi chú">📝</button>
+        </div>
+        <div class="pattern-action-btns">
+            <button class="action-btn edit" data-action="edit" title="Sửa">✏️</button>
+            <button class="action-btn del" data-action="delete" title="Xoá">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderCheckItem(catId, item) {
@@ -84,24 +169,4 @@ function renderCheckItem(catId, item) {
       </div>
     </div>
   `;
-}
-
-function attachItemEvents() {
-  const list = $('checklist');
-  if (!list) return;
-  list.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-action]');
-    if (!el) return;
-    const row   = el.closest('.check-item');
-    if (!row) return;
-    const catId  = row.dataset.catId;
-    const itemId = row.dataset.itemId;
-    const action = el.dataset.action;
-
-    if (action === 'toggle') toggleItem(catId, itemId);
-    else if (action === 'edit')   openItemModal(catId, itemId);
-    else if (action === 'note')   openNoteViewer(catId, itemId);
-    else if (action === 'delete') openConfirmDelete('item', catId, itemId);
-    else if (action === 'detail') openDetailModal(catId, itemId);
-  });
 }

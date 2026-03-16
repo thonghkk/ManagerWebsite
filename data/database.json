@@ -13,7 +13,7 @@
           "In what situations should i use 'Lazy' ?"
         ],
         "answers": {
-          "0": "đúng lazyâsassasa",
+          "0": "đúng lazy",
           "Kotlin có primitive types không?": ".",
           "Khác biệt giữa val và const val?": "Val: dùng để gắn với 1 biến cố định, không thể thay đổi, phải gắn với 1 giá trị khi lúc tạo biến\nVar: Khi dùng có thể cập nhật được cho biến"
         }
@@ -179,7 +179,11 @@
         "name": "Service",
         "done": false,
         "note": "",
-        "customQuestions": [],
+        "customQuestions": [
+          "Started(Background) Service dùng khi nào ? Cách sử dụng nó như nào?",
+          "Foceground Service dùng khi nào ? Cách sử dụng nó như nào?",
+          "Hãy so sánh từng loại Service với nhau."
+        ],
         "answers": {}
       },
       {
@@ -942,6 +946,166 @@
     "name": "Design pattern",
     "icon": "🏗️",
     "items": [],
+    "completed": false
+  },
+  {
+    "id": "design-pattern",
+    "name": "Design Pattern",
+    "icon": "🎨",
+    "items": [
+      {
+        "id": "dp1",
+        "name": "Singleton",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp2",
+        "name": "Builder",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp3",
+        "name": "Factory Method",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp4",
+        "name": "Abstract Factory",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp5",
+        "name": "Prototype",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp6",
+        "name": "Adapter",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp7",
+        "name": "Decorator",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp8",
+        "name": "Facade",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp9",
+        "name": "Proxy",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp10",
+        "name": "Composite",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp11",
+        "name": "Bridge",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp12",
+        "name": "Observer",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp13",
+        "name": "Strategy",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp14",
+        "name": "Command",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp15",
+        "name": "Chain of Responsibility",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp16",
+        "name": "Template Method",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp17",
+        "name": "State",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp18",
+        "name": "Iterator",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "dp19",
+        "name": "Mediator",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
     "completed": false
   }
 ]

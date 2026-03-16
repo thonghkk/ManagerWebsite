@@ -192,4 +192,30 @@ export const DEFAULT_DATA = [
       { id: "ad7", name: "Play Store optimization",     done: false, note: "" },
     ]
   },
+  {
+    id: "design-pattern",
+    name: "Design Pattern",
+    icon: "🎨",
+    items: [
+      { id: "dp1", name: "Singleton", done: false, note: "" },
+      { id: "dp2", name: "Builder", done: false, note: "" },
+      { id: "dp3", name: "Factory Method", done: false, note: "" },
+      { id: "dp4", name: "Abstract Factory", done: false, note: "" },
+      { id: "dp5", name: "Prototype", done: false, note: "" },
+      { id: "dp6", name: "Adapter", done: false, note: "" },
+      { id: "dp7", name: "Decorator", done: false, note: "" },
+      { id: "dp8", name: "Facade", done: false, note: "" },
+      { id: "dp9", name: "Proxy", done: false, note: "" },
+      { id: "dp10", name: "Composite", done: false, note: "" },
+      { id: "dp11", name: "Bridge", done: false, note: "" },
+      { id: "dp12", name: "Observer", done: false, note: "" },
+      { id: "dp13", name: "Strategy", done: false, note: "" },
+      { id: "dp14", name: "Command", done: false, note: "" },
+      { id: "dp15", name: "Chain of Responsibility", done: false, note: "" },
+      { id: "dp16", name: "Template Method", done: false, note: "" },
+      { id: "dp17", name: "State", done: false, note: "" },
+      { id: "dp18", name: "Iterator", done: false, note: "" },
+      { id: "dp19", name: "Mediator", done: false, note: "" },
+    ]
+  },
 ];

@@ -2,7 +2,7 @@ import { STORAGE_KEY } from '../constants/config.js';
 import * as api from '../services/api.js';
 import { eventBus } from '../events/eventBus.js';
 import { DEFAULT_DATA } from '../data/defaultData.js';
-import { uid } from '../utils/helpers.js';
+import { uid, showLoading, hideLoading } from '../utils/helpers.js';
 
 let state = {
   categories: [],
@@ -14,15 +14,22 @@ export const getCategories = () => state.categories;
 export const getActiveCatId = () => state.activeCatId;
 
 export async function loadState() {
+  showLoading('Đang tải dữ liệu...');
   let loadedData = null;
   let loadedQuestions = null;
   try {
-    const data = await api.fetchData();
+    const [data, questions] = await Promise.all([
+      api.fetchData(),
+      api.fetchQuestions()
+    ]);
     if (Array.isArray(data) && data.length > 0) loadedData = data;
-    loadedQuestions = await api.fetchQuestions();
+    loadedQuestions = questions;
   } catch (err) {
     console.warn('Python server not found, falling back to localStorage');
   }
+
+  // Artificial delay for smooth transition
+  await new Promise(r => setTimeout(r, 600));
 
   if (!loadedData) {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -34,6 +41,13 @@ export async function loadState() {
   if (!loadedData) {
     // deep copy
     loadedData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  } else {
+    // Merge logic: ensure any categories in DEFAULT_DATA that are missing in loadedData are added
+    DEFAULT_DATA.forEach(defCat => {
+      if (!loadedData.some(c => c.id === defCat.id)) {
+        loadedData.push(JSON.parse(JSON.stringify(defCat)));
+      }
+    });
   }
 
   loadedQuestions = loadedQuestions || {};
@@ -57,10 +71,13 @@ export async function loadState() {
   }
   
   eventBus.emit('stateLoaded', state);
-  saveState();
+  await saveState(false); 
+  hideLoading();
 }
 
-export function saveState() {
+export async function saveState(showUI = true) {
+  if (showUI) showLoading('Đang lưu...');
+
   // Update "completed" status for each category before saving to server
   state.categories.forEach(cat => {
     const total = cat.items.length;
@@ -70,24 +87,30 @@ export function saveState() {
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.categories));
   
-  api.saveData(state.categories).catch(err => console.error('Python Server is not running'));
+  try {
+    await api.saveData(state.categories);
 
-  const questionsData = {};
-  state.categories.forEach(cat => {
-    cat.items.forEach(item => {
-      if ((item.customQuestions && item.customQuestions.length > 0) || 
-          (item.answers && Object.keys(item.answers).length > 0)) {
-        questionsData[item.id] = {
-          catId: cat.id,
-          itemName: item.name,
-          customQuestions: item.customQuestions || [],
-          answers: item.answers || {}
-        };
-      }
+    const questionsData = {};
+    state.categories.forEach(cat => {
+      cat.items.forEach(item => {
+        if ((item.customQuestions && item.customQuestions.length > 0) || 
+            (item.answers && Object.keys(item.answers).length > 0)) {
+          questionsData[item.id] = {
+            catId: cat.id,
+            itemName: item.name,
+            customQuestions: item.customQuestions || [],
+            answers: item.answers || {}
+          };
+        }
+      });
     });
-  });
 
-  api.saveQuestions(questionsData).catch(err => console.error('Error saving questions'));
+    await api.saveQuestions(questionsData);
+  } catch (err) {
+    console.error('Python Server is not running or saving failed');
+  } finally {
+    if (showUI) hideLoading();
+  }
 }
 
 export function setActiveCatId(catId) {
@@ -101,11 +124,11 @@ export function toggleItem(catId, itemId) {
   const item = cat.items.find(i => i.id === itemId);
   if (!item) return;
   item.done = !item.done;
-  saveState();
+  saveState(false); // Don't block UI for simple toggle
   eventBus.emit('itemToggled', { catId, itemId, done: item.done });
 }
 
-export function saveItem(catId, itemId, payload) {
+export async function saveItem(catId, itemId, payload) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return;
 
@@ -120,11 +143,11 @@ export function saveItem(catId, itemId, payload) {
     // Add
     cat.items.push({ id: uid(), name: payload.name, done: false, note: payload.note, customQuestions: [], answers: {} });
   }
-  saveState();
+  await saveState(true);
   eventBus.emit('categoriesChanged', state.categories);
 }
 
-export function saveCategory(catId, payload) {
+export async function saveCategory(catId, payload) {
   if (catId) {
     const cat = state.categories.find(c => c.id === catId);
     if (cat) {
@@ -134,26 +157,26 @@ export function saveCategory(catId, payload) {
   } else {
     state.categories.push({ id: uid(), name: payload.name, icon: payload.icon, items: [] });
   }
-  saveState();
+  await saveState(true);
   eventBus.emit('categoriesChanged', state.categories);
 }
 
-export function deleteCategory(catId) {
+export async function deleteCategory(catId) {
   state.categories = state.categories.filter(c => c.id !== catId);
   if (state.activeCatId === catId) state.activeCatId = null;
-  saveState();
+  await saveState(true);
   eventBus.emit('categoriesChanged', state.categories);
   if (!state.activeCatId) eventBus.emit('categoryActivated', null);
 }
 
-export function deleteItem(catId, itemId) {
+export async function deleteItem(catId, itemId) {
   const cat = state.categories.find(c => c.id === catId);
   if (cat) cat.items = cat.items.filter(i => i.id !== itemId);
-  saveState();
+  await saveState(true);
   eventBus.emit('categoriesChanged', state.categories);
 }
 
-export function addCustomTip(catId, itemId, question) {
+export async function addCustomTip(catId, itemId, question) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return;
   const item = cat.items.find(i => i.id === itemId);
@@ -161,11 +184,11 @@ export function addCustomTip(catId, itemId, question) {
 
   if (!item.customQuestions) item.customQuestions = [];
   item.customQuestions.push(question);
-  saveState();
+  await saveState(true);
   eventBus.emit('customTipChanged', { catId, itemId });
 }
 
-export function saveAnswer(catId, itemId, tipId, answerText) {
+export async function saveAnswer(catId, itemId, tipId, answerText) {
   const cat = state.categories.find(c => c.id === catId);
   if (!cat) return;
   const item = cat.items.find(i => i.id === itemId);
@@ -173,7 +196,7 @@ export function saveAnswer(catId, itemId, tipId, answerText) {
 
   if (!item.answers) item.answers = {};
   item.answers[tipId] = answerText;
-  saveState();
+  await saveState(true);
   eventBus.emit('customTipChanged', { catId, itemId });
 }
 

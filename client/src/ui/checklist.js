@@ -25,8 +25,8 @@ export function renderMain() {
   $('topbar-title').textContent = `${cat.icon} ${cat.name}`;
 
   const isDesignPattern = cat.id === 'design-pattern';
-  const itemsHtml = cat.items.map(item => isDesignPattern 
-    ? renderPatternCard(cat.id, item) 
+  const itemsHtml = cat.items.map(item => isDesignPattern
+    ? renderPatternCard(cat.id, item)
     : renderCheckItem(cat.id, item)).join('');
 
   area.innerHTML = `
@@ -48,19 +48,18 @@ export function renderMain() {
     </div>
     <div class="${isDesignPattern ? 'pattern-grid' : 'checklist'} blur-in" id="checklist">
       ${cat.items.length === 0
-        ? `<div style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">Chưa có mục nào. Nhấn "+ Add Item" để thêm.</div>`
-        : itemsHtml}
+      ? `<div style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">Chưa có mục nào. Nhấn "+ Add Item" để thêm.</div>`
+      : itemsHtml}
     </div>
   `;
 
   attachMainEvents(area);
 }
 
-// Global flag to prevent multiple listeners on the same persistent element
+// Set event listener once on the persistent area
 let mainEventsAttached = false;
-
 function attachMainEvents(area) {
-  if (mainEventsAttached) return; 
+  if (mainEventsAttached) return;
   mainEventsAttached = true;
 
   area.addEventListener('click', (e) => {
@@ -68,8 +67,9 @@ function attachMainEvents(area) {
     const catBtn = e.target.closest('[data-cat-action]');
     if (catBtn) {
       e.preventDefault();
+      e.stopPropagation();
       const action = catBtn.dataset.catAction;
-      const catId  = catBtn.dataset.catId;
+      const catId = catBtn.dataset.catId;
       if (action === 'edit') openCategoryModal(catId);
       else if (action === 'delete') openConfirmDelete('category', catId, null);
       return;
@@ -78,19 +78,19 @@ function attachMainEvents(area) {
     // 2. Handle Item Actions
     const el = e.target.closest('[data-action]');
     if (!el) return;
-    
+
     // Find the container (check-item or pattern-card)
     const row = el.closest('.check-item') || el.closest('.pattern-card');
     if (!row) return;
-    
+
     e.preventDefault();
-    const catId  = row.dataset.catId;
+    const catId = row.dataset.catId;
     const itemId = row.dataset.itemId;
     const action = el.dataset.action;
 
     if (action === 'toggle') toggleItem(catId, itemId);
-    else if (action === 'edit')   openItemModal(catId, itemId);
-    else if (action === 'note')   openNoteViewer(catId, itemId);
+    else if (action === 'edit') openItemModal(catId, itemId);
+    else if (action === 'note') openNoteViewer(catId, itemId);
     else if (action === 'delete') openConfirmDelete('item', catId, itemId);
     else if (action === 'detail') openDetailModal(catId, itemId);
   });
@@ -104,7 +104,7 @@ function renderPatternCard(catId, item) {
   // Determine type based on item.id or name for demonstration
   const creational = ['dp1', 'dp2', 'dp3', 'dp4', 'dp5'];
   const structural = ['dp6', 'dp7', 'dp8', 'dp9', 'dp10', 'dp11'];
-  
+
   if (structural.includes(item.id)) {
     typeClass = 'type-structural';
     typeLabel = 'Structural';

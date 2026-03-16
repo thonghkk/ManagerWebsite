@@ -72,6 +72,22 @@ function wireUpEvents() {
   $('modal-input-save').addEventListener('click', saveInputModal);
 
   // Detail Modal Events
+  $('detail-btn-edit-cat').addEventListener('click', () => {
+    if (currentDetailItem && currentDetailItem.catId) {
+      closeModal('modal-detail');
+      openCategoryModal(currentDetailItem.catId);
+    }
+  });
+
+  $('detail-btn-del-cat').addEventListener('click', () => {
+    if (currentDetailItem && currentDetailItem.catId) {
+      closeModal('modal-detail');
+      import('./ui/modals.js').then(({ openConfirmDelete }) => {
+        openConfirmDelete('category', currentDetailItem.catId, null);
+      });
+    }
+  });
+
   $('btn-add-tip').addEventListener('click', () => {
     const { catId, itemId } = currentDetailItem || {};
     if (!catId || !itemId) return;

@@ -92,7 +92,7 @@ export function openDetailModal(catId, itemId) {
 
   $('modal-detail-title').textContent = detail.title || item.name;
   $('detail-summary').textContent = detail.summary || '';
-
+  
   const pointsEl = $('detail-points');
   pointsEl.innerHTML = (detail.points || []).map(p => `<li>${escHtml(p)}</li>`).join('');
   $('detail-points-section').style.display = detail.points && detail.points.length ? '' : 'none';

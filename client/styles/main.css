@@ -605,9 +605,74 @@ body {
   transition: all var(--transition);
 }
 
-.btn-icon:hover { border-color: var(--text-secondary); color: var(--text-primary); }
-.btn-icon.del:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
-.btn-icon.edit-cat:hover { border-color: var(--accent); color: var(--accent-light); }
+.btn-icon:hover { 
+  border-color: var(--text-secondary); 
+  color: var(--text-primary); 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.btn-icon:active { transform: translateY(0) scale(0.95); }
+.btn-icon.del:hover { border-color: var(--red); color: var(--red); background: var(--red-light); box-shadow: 0 4px 12px var(--red-light); }
+.btn-icon.edit-cat:hover { border-color: var(--accent); color: var(--accent-light); box-shadow: 0 4px 12px var(--accent-glow); }
+
+.category-header .category-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.header-item-actions {
+  display: flex;
+  gap: 8px;
+  margin-right: 12px;
+}
+
+/* Sidebar Category Actions */
+.nav-item-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity var(--transition);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-hover);
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  z-index: 10;
+}
+
+.nav-item:hover .nav-item-actions {
+  opacity: 1;
+}
+
+.nav-item:hover .nav-badge {
+  opacity: 0; /* Hide badge when showing actions on hover */
+}
+
+.nav-action-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all var(--transition);
+}
+
+.nav-action-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.nav-action-btn.del:hover { color: var(--red); }
+.nav-action-btn.edit:hover { color: var(--accent-light); }
 
 /* =============================================
    MODAL

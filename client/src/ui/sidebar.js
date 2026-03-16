@@ -1,5 +1,6 @@
 import { $, escHtml } from '../utils/helpers.js';
 import { getState, setActiveCatId } from '../state/store.js';
+import { openCategoryModal, openConfirmDelete } from './modals.js';
 
 export function calcStats() {
   let totalDone = 0, totalAll = 0;
@@ -45,11 +46,39 @@ export function renderSidebar() {
         <div class="nav-item-progress">${done}/${total} completed</div>
       </div>
       <span class="nav-badge ${allDone ? 'done' : ''}">${done}/${total}</span>
+      <div class="nav-item-actions">
+        <button class="nav-action-btn edit" title="Sửa danh mục" data-cat-action="edit" data-cat-id="${cat.id}">✏️</button>
+        <button class="nav-action-btn del" title="Xoá danh mục" data-cat-action="delete" data-cat-id="${cat.id}">🗑️</button>
+      </div>
     `;
-    item.addEventListener('click', () => {
-      setActiveCatId(cat.id);
-    });
     fragment.appendChild(item);
   });
   nav.appendChild(fragment);
+
+  attachSidebarEvents(nav);
+}
+
+// Sidebar delegation to handle item selection and sub-actions
+let sidebarEventsAttached = false;
+function attachSidebarEvents(nav) {
+  if (sidebarEventsAttached) return;
+  sidebarEventsAttached = true;
+
+  nav.addEventListener('click', (e) => {
+    const actionBtn = e.target.closest('[data-cat-action]');
+    if (actionBtn) {
+      e.stopPropagation(); // Prevent category activation when clicking action buttons
+      const action = actionBtn.dataset.catAction;
+      const catId = actionBtn.dataset.catId;
+      if (action === 'edit') openCategoryModal(catId);
+      else if (action === 'delete') openConfirmDelete('category', catId, null);
+      return;
+    }
+
+    const navItem = e.target.closest('.nav-item');
+    if (navItem) {
+      const catId = navItem.dataset.catId;
+      setActiveCatId(catId);
+    }
+  });
 }

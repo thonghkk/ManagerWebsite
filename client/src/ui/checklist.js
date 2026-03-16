@@ -116,23 +116,34 @@ function attachMainEvents(area) {
     }
 
     // 2. Handle Item Actions
-    const el = e.target.closest('[data-action]');
-    if (!el) return;
+    const actionEl = e.target.closest('[data-action]');
+    
+    if (actionEl) {
+      const row = actionEl.closest('.check-item') || actionEl.closest('.pattern-card');
+      if (!row) return;
 
-    // Find the container (check-item or pattern-card)
-    const row = el.closest('.check-item') || el.closest('.pattern-card');
-    if (!row) return;
+      e.preventDefault();
+      const catId = row.dataset.catId;
+      const itemId = row.dataset.itemId;
+      const action = actionEl.dataset.action;
 
-    e.preventDefault();
-    const catId = row.dataset.catId;
-    const itemId = row.dataset.itemId;
-    const action = el.dataset.action;
+      if (action === 'toggle') toggleItem(catId, itemId);
+      else if (action === 'edit') openItemModal(catId, itemId);
+      else if (action === 'note') openNoteViewer(catId, itemId);
+      else if (action === 'delete') openConfirmDelete('item', catId, itemId);
+      else if (action === 'detail') openDetailModal(catId, itemId);
+      return;
+    }
 
-    if (action === 'toggle') toggleItem(catId, itemId);
-    else if (action === 'edit') openItemModal(catId, itemId);
-    else if (action === 'note') openNoteViewer(catId, itemId);
-    else if (action === 'delete') openConfirmDelete('item', catId, itemId);
-    else if (action === 'detail') openDetailModal(catId, itemId);
+    // 3. Handle clicking on the entire pattern card
+    const cardEl = e.target.closest('.pattern-card');
+    if (cardEl) {
+      e.preventDefault();
+      const catId = cardEl.dataset.catId;
+      const itemId = cardEl.dataset.itemId;
+      openDetailModal(catId, itemId);
+      return;
+    }
   });
 }
 

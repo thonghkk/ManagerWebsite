@@ -4,6 +4,8 @@ import { getCatStats } from './sidebar.js';
 import { ITEM_DETAILS } from '../data/itemDetails.js';
 import { openCategoryModal, openConfirmDelete, openItemModal, openNoteViewer, openDetailModal } from './modals.js';
 
+let activePatternFilter = 'all';
+
 export function renderMain() {
   const state = getState();
   const cat = state.categories.find(c => c.id === state.activeCatId);
@@ -25,9 +27,27 @@ export function renderMain() {
   $('topbar-title').textContent = `${cat.icon} ${cat.name}`;
 
   const isDesignPattern = cat.id === 'design-pattern';
-  const itemsHtml = cat.items.map(item => isDesignPattern
+  
+  let itemsToRender = cat.items;
+  if (isDesignPattern && activePatternFilter !== 'all') {
+    itemsToRender = cat.items.filter(item => getPatternType(item.id) === activePatternFilter);
+  }
+
+  const itemsHtml = itemsToRender.map(item => isDesignPattern
     ? renderPatternCard(cat.id, item)
     : renderCheckItem(cat.id, item)).join('');
+
+  let filterHtml = '';
+  if (isDesignPattern) {
+    filterHtml = `
+      <div class="pattern-filters">
+        <button class="filter-btn ${activePatternFilter === 'all' ? 'active' : ''}" data-filter="all">All</button>
+        <button class="filter-btn ${activePatternFilter === 'creational' ? 'active' : ''}" data-filter="creational">Creational</button>
+        <button class="filter-btn ${activePatternFilter === 'structural' ? 'active' : ''}" data-filter="structural">Structural</button>
+        <button class="filter-btn ${activePatternFilter === 'behavioral' ? 'active' : ''}" data-filter="behavioral">Behavioral</button>
+      </div>
+    `;
+  }
 
   area.innerHTML = `
     <div class="category-header fade-up">
@@ -46,14 +66,24 @@ export function renderMain() {
         <button class="btn-icon del" title="Xoá danh mục" data-cat-action="delete" data-cat-id="${cat.id}">🗑️</button>
       </div>
     </div>
+    ${filterHtml}
     <div class="${isDesignPattern ? 'pattern-grid' : 'checklist'} blur-in" id="checklist">
-      ${cat.items.length === 0
-      ? `<div style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">Chưa có mục nào. Nhấn "+ Add Item" để thêm.</div>`
+      ${itemsToRender.length === 0
+      ? `<div style="color:var(--text-muted);font-size:14px;text-align:center;padding:40px 0;">Không tìm thấy mục nào.</div>`
       : itemsHtml}
     </div>
   `;
 
   attachMainEvents(area);
+}
+
+// Helper to determine pattern type
+function getPatternType(itemId) {
+  const creational = ['dp1', 'dp2', 'dp3', 'dp4', 'dp5'];
+  const structural = ['dp6', 'dp7', 'dp8', 'dp9', 'dp10', 'dp11'];
+  if (creational.includes(itemId)) return 'creational';
+  if (structural.includes(itemId)) return 'structural';
+  return 'behavioral';
 }
 
 // Set event listener once on the persistent area
@@ -63,6 +93,15 @@ function attachMainEvents(area) {
   mainEventsAttached = true;
 
   area.addEventListener('click', (e) => {
+    // Handle Pattern Filters
+    const filterBtn = e.target.closest('.filter-btn');
+    if (filterBtn) {
+      e.stopPropagation();
+      activePatternFilter = filterBtn.dataset.filter;
+      renderMain(); // Re-render the main area to apply the filter
+      return;
+    }
+
     // 1. Handle Category Actions
     const catBtn = e.target.closest('[data-cat-action]');
     if (catBtn) {

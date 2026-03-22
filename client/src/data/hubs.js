@@ -1,3 +1,5 @@
+import * as api from '../services/api.js';
+
 export const DEFAULT_HUBS = [
   {
     id: 'android',
@@ -41,35 +43,60 @@ export function getActiveHubConfig() {
   return getCustomHubs().find(h => h.id === activeId) || DEFAULT_HUBS.find(h => h.id === activeId);
 }
 
-export function getCustomHubs() {
-  const raw = localStorage.getItem('custom_hubs');
-  if (raw) {
-    try {
-      const hubs = JSON.parse(raw);
-      // Ensure DEFAULT_HUBS are merged if they don't exist
-      const allHubs = [...hubs];
-      DEFAULT_HUBS.forEach(defaultHub => {
-        if (!allHubs.some(h => h.id === defaultHub.id)) {
-          allHubs.push(defaultHub);
-        }
-      });
-      return allHubs;
-    } catch (_) { }
+let customHubsCache = null;
+
+export async function loadHubsFromServer() {
+  try {
+    const serverHubs = await api.fetchHubs();
+    customHubsCache = serverHubs;
+  } catch (err) {
+    console.warn("Could not load hubs from server, falling back to local defaults");
+    customHubsCache = [];
   }
-  return [...DEFAULT_HUBS];
 }
 
-export function addCustomHub(hub) {
-  const hubs = getCustomHubs();
-  hubs.push(hub);
-  localStorage.setItem('custom_hubs', JSON.stringify(hubs));
+export function getCustomHubs() {
+  const hubs = customHubsCache || [];
+  // Ensure DEFAULT_HUBS are merged if they don't exist
+  const allHubs = [...hubs];
+  DEFAULT_HUBS.forEach(defaultHub => {
+    if (!allHubs.some(h => h.id === defaultHub.id)) {
+      allHubs.push(defaultHub);
+    }
+  });
+  return allHubs;
 }
 
-export function updateCustomHub(hubId, updates) {
-  const hubs = getCustomHubs();
-  const index = hubs.findIndex(h => h.id === hubId);
+export async function addCustomHub(hub) {
+  if (!customHubsCache) customHubsCache = [];
+  customHubsCache.push(hub);
+  try {
+    await api.saveHub(hub);
+  } catch(e) {
+    console.error("Failed to save hub to server", e);
+  }
+}
+
+export async function updateCustomHub(hubId, updates) {
+  if (!customHubsCache) customHubsCache = [];
+  const index = customHubsCache.findIndex(h => h.id === hubId);
   if (index !== -1) {
-    hubs[index] = { ...hubs[index], ...updates };
-    localStorage.setItem('custom_hubs', JSON.stringify(hubs));
+    customHubsCache[index] = { ...customHubsCache[index], ...updates };
+    try {
+      await api.saveHub(customHubsCache[index]);
+    } catch(e) {
+      console.error("Failed to save hub to server", e);
+    }
+  } else {
+    const defHub = DEFAULT_HUBS.find(h => h.id === hubId);
+    if (defHub) {
+      const updatedHub = { ...defHub, ...updates };
+      customHubsCache.push(updatedHub);
+      try {
+        await api.saveHub(updatedHub);
+      } catch(e) {
+        console.error("Failed to save hub to server", e);
+      }
+    }
   }
 }

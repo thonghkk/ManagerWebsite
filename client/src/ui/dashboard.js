@@ -59,8 +59,9 @@ export function renderDashboard() {
           title: `${name} Knowledge List`
         };
         import('../data/hubs.js').then(({ addCustomHub }) => {
-          addCustomHub(newHub);
-          renderDashboard();
+          addCustomHub(newHub).then(() => {
+            renderDashboard();
+          });
         });
       });
     });

@@ -32,3 +32,17 @@ export async function saveQuestions(questionsData) {
     body: JSON.stringify(questionsData),
   });
 }
+
+export async function fetchHubs() {
+  const res = await fetch(`${API_BASE_URL}/api/hubs`);
+  if (!res.ok) throw new Error('Failed to fetch hubs');
+  return res.json();
+}
+
+export async function saveHub(hubConfig) {
+  return fetch(`${API_BASE_URL}/api/hubs`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(hubConfig),
+  });
+}

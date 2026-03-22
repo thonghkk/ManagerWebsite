@@ -1,6 +1,6 @@
 import { $ } from './utils/helpers.js';
 import { getState, loadState, getActiveCatId } from './state/store.js';
-import { getActiveHubId } from './data/hubs.js';
+import { getActiveHubId, loadHubsFromServer } from './data/hubs.js';
 import { showDashboard, hideDashboard, updateAppBranding } from './ui/dashboard.js';
 import { eventBus } from './events/eventBus.js';
 import { renderSidebar } from './ui/sidebar.js';
@@ -162,9 +162,11 @@ function wireUpSubscribers() {
   });
 }
 
-function init() {
+async function init() {
   wireUpSubscribers();
   wireUpEvents();
+  
+  await loadHubsFromServer();
   
   const activeHub = getActiveHubId();
   if (activeHub) {

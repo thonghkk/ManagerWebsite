@@ -1,6 +1,9 @@
 import { ITEM_DETAILS } from './data/itemDetails.js';
+import { getState } from './state/store.js';
+import { eventBus } from './events/eventBus.js';
 
-// ── Helpers ─────────────────────────────────────────────────
+export let currentDetailItem = null;
+
 function escHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -11,22 +14,6 @@ function escHtml(s) {
 
 function $(id) { return document.getElementById(id); }
 
-// ── Scroll progress bar ─────────────────────────────────────
-function initScrollProgress() {
-  const bar = document.createElement('div');
-  bar.className = 'scroll-progress';
-  bar.id = 'scroll-progress';
-  document.body.prepend(bar);
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const total = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = total > 0 ? (scrolled / total) * 100 : 0;
-    bar.style.width = pct + '%';
-  }, { passive: true });
-}
-
-// ── Copy to clipboard ───────────────────────────────────────
 function bindCopyBtn(btn, code) {
   btn.addEventListener('click', () => {
     navigator.clipboard.writeText(code).then(() => {
@@ -37,7 +24,6 @@ function bindCopyBtn(btn, code) {
         btn.classList.remove('copied');
       }, 1800);
     }).catch(() => {
-      // fallback
       const ta = document.createElement('textarea');
       ta.value = code;
       document.body.appendChild(ta);
@@ -54,7 +40,6 @@ function bindCopyBtn(btn, code) {
   });
 }
 
-// ── Category label mapping ──────────────────────────────────
 function getCategoryLabel(id) {
   if (!id) return { label: 'Knowledge', icon: '📖' };
   if (id.startsWith('k'))  return { label: 'Kotlin', icon: '🟣' };
@@ -74,22 +59,14 @@ function getCategoryLabel(id) {
   return { label: 'Knowledge', icon: '📖' };
 }
 
-// ── Render detail page ──────────────────────────────────────
-function renderDetail(id, detail) {
+export function renderDetail(id, detail) {
   const { label, icon } = getCategoryLabel(id);
 
-  // Update page title
   document.title = `${detail.title} – Android Knowledge`;
 
-  // Update meta description
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', detail.summary || '');
-
-  // ── Breadcrumb
   const breadcrumb = $('detail-breadcrumb');
   if (breadcrumb) breadcrumb.textContent = `${icon} ${label} › ${detail.title}`;
 
-  // ── Badge row
   const badgeRow = $('detail-badge-row');
   if (badgeRow) {
     badgeRow.innerHTML = `
@@ -98,11 +75,9 @@ function renderDetail(id, detail) {
     `;
   }
 
-  // ── Title
   const titleEl = $('detail-title');
   if (titleEl) titleEl.textContent = detail.title || id;
 
-  // ── Summary hero
   const summaryEl = $('detail-summary-hero');
   if (summaryEl) summaryEl.textContent = detail.summary || '';
 
@@ -111,9 +86,7 @@ function renderDetail(id, detail) {
 
   let html = '';
 
-  // ── Key Points section — FULL, không cắt ngắn
   if (detail.points && detail.points.length > 0) {
-    // Group points by comment-style prefix (// Tầng X ...) nếu có
     html += `
       <div class="detail-card" id="section-points">
         <div class="section-header">
@@ -134,7 +107,6 @@ function renderDetail(id, detail) {
     `;
   }
 
-  // ── Code Sample section — đầy đủ
   if (detail.code) {
     html += `
       <div class="detail-card" id="section-code">
@@ -154,25 +126,46 @@ function renderDetail(id, detail) {
     `;
   }
 
-  // ── Interview Tips — Accordion: click câu hỏi → hiện đáp án
-  if (detail.interviewTips && detail.interviewTips.length > 0) {
-    // Parse format: "[Level] Question → Answer hint"
-    // hoặc plain text nếu không có dấu →
-    const parsedTips = detail.interviewTips.map((tip, i) => {
-      // Tách level label nếu có dạng [Junior], [Mid], [Senior]...
+  let itemState = null;
+  if (currentDetailItem) {
+    const cat = getState().categories.find(c => c.id === currentDetailItem.catId);
+    if (cat) itemState = cat.items.find(i => i.id === currentDetailItem.itemId);
+  }
+  const customQuestions = itemState?.customQuestions || [];
+  const answers = itemState?.answers || {};
+
+  if ((detail.interviewTips && detail.interviewTips.length > 0) || customQuestions.length > 0) {
+    const rawTips = detail.interviewTips || [];
+    const parsedTips = rawTips.map((tip, i) => {
       const levelMatch = tip.match(/^\[([^\]]+)\]\s*/);
       const level  = levelMatch ? levelMatch[1] : null;
       const rest   = levelMatch ? tip.slice(levelMatch[0].length) : tip;
 
-      // Tách question và answer hint bởi dấu →
       const arrowIdx = rest.indexOf('→');
       const question = arrowIdx >= 0 ? rest.slice(0, arrowIdx).trim() : rest.trim();
-      const answer   = arrowIdx >= 0 ? rest.slice(arrowIdx + 1).trim() : '';
+      const defaultAnswer = arrowIdx >= 0 ? rest.slice(arrowIdx + 1).trim() : '';
 
-      return { level, question, answer, idx: i };
+      return { 
+        level, 
+        question, 
+        answer: answers[tip] || defaultAnswer, // user answer overrides default
+        idx: i, 
+        idId: tip,
+        isCustom: false 
+      };
     });
 
-    // Nhóm theo level nếu có
+    customQuestions.forEach((cq, i) => {
+      parsedTips.push({
+        level: 'Custom',
+        question: cq,
+        answer: answers[String(i)] || '',
+        idx: rawTips.length + i,
+        idId: String(i),
+        isCustom: true
+      });
+    });
+
     const levelColors = {
       'Junior':      'level-junior',
       'Mid':         'level-mid',
@@ -188,16 +181,20 @@ function renderDetail(id, detail) {
           <span class="section-count">${parsedTips.length} câu hỏi</span>
         </div>
         <p class="tips-hint">💡 Nhấn vào câu hỏi để xem gợi ý trả lời</p>
-        <ul class="tips-accordion-list">
-          ${parsedTips.map(({ level, question, answer, idx }) => `
+        <ul class="tips-accordion-list" id="tips-accordion-list">
+          ${parsedTips.map(({ level, question, answer, idx, idId, isCustom }) => `
             <li class="tip-accordion-item" data-idx="${idx}">
-              <button class="tip-accordion-trigger" aria-expanded="false" aria-controls="tip-answer-${idx}">
-                <span class="tip-q-left">
-                  ${level ? `<span class="tip-level-badge ${levelColors[level] || 'level-mid'}">${escHtml(level)}</span>` : `<span class="tip-num">Q${idx + 1}</span>`}
-                  <span class="tip-question-text">${escHtml(question)}</span>
-                </span>
-                <span class="tip-chevron">›</span>
-              </button>
+              <div style="display: flex; gap: 8px;">
+                <button class="tip-accordion-trigger" aria-expanded="false" aria-controls="tip-answer-${idx}" style="flex: 1;">
+                  <span class="tip-q-left">
+                    ${level ? `<span class="tip-level-badge ${levelColors[level] || 'level-mid'}">${escHtml(level)}</span>` : `<span class="tip-num">Q${idx + 1}</span>`}
+                    <span class="tip-question-text">${escHtml(question)}</span>
+                  </span>
+                  <span class="tip-chevron">›</span>
+                </button>
+                <button class="action-btn edit tip-btn" data-action="edit-answer" data-id="${escHtml(idId)}" title="Trả lời / Sửa">✏️</button>
+                ${isCustom ? `<button class="action-btn del tip-btn" data-action="delete-tip" data-idx="${idId}" title="Xoá câu hỏi">🗑️</button>` : ''}
+              </div>
               ${answer ? `
                 <div class="tip-accordion-panel" id="tip-answer-${idx}" hidden>
                   <div class="tip-answer-content">
@@ -209,26 +206,24 @@ function renderDetail(id, detail) {
             </li>
           `).join('')}
         </ul>
+        <button class="btn-secondary btn-sm" id="btn-add-tip-detail" style="margin-top: 12px; font-size: 12px;">+ Thêm câu hỏi interview</button>
       </div>
     `;
   }
 
   content.innerHTML = html;
 
-  // ── Bind copy button
   const copyBtn = $('btn-copy-code');
   if (copyBtn && detail.code) {
     bindCopyBtn(copyBtn, detail.code);
   }
 
-  // ── Bind accordion: click câu hỏi → toggle panel
   content.querySelectorAll('.tip-accordion-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const isOpen = trigger.getAttribute('aria-expanded') === 'true';
       const panelId = trigger.getAttribute('aria-controls');
       const panel = document.getElementById(panelId);
 
-      // Toggle trạng thái hiện tại
       trigger.setAttribute('aria-expanded', !isOpen);
       trigger.classList.toggle('is-open', !isOpen);
       if (panel) panel.hidden = isOpen;
@@ -236,15 +231,12 @@ function renderDetail(id, detail) {
   });
 }
 
-
-// ── Render Not Found ────────────────────────────────────────
 function renderNotFound(id) {
   document.title = 'Không tìm thấy – Android Knowledge';
 
   const content = $('detail-content');
   if (!content) return;
 
-  // Hide hero
   const hero = $('detail-hero');
   if (hero) hero.style.display = 'none';
 
@@ -253,18 +245,40 @@ function renderNotFound(id) {
       <div class="not-found-icon">🔍</div>
       <h2>Không tìm thấy tài liệu</h2>
       <p>Không có nội dung nào ứng với ID <strong>"${escHtml(id || '(trống)')}"</strong>.</p>
-      <a href="index.html" class="btn-home">← Quay lại trang chủ</a>
+      <button class="btn-home" id="btn-back-not-found">← Quay lại danh sách</button>
     </div>
   `;
+  $('btn-back-not-found').addEventListener('click', closeDetailSPA);
 }
 
-// ── Main ────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
-  initScrollProgress();
+export let latestDetailData = null;
+let savedScrollY = 0;
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id') || '';
+export async function openDetailSPA(catId, itemId) {
+  currentDetailItem = { catId, itemId };
+  const contentArea = $('content-area');
+  const topbar = document.querySelector('.topbar');
+  const detailContainer = $('detail-page-container');
+  const sidebar = $('sidebar');
+  
+  if (detailContainer && detailContainer.style.display !== 'block') {
+    savedScrollY = window.scrollY;
+  }
 
+  if (contentArea) contentArea.style.display = 'none';
+  if (topbar) topbar.style.display = 'none';
+  if (sidebar && window.innerWidth <= 640) {
+    sidebar.classList.add('collapsed');
+  }
+
+  if (detailContainer) detailContainer.style.display = 'block';
+
+  window.scrollTo(0, 0);
+
+  const hero = $('detail-hero');
+  if (hero) hero.style.display = '';
+
+  const id = itemId;
   if (!id || !ITEM_DETAILS[id]) {
     renderNotFound(id);
     return;
@@ -279,9 +293,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const res = await fetch(`./src/data/details/${id}.json`);
     if (!res.ok) throw new Error("JSON not found");
     const fullDetail = await res.json();
+    latestDetailData = fullDetail;
     renderDetail(id, fullDetail);
   } catch (err) {
     console.warn("Failed to load details json, falling back to summary", err);
+    latestDetailData = ITEM_DETAILS[id];
     renderDetail(id, ITEM_DETAILS[id]); 
+  }
+}
+
+export function closeDetailSPA() {
+  const contentArea = $('content-area');
+  const topbar = document.querySelector('.topbar');
+  const detailContainer = $('detail-page-container');
+
+  if (detailContainer) detailContainer.style.display = 'none';
+  if (contentArea) contentArea.style.display = '';
+  if (topbar) topbar.style.display = '';
+
+  document.title = 'Android Full Knowledge List';
+  window.scrollTo(0, savedScrollY);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnBack = $('btn-back-spa');
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+             // Go back using history if it's SPA
+             if (history.state && history.state.view === 'detail') {
+                 history.back();
+             } else {
+                 closeDetailSPA();
+             }
+        });
+    }
+});
+
+eventBus.on('customTipChanged', ({ catId, itemId }) => {
+  if (currentDetailItem && currentDetailItem.catId === catId && currentDetailItem.itemId === itemId) {
+    if (latestDetailData) {
+      renderDetail(itemId, latestDetailData);
+    }
   }
 });

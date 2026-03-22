@@ -4,6 +4,7 @@ import { eventBus } from '../events/eventBus.js';
 import { DEFAULT_DATA } from '../data/defaultData.js';
 import { uid, showLoading, hideLoading } from '../utils/helpers.js';
 import { getActiveHubId } from '../data/hubs.js';
+import { loadItemDetails } from '../data/itemDetails.js';
 
 let state = {
   categories: [],
@@ -52,6 +53,7 @@ export async function loadState() {
   }
 
   const hub = getActiveHubId() || 'android';
+  await loadItemDetails(hub);
 
   if (!loadedData) {
     if (hub === 'android') {

@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": "mn1mylvj4ilcb",
+    "name": "Grammar",
+    "icon": "📦",
+    "items": [],
+    "completed": false
+  },
+  {
+    "id": "mn1wbagd8gqrs",
+    "name": "Vocabulary",
+    "icon": "📦",
+    "items": [
+      {
+        "id": "mn1wbzup3wjih",
+        "name": "House",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  }
+]

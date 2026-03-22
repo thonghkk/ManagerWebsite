@@ -80,50 +80,48 @@ export function handleSaveItem() {
   closeModal('modal-item');
 }
 
-// ── Detail Modal ─────────────────────────────────
+// ── Detail Modal (Preview only) ──────────────────
 export function openDetailModal(catId, itemId) {
   currentDetailItem = { catId, itemId };
   const cat  = getState().categories.find(c => c.id === catId);
   const item = cat ? cat.items.find(i => i.id === itemId) : null;
   if (!item) return;
 
-  const detail = typeof ITEM_DETAILS !== 'undefined' ? ITEM_DETAILS[item.id] : null;
+  const detail = ITEM_DETAILS ? ITEM_DETAILS[item.id] : null;
   if (!detail) { showToast('Chưa có thông tin chi tiết cho mục này.', ''); return; }
 
   $('modal-detail-title').textContent = detail.title || item.name;
-  $('detail-summary').textContent = detail.summary || '';
-  
-  const pointsEl = $('detail-points');
-  pointsEl.innerHTML = (detail.points || []).map(p => `<li>${escHtml(p)}</li>`).join('');
-  $('detail-points-section').style.display = detail.points && detail.points.length ? '' : 'none';
 
-  // Handle code display if exists
-  let codeHtml = '';
-  if (detail.code) {
-    codeHtml = `
-      <div class="detail-section">
-        <h3 class="detail-section-title">💻 Code Sample</h3>
-        <pre class="detail-code"><code>${escHtml(detail.code)}</code></pre>
-      </div>
-    `;
-  }
-  
-  // Find a place to insert code or just append to pointsEl's parent
+  // ── Summary
+  $('detail-summary').textContent = detail.summary || '';
+
+  // ── Preview: chỉ hiện 3 points đầu tiên
+  const pointsEl = $('detail-points');
+  const previewPoints = (detail.points || []).slice(0, 3);
+  const totalPoints   = (detail.points || []).length;
+  const moreCount     = totalPoints - previewPoints.length;
+
+  pointsEl.innerHTML = previewPoints.map(p => `<li>${escHtml(p)}</li>`).join('')
+    + (moreCount > 0
+        ? `<li class="points-more-hint">+${moreCount} điểm nữa — xem đầy đủ bên dưới ↓</li>`
+        : '');
+  $('detail-points-section').style.display = totalPoints ? '' : 'none';
+
+  // ── Ẩn code trong modal (chỉ xem trên detail page)
   const existingCode = $('detail-code-section');
   if (existingCode) existingCode.remove();
-  
-  if (detail.code) {
-    const codeDiv = document.createElement('div');
-    codeDiv.id = 'detail-code-section';
-    codeDiv.innerHTML = codeHtml;
-    pointsEl.parentElement.after(codeDiv);
-  }
 
-  renderTips(item, detail.interviewTips || []);
+  // ── Ẩn tips trong modal (chỉ xem trên detail page)
+  $('detail-tips-section').style.display = 'none';
 
+  // ── Nút "Xem đầy đủ" dẫn sang detail page
+  const fullUrl = `detail.html?id=${encodeURIComponent(itemId)}`;
   const link = $('detail-source-link');
-  if (detail.url) { link.href = detail.url; link.style.display = ''; }
-  else { link.style.display = 'none'; }
+  link.href       = fullUrl;
+  link.target     = '_blank';
+  link.rel        = 'noopener';
+  link.textContent = '📖 Xem đầy đủ';
+  link.style.display = '';
 
   openModal('modal-detail');
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Chi tiết – Android Knowledge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles/detail.css" />
+</head>
+<body>
+  <div class="detail-page">
+
+    <!-- Topbar -->
+    <div class="detail-topbar">
+      <a href="index.html" class="btn-back" id="btn-back">← Quay lại</a>
+      <div class="detail-breadcrumb" id="detail-breadcrumb">Đang tải...</div>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="detail-hero" id="detail-hero">
+      <div class="detail-badge-row" id="detail-badge-row"></div>
+      <h1 class="detail-title" id="detail-title">Đang tải...</h1>
+      <p class="detail-summary-hero" id="detail-summary-hero"></p>
+    </div>
+
+    <!-- Main content sections (rendered by detail.js) -->
+    <div id="detail-content"></div>
+
+  </div><!-- /.detail-page -->
+
+  <script type="module" src="src/detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "title": "View system",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android View system: View là UI unit cơ bản, ViewGroup là container. Vẽ theo measure-layout-draw.",
+  "points": [
+    "onMeasure → onLayout → onDraw",
+    "invalidate() – yêu cầu redraw",
+    "requestLayout() – remeasure + relayout",
+    "View hierarchy ảnh hưởng performance"
+  ],
+  "interviewTips": [
+    "3 bước vẽ View?",
+    "Khi nào gọi invalidate vs requestLayout?"
+  ]
+}

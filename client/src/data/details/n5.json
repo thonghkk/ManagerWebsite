@@ -1,0 +1,14 @@
+{
+  "title": "Error handling",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "Xử lý network errors: HTTP errors, IOException, timeout. Dùng sealed class Result để wrap.",
+  "points": [
+    "Response.isSuccessful check HTTP status",
+    "HttpException cho HTTP error codes",
+    "IOException cho network failures",
+    "Result<T> hoặc sealed class wrap response"
+  ],
+  "interviewTips": [
+    "Pattern xử lý API error trong production?"
+  ]
+}

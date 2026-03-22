@@ -1,0 +1,14 @@
+{
+  "title": "Repository pattern",
+  "url": "https://android-notebook.netlify.app/architecture/clean-architecture",
+  "summary": "Repository abstract data sources (API, DB, cache). ViewModel chỉ biết Repository interface.",
+  "points": [
+    "Repository interface trong Domain",
+    "Impl trong Data layer",
+    "Cache strategy trong Repository",
+    "Single source of truth"
+  ],
+  "interviewTips": [
+    "Repository giúp gì trong testing?"
+  ]
+}

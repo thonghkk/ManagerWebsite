@@ -1,0 +1,15 @@
+{
+  "title": "Mockk / Mockito",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Mocking cho dependencies trong unit tests. MockK cho Kotlin, Mockito cho Java/Kotlin.",
+  "points": [
+    "MockK: every { } và verify { }",
+    "Mockito: when().thenReturn()",
+    "MockK tốt hơn với Kotlin features",
+    "Spy cho partial mock"
+  ],
+  "interviewTips": [
+    "MockK vs Mockito?",
+    "Mock vs Stub vs Spy?"
+  ]
+}

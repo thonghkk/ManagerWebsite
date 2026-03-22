@@ -1,0 +1,14 @@
+{
+  "title": "Paging 3",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Paging 3 load data theo trang từ network/DB, tích hợp RecyclerView và Compose.",
+  "points": [
+    "PagingSource implement load()",
+    "RemoteMediator cho network + DB",
+    "LazyPagingItems trong Compose",
+    "LoadState để hiện loading/error"
+  ],
+  "interviewTips": [
+    "Paging 3 vs manual pagination?"
+  ]
+}

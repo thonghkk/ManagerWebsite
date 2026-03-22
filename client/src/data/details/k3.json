@@ -1,0 +1,15 @@
+{
+  "title": "OOP (class, object, inheritance, interface)",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals",
+  "summary": "Kotlin OOP: class, open/abstract class, interface với default implementation, object/companion object.",
+  "points": [
+    "Class mặc định là final – cần open để kế thừa",
+    "Interface có thể có default implementation",
+    "object = singleton; companion object = static members",
+    "Constructor chính khai báo trong header class"
+  ],
+  "interviewTips": [
+    "Khác biệt giữa abstract class và interface trong Kotlin?",
+    "Companion object hoạt động như thế nào?"
+  ]
+}

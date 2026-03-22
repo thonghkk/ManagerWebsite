@@ -1,0 +1,14 @@
+{
+  "title": "Command",
+  "summary": "Đóng gói request như một object — hỗ trợ undo/redo, queue, logging các action.",
+  "points": [
+    "Undo/Redo",
+    "Transaction",
+    "Macro recording",
+    "Task queue"
+  ],
+  "code": "interface Command {\n    fun execute()\n    fun undo()\n}\nclass DeleteTextCommand : Command {\n    override fun execute() { /* xóa */ }\n    override fun undo() { /* khôi phục */ }\n}",
+  "interviewTips": [
+    "Command pattern trong WorkManager?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "App signing",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "APK/AAB phải ký bằng keystore trước khi publish. Google Play App Signing quản lý key.",
+  "points": [
+    "Keystore file chứa private key",
+    "signingConfig trong build.gradle",
+    "Google Play App Signing: Google giữ key",
+    "Upload key vs App signing key"
+  ],
+  "interviewTips": [
+    "Mất keystore thì sao?",
+    "Google Play App Signing là gì?"
+  ]
+}

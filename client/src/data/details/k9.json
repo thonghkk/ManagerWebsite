@@ -1,0 +1,15 @@
+{
+  "title": "Lambda / Higher-order function",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#7-higher-order-functions--lambdas",
+  "summary": "Higher-order function nhận hoặc trả về function. Lambda là anonymous function literal.",
+  "points": [
+    "val fn: (Int) -> String = { i -> \"$i\" }",
+    "it: tên mặc định khi lambda 1 tham số",
+    "inline fun giảm overhead khi dùng lambda",
+    "Function type: (A, B) -> C"
+  ],
+  "interviewTips": [
+    "inline function là gì và tại sao dùng?",
+    "Trailing lambda syntax?"
+  ]
+}

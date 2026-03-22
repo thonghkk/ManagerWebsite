@@ -1,0 +1,14 @@
+{
+  "title": "remember / rememberSaveable",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "remember lưu state qua recompose. rememberSaveable lưu qua configuration change và process death.",
+  "points": [
+    "remember { } – tính toán 1 lần",
+    "rememberSaveable với Saver tùy chỉnh",
+    "rememberSaveable tương đương onSaveInstanceState",
+    "Stateful vs stateless composable"
+  ],
+  "interviewTips": [
+    "remember vs rememberSaveable?"
+  ]
+}

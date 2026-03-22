@@ -259,7 +259,7 @@ function renderNotFound(id) {
 }
 
 // ── Main ────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initScrollProgress();
 
   const params = new URLSearchParams(window.location.search);
@@ -270,5 +270,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  renderDetail(id, ITEM_DETAILS[id]);
+  const content = $('detail-content');
+  if (content) {
+    content.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--text-muted);">Đang tải nội dung chi tiết...</div>`;
+  }
+
+  try {
+    const res = await fetch(`./src/data/details/${id}.json`);
+    if (!res.ok) throw new Error("JSON not found");
+    const fullDetail = await res.json();
+    renderDetail(id, fullDetail);
+  } catch (err) {
+    console.warn("Failed to load details json, falling back to summary", err);
+    renderDetail(id, ITEM_DETAILS[id]); 
+  }
 });

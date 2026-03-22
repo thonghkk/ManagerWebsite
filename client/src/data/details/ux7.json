@@ -1,0 +1,14 @@
+{
+  "title": "Custom View",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Custom View kế thừa View/ViewGroup, override onMeasure/onLayout/onDraw.",
+  "points": [
+    "Khai báo attrs.xml cho custom attributes",
+    "obtainStyledAttributes() đọc XML attrs",
+    "Canvas + Paint để vẽ",
+    "onSaveInstanceState để lưu custom state"
+  ],
+  "interviewTips": [
+    "Các bước tạo Custom View?"
+  ]
+}

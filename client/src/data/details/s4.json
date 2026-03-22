@@ -1,0 +1,14 @@
+{
+  "title": "SQLite",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "SQLite là relational DB embedded trong Android. Room là recommended wrapper.",
+  "points": [
+    "SQLiteOpenHelper cho raw SQLite",
+    "Cursor để đọc query results",
+    "Transactions cho atomic operations",
+    "Room abstract hoàn toàn"
+  ],
+  "interviewTips": [
+    "Khi nào dùng SQLite raw thay Room?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Lazy loading",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Lazy loading: chỉ load data/UI khi cần. Paging 3 cho list, lazy { } cho Kotlin, LazyColumn trong Compose.",
+  "points": [
+    "Paging 3 load theo trang",
+    "LazyColumn/LazyRow trong Compose",
+    "Coil lazy load image",
+    "Kotlin lazy delegate"
+  ],
+  "interviewTips": [
+    "Lazy loading trong Compose vs RecyclerView?"
+  ]
+}

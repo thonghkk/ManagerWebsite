@@ -1,0 +1,14 @@
+{
+  "title": "Room",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "Room Database: SQLite wrapper với compile-time query validation, Flow support.",
+  "points": [
+    "@Database, @Entity, @Dao",
+    "Compile-time SQL verification",
+    "TypeConverter cho custom types",
+    "Migration với addMigrations()"
+  ],
+  "interviewTips": [
+    "Room migration thất bại thì sao?"
+  ]
+}

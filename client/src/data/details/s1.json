@@ -1,0 +1,14 @@
+{
+  "title": "SharedPreferences",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "SharedPreferences lưu key-value nhỏ. Deprecated bởi DataStore vì API synchronous và không safe.",
+  "points": [
+    "edit().putString().apply()",
+    "apply() async, commit() sync",
+    "Không dùng cho sensitive data",
+    "Thay thế bằng DataStore"
+  ],
+  "interviewTips": [
+    "SharedPreferences vs DataStore?"
+  ]
+}

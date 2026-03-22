@@ -1,0 +1,14 @@
+{
+  "title": "Build variants",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Build variants = Build Type x Product Flavor. debug, release là 2 build types mặc định.",
+  "points": [
+    "debug: debuggable, không obfuscate",
+    "release: minified, signed",
+    "buildConfigField thêm constants",
+    "signingConfig cho release build"
+  ],
+  "interviewTips": [
+    "Sự khác biệt debug vs release build?"
+  ]
+}

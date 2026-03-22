@@ -1,0 +1,13 @@
+{
+  "title": "Chain of Responsibility",
+  "summary": "Truyền request qua chuỗi handler cho đến khi có handler xử lý được.",
+  "points": [
+    "OkHttp Interceptor",
+    "Touch events",
+    "Middleware"
+  ],
+  "code": "// OkHttp Interceptor là Chain of Responsibility\nclient = OkHttpClient.Builder()\n    .addInterceptor(AuthInterceptor())\n    .addInterceptor(LoggingInterceptor())\n    .addInterceptor(CacheInterceptor())\n    .build()",
+  "interviewTips": [
+    "Chain of Responsibility trong Android Touch Event?"
+  ]
+}

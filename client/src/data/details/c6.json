@@ -1,0 +1,14 @@
+{
+  "title": "StateFlow vs SharedFlow",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "StateFlow: 1 value hiện tại, replay=1. SharedFlow: configurable replay, broadcast.",
+  "points": [
+    "StateFlow cần initialValue",
+    "SharedFlow.replay = số item cache cho collector mới",
+    "StateFlow dùng cho UI state",
+    "SharedFlow dùng cho events (one-shot)"
+  ],
+  "interviewTips": [
+    "Khi nào dùng SharedFlow thay StateFlow?"
+  ]
+}

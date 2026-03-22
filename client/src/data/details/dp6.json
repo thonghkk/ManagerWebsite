@@ -1,0 +1,13 @@
+{
+  "title": "Adapter",
+  "summary": "Chuyển đổi interface của class sang interface khác mà client mong đợi.",
+  "points": [
+    "RecyclerView.Adapter",
+    "3rd party lib",
+    "Legacy code"
+  ],
+  "code": "class ItemAdapter(\n    private val items: List<Item>\n) : RecyclerView.Adapter<ViewHolder>() {\n    override fun getItemCount() = items.size\n}",
+  "interviewTips": [
+    "Adapter pattern trong Android?"
+  ]
+}

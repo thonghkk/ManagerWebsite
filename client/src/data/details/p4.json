@@ -1,0 +1,14 @@
+{
+  "title": "App startup optimization",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Giảm cold start time: lazy init, App Startup library, baseline profile.",
+  "points": [
+    "App Startup: thứ tự init components",
+    "Baseline Profile: AOT compilation",
+    "Lazy load heavy dependencies",
+    "Splash Screen API (Android 12+)"
+  ],
+  "interviewTips": [
+    "Cold start vs warm start vs hot start?"
+  ]
+}

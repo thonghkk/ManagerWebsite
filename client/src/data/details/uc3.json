@@ -1,0 +1,14 @@
+{
+  "title": "State management",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "State trong Compose: mutableStateOf, remember, hoisting, ViewModel StateFlow.",
+  "points": [
+    "State hoisting: kéo state lên cha",
+    "Stateless composable dễ test hơn",
+    "ViewModel + StateFlow/State cho production",
+    "rememberSaveable survive configuration change"
+  ],
+  "interviewTips": [
+    "State hoisting là gì và tại sao quan trọng?"
+  ]
+}

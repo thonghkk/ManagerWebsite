@@ -1,0 +1,14 @@
+{
+  "title": "Coroutines",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Coroutines: lightweight, structured, sequential async code.",
+  "points": [
+    "launch vs async",
+    "suspend fun tự động switch context",
+    "CoroutineScope lifecycle management",
+    "Exception handling: try-catch hoặc CoroutineExceptionHandler"
+  ],
+  "interviewTips": [
+    "Coroutine exception propagation?"
+  ]
+}

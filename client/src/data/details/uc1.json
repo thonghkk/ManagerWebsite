@@ -1,0 +1,14 @@
+{
+  "title": "Composable lifecycle",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Composable vào/ra Composition khi state thay đổi. Lifecycle: Enter → Recompose* → Leave.",
+  "points": [
+    "remember lưu state qua recomposition",
+    "DisposableEffect cleanup khi leave",
+    "LaunchedEffect chạy coroutine khi key thay đổi",
+    "Composition != Activity lifecycle"
+  ],
+  "interviewTips": [
+    "Composable lifecycle vs Activity lifecycle?"
+  ]
+}

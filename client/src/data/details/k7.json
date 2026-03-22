@@ -1,0 +1,15 @@
+{
+  "title": "Extension function",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#5-extension-functions",
+  "summary": "Thêm function vào class có sẵn mà không kế thừa. Được resolve statically.",
+  "points": [
+    "fun String.toast(ctx: Context) { ... }",
+    "Extension không override member function",
+    "Extension với nullable receiver: fun String?.safe()",
+    "Extension properties cũng được hỗ trợ"
+  ],
+  "interviewTips": [
+    "Extension function có thể access private members không?",
+    "Khác biệt extension vs member function khi override?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Retry strategy",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "Retry mechanism: exponential backoff, max retries, retry on specific errors.",
+  "points": [
+    "OkHttp Interceptor tự retry",
+    "Coroutine retry với delay",
+    "Exponential backoff: 1s, 2s, 4s...",
+    "Jitter để tránh thundering herd"
+  ],
+  "interviewTips": [
+    "Exponential backoff là gì?"
+  ]
+}

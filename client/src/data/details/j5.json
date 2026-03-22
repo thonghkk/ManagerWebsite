@@ -1,0 +1,15 @@
+{
+  "title": "Room",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "Room là ORM layer trên SQLite. @Entity, @Dao, @Database.",
+  "points": [
+    "@Entity = table",
+    "@Dao = SQL operations",
+    "Flow/LiveData từ query tự update",
+    "Migration khi thay đổi schema"
+  ],
+  "interviewTips": [
+    "Room vs SQLite trực tiếp?",
+    "Xử lý migration thế nào?"
+  ]
+}

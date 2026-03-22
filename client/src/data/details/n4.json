@@ -1,0 +1,14 @@
+{
+  "title": "Serialization",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "JSON serialization: Gson, Moshi, kotlinx.serialization. Chuyển đổi JSON ↔ Kotlin objects.",
+  "points": [
+    "kotlinx.serialization: compile-time, type-safe",
+    "Moshi: fast, Kotlin friendly",
+    "Gson: phổ biến, không hỗ trợ tốt Kotlin",
+    "@SerialName đổi tên field"
+  ],
+  "interviewTips": [
+    "Gson vs Moshi vs kotlinx.serialization?"
+  ]
+}

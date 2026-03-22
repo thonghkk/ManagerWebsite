@@ -1,0 +1,14 @@
+{
+  "title": "DiffUtil",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "DiffUtil tính diff giữa 2 list, chỉ update item thay đổi, tốt hơn notifyDataSetChanged().",
+  "points": [
+    "areItemsTheSame: cùng identity?",
+    "areContentsTheSame: cùng content?",
+    "AsyncListDiffer chạy diff trên background",
+    "ListAdapter tích hợp sẵn DiffUtil"
+  ],
+  "interviewTips": [
+    "DiffUtil cải thiện performance thế nào?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "MVC",
+  "url": "https://android-notebook.netlify.app/architecture/patterns",
+  "summary": "MVC: Model-View-Controller. Controller xử lý logic, phổ biến ở web, ít dùng trong Android hiện đại.",
+  "points": [
+    "Model: data và business logic",
+    "View: UI (Activity/Fragment trong Android)",
+    "Controller = Activity, tạo God class",
+    "Khó test vì Controller gắn chặt Android"
+  ],
+  "interviewTips": [
+    "Tại sao MVC không phù hợp Android?"
+  ]
+}

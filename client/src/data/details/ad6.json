@@ -1,0 +1,14 @@
+{
+  "title": "Security (encryption, obfuscation)",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android security: EncryptedSharedPreferences, Android Keystore, Certificate pinning, R8 obfuscation.",
+  "points": [
+    "Android Keystore: lưu key an toàn",
+    "EncryptedSharedPreferences / EncryptedFile",
+    "Certificate pinning chống MITM",
+    "Biometric authentication API"
+  ],
+  "interviewTips": [
+    "Lưu trữ token an toàn thế nào?"
+  ]
+}

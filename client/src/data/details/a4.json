@@ -1,0 +1,15 @@
+{
+  "title": "MVI",
+  "url": "https://android-notebook.netlify.app/architecture/patterns",
+  "summary": "MVI: Model-View-Intent. State là immutable, Intent là user action, reducer tính state mới.",
+  "points": [
+    "Single source of truth: State object",
+    "Intent → Reducer → new State",
+    "Side effects xử lý riêng",
+    "Dễ debug vì state history rõ ràng"
+  ],
+  "interviewTips": [
+    "MVI vs MVVM?",
+    "Khi nào chọn MVI?"
+  ]
+}

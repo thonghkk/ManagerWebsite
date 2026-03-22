@@ -1,0 +1,15 @@
+{
+  "title": "Fragment lifecycle",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Fragment lifecycle liên kết với Activity nhưng có thêm onCreateView, onViewCreated, onDestroyView.",
+  "points": [
+    "onCreateView: inflate layout",
+    "onViewCreated: setup UI sau khi view tạo xong",
+    "onDestroyView: release view references",
+    "ViewLifecycleOwner cho observing LiveData"
+  ],
+  "interviewTips": [
+    "Tại sao dùng viewLifecycleOwner thay lifecycleOwner?",
+    "Fragment back stack hoạt động thế nào?"
+  ]
+}

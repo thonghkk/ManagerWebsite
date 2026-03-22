@@ -1,0 +1,15 @@
+{
+  "title": "Clean Architecture",
+  "url": "https://android-notebook.netlify.app/architecture/clean-architecture",
+  "summary": "3 layers: Presentation, Domain, Data. Dependency rule: outer layers depend on inner.",
+  "points": [
+    "Domain layer: UseCase, Entity – pure Kotlin",
+    "Data layer: Repository impl, DataSource",
+    "Presentation: ViewModel, UI",
+    "Dependency Inversion qua interfaces"
+  ],
+  "interviewTips": [
+    "Tại sao Domain layer không có Android dependency?",
+    "UseCase có thể gộp không?"
+  ]
+}

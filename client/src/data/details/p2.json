@@ -1,0 +1,14 @@
+{
+  "title": "ANR",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "ANR (App Not Responding): main thread bị block > 5s (Activity) hoặc 10s (Broadcast).",
+  "points": [
+    "Không làm IO/network trên main thread",
+    "StrictMode phát hiện vi phạm",
+    "ANR từ deadlock hoặc long computation",
+    "Profiler theo dõi main thread"
+  ],
+  "interviewTips": [
+    "Nguyên nhân ANR thường gặp?"
+  ]
+}

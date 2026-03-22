@@ -1,0 +1,15 @@
+{
+  "title": "Permissions",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android permissions: Normal (tự cấp) và Dangerous (user approve). API 23+ runtime permissions.",
+  "points": [
+    "requestPermissions() cho runtime request",
+    "shouldShowRequestPermissionRationale() – explain to user",
+    "ActivityResultLauncher mới hơn requestPermissions",
+    "Android 12+: approximate location permission"
+  ],
+  "interviewTips": [
+    "Normal vs Dangerous permission?",
+    "Xử lý khi user deny permission vĩnh viễn?"
+  ]
+}

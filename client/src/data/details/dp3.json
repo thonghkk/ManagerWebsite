@@ -1,0 +1,13 @@
+{
+  "title": "Factory Method",
+  "summary": "Định nghĩa interface tạo object, để subclass quyết định class nào được tạo.",
+  "points": [
+    "ViewModel Factory",
+    "Cross-platform UI",
+    "Plugin system"
+  ],
+  "code": "abstract class Dialog {\n    abstract fun createButton(): Button\n}\nclass WindowsDialog : Dialog() {\n    override fun createButton() = WindowsButton()\n}",
+  "interviewTips": [
+    "Factory Method giải quyết vấn đề gì?"
+  ]
+}

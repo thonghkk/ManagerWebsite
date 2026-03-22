@@ -1,0 +1,15 @@
+{
+  "title": "Sealed class",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#3-sealed-classes",
+  "summary": "Sealed class hạn chế hierarchy – compiler biết hết subclass, dùng kết hợp with when exhaustive.",
+  "points": [
+    "Tất cả subclass phải cùng package",
+    "when với sealed không cần else nếu cover hết",
+    "Dùng để model UI state: Loading/Success/Error",
+    "Kotlin 1.5+: subclass có thể ở các file khác cùng module"
+  ],
+  "interviewTips": [
+    "Sealed class vs Enum khi nào dùng cái nào?",
+    "Sealed class vs sealed interface?"
+  ]
+}

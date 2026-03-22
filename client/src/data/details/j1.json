@@ -1,0 +1,15 @@
+{
+  "title": "ViewModel",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "ViewModel lưu UI state qua configuration change, không tham chiếu Activity/Fragment.",
+  "points": [
+    "viewModelScope tự cancel khi ViewModel cleared",
+    "Tạo qua viewModels() delegate",
+    "SavedStateHandle cho state survive process death",
+    "Không giữ Context!"
+  ],
+  "interviewTips": [
+    "ViewModel bị destroy khi nào?",
+    "ViewModel vs onSaveInstanceState?"
+  ]
+}

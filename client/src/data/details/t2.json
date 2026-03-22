@@ -1,0 +1,14 @@
+{
+  "title": "Integration test",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Integration test kiểm tra nhiều component kết hợp. Chạy trên device/emulator hoặc Robolectric.",
+  "points": [
+    "AndroidJUnit4 runner",
+    "Robolectric: JVM với Android env giả",
+    "Room in-memory DB cho DB tests",
+    "Hilt testing support"
+  ],
+  "interviewTips": [
+    "Robolectric vs Instrumented test?"
+  ]
+}

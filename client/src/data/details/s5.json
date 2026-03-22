@@ -1,0 +1,14 @@
+{
+  "title": "File storage",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "Android file storage: Internal storage (private), External storage (public/scoped).",
+  "points": [
+    "getFilesDir(): internal private",
+    "getExternalFilesDir(): scoped external",
+    "Scoped Storage (Android 10+)",
+    "MediaStore API cho media files"
+  ],
+  "interviewTips": [
+    "Scoped Storage thay đổi gì từ Android 10?"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Bridge",
+  "summary": "Tách abstraction khỏi implementation để cả hai có thể thay đổi độc lập nhau.",
+  "points": [
+    "Multi-platform renderer",
+    "Device drivers",
+    "Remote/Local data"
+  ],
+  "code": "interface Renderer { fun render(shape: Shape) }\nclass OpenGLRenderer : Renderer { /*...*/ }\nclass VulkanRenderer  : Renderer { /*...*/ }\nclass Circle(val renderer: Renderer) : Shape()",
+  "interviewTips": [
+    "Bridge pattern giúp gì cho đa nền tảng?"
+  ]
+}

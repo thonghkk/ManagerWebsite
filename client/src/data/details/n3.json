@@ -1,0 +1,14 @@
+{
+  "title": "WebSocket",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "WebSocket cho real-time bidirectional communication. OkHttp hỗ trợ WebSocket natively.",
+  "points": [
+    "newWebSocket() tạo kết nối",
+    "WebSocketListener for events",
+    "send() gửi message",
+    "close() / reconnect strategy"
+  ],
+  "interviewTips": [
+    "WebSocket vs HTTP polling?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Observer",
+  "summary": "Một object thay đổi → thông báo tự động đến tất cả các object đang theo dõi nó.",
+  "points": [
+    "LiveData",
+    "StateFlow",
+    "RxJava",
+    "EventBus"
+  ],
+  "code": "viewModel.uiState\n    .collect { state ->\n        updateUI(state)\n    }\n// StateFlow là Observer pattern",
+  "interviewTips": [
+    "Observer pattern vs Callback?",
+    "Memory leak trong Observer?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Configuration change",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Configuration change (xoay màn hình, dark mode...) tái tạo Activity. ViewModel giữ data qua thay đổi.",
+  "points": [
+    "ViewModel survive configuration change",
+    "onSaveInstanceState cho lightweight primitive data",
+    "android:configChanges – tự xử lý, không recreate",
+    "rememberSaveable trong Compose"
+  ],
+  "interviewTips": [
+    "ViewModel vs onSaveInstanceState?",
+    "Process death vs configuration change?"
+  ]
+}

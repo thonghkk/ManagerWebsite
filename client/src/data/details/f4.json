@@ -1,0 +1,15 @@
+{
+  "title": "Intent",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Intent là message object để start Activity/Service hoặc deliver broadcast.",
+  "points": [
+    "Explicit Intent: chỉ tên class cụ thể",
+    "Implicit Intent: chỉ action, để hệ thống chọn",
+    "putExtra() / getStringExtra() truyền data",
+    "PendingIntent: đại diện app cho hệ thống thực thi sau"
+  ],
+  "interviewTips": [
+    "Explicit vs Implicit Intent?",
+    "PendingIntent dùng khi nào?"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Scope functions (let, run, apply, also, with)",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#6-scope-functions",
+  "summary": "Scope functions cho phép viết code ngắn gọn hơn trong một block với context object.",
+  "points": [
+    "let: it, trả về lambda result – null check",
+    "run: this, trả về lambda result – init + compute",
+    "apply: this, trả về object – builder pattern",
+    "also: it, trả về object – side effects",
+    "with: this, trả về lambda result – nhiều ops trên object"
+  ],
+  "interviewTips": [
+    "Phân biệt apply vs also?",
+    "let vs run khác gì nhau?"
+  ]
+}

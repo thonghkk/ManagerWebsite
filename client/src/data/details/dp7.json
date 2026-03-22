@@ -1,0 +1,13 @@
+{
+  "title": "Decorator",
+  "summary": "Thêm behavior mới vào object tại runtime bằng cách wrap nó, không thay đổi class gốc.",
+  "points": [
+    "Java I/O Streams",
+    "Middleware",
+    "Logging wrapper"
+  ],
+  "code": "val stream = BufferedInputStream(\n    FileInputStream(\"data.txt\")\n)\n// BufferedInputStream \"decorates\" FileInputStream",
+  "interviewTips": [
+    "Decorator vs Inheritance?"
+  ]
+}

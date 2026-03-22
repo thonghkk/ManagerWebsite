@@ -1,0 +1,15 @@
+{
+  "title": "Structured concurrency",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Structured concurrency: coroutine children không vượt scope cha, cancellation lan truyền.",
+  "points": [
+    "CoroutineScope = vòng đời coroutines",
+    "SupervisorJob: child failure không hủy siblings",
+    "Cancel tự động khi ViewModel clear",
+    "Job hierarchy và cancellation"
+  ],
+  "interviewTips": [
+    "Job vs SupervisorJob?",
+    "Structured concurrency lợi ích?"
+  ]
+}

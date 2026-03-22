@@ -1,0 +1,13 @@
+{
+  "title": "Mediator",
+  "summary": "Giảm sự phụ thuộc trực tiếp giữa các object bằng cách giao tiếp qua một đối tượng trung gian.",
+  "points": [
+    "Chat room",
+    "Air traffic control",
+    "EventBus"
+  ],
+  "code": "class EventBus {\n    private val listeners = mutableMapOf<String, MutableList<() -> Unit>>()\n    fun emit(event: String) = listeners[event]?.forEach { it() }\n}",
+  "interviewTips": [
+    "Mediator vs Observer?"
+  ]
+}

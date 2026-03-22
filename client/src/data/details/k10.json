@@ -1,0 +1,15 @@
+{
+  "title": "Generics",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#8-generics",
+  "summary": "Generics cho phép type-safe code tái sử dụng. Kotlin hỗ trợ variance: in/out và reified.",
+  "points": [
+    "out T (covariant) – producer, chỉ đọc",
+    "in T (contravariant) – consumer, chỉ ghi",
+    "reified: lấy type tại runtime với inline fun",
+    "Type erasure ở runtime (trừ reified)"
+  ],
+  "interviewTips": [
+    "out và in trong Kotlin generics?",
+    "Reified type parameter dùng khi nào?"
+  ]
+}

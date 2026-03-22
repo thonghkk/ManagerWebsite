@@ -1,0 +1,14 @@
+{
+  "title": "Animations",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android animations: View Animation, Property Animation (Animator), Transition Framework.",
+  "points": [
+    "ObjectAnimator, ValueAnimator",
+    "AnimatorSet để chain animations",
+    "TransitionManager.beginDelayedTransition()",
+    "MotionLayout cho complex motion"
+  ],
+  "interviewTips": [
+    "View Animation vs Property Animation?"
+  ]
+}

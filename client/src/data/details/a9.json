@@ -1,0 +1,15 @@
+{
+  "title": "Dependency Injection",
+  "url": "https://android-notebook.netlify.app/di/hilt",
+  "summary": "DI cung cấp dependencies từ bên ngoài, giảm coupling, tăng testability.",
+  "points": [
+    "Constructor injection > field injection",
+    "Hilt/Dagger: compile-time DI",
+    "Koin: runtime DI – DSL đơn giản",
+    "Manual DI cho project nhỏ"
+  ],
+  "interviewTips": [
+    "Hilt vs Koin?",
+    "DI vs Service Locator?"
+  ]
+}

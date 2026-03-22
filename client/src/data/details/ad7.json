@@ -1,0 +1,14 @@
+{
+  "title": "Play Store optimization",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "ASO (App Store Optimization), Android App Bundle, Play Asset Delivery, In-App Review.",
+  "points": [
+    "AAB thay APK cho Play Store",
+    "Play Asset Delivery cho lớn assets",
+    "In-App Review API",
+    "Core App Quality guidelines"
+  ],
+  "interviewTips": [
+    "AAB vs APK lợi ích?"
+  ]
+}

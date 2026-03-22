@@ -1,0 +1,15 @@
+{
+  "title": "UseCase / Domain",
+  "url": "https://android-notebook.netlify.app/architecture/clean-architecture",
+  "summary": "UseCase chứa business logic đơn lẻ, gọi Repository, trả result cho ViewModel.",
+  "points": [
+    "1 UseCase = 1 business action",
+    "invoke() operator cho clean call",
+    "Pure Kotlin – dễ unit test",
+    "Tái sử dụng giữa các ViewModel"
+  ],
+  "interviewTips": [
+    "UseCase quá nhỏ có ổn không?",
+    "Khi nào bỏ qua UseCase layer?"
+  ]
+}

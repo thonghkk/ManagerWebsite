@@ -1,0 +1,15 @@
+{
+  "title": "BroadcastReceiver",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "BroadcastReceiver lắng nghe system/app broadcasts. Có 2 loại: static (manifest) và dynamic (code).",
+  "points": [
+    "onReceive() chạy trên main thread – không block",
+    "LocalBroadcastManager cho in-app broadcasts",
+    "Android 8.0+: hạn chế static receiver cho implicit broadcast",
+    "Ordered broadcast: receiver theo thứ tự priority"
+  ],
+  "interviewTips": [
+    "Static vs dynamic BroadcastReceiver?",
+    "Tại sao không nên dùng LocalBroadcastManager nữa?"
+  ]
+}

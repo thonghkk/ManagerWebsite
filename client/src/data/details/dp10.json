@@ -1,0 +1,13 @@
+{
+  "title": "Composite",
+  "summary": "Xử lý object đơn lẻ và nhóm object theo cách thống nhất — cấu trúc cây.",
+  "points": [
+    "View hierarchy",
+    "File system",
+    "Menu tree"
+  ],
+  "code": "// Android: ViewGroup là Composite của View\nval layout = LinearLayout(context)\nlayout.addView(TextView(context))\nlayout.addView(ImageView(context))\n// draw() gọi đệ quy xuống toàn bộ cây",
+  "interviewTips": [
+    "Composite pattern ứng dụng trong Android UI?"
+  ]
+}

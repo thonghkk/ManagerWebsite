@@ -1,0 +1,15 @@
+{
+  "title": "Modularization",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Chia app thành modules độc lập: :app, :feature:home, :core:network, :core:ui, :core:data.",
+  "points": [
+    "Feature modules: :feature:login, :feature:home",
+    "Core modules: shared code",
+    "Tăng build speed (parallel build)",
+    "API module tránh leak implementation details"
+  ],
+  "interviewTips": [
+    "Lợi ích modularization?",
+    "Mô hình module phổ biến?"
+  ]
+}

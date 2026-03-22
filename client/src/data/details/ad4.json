@@ -1,0 +1,14 @@
+{
+  "title": "System design Android",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android system design: offline-first, real-time sync, pagination, caching strategies.",
+  "points": [
+    "Offline-first với Room + WorkManager",
+    "Real-time với WebSocket/Firebase",
+    "Optimistic UI updates",
+    "Conflict resolution khi sync"
+  ],
+  "interviewTips": [
+    "Design offline-first chat app?"
+  ]
+}

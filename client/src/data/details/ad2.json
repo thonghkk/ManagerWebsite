@@ -1,0 +1,14 @@
+{
+  "title": "Dynamic feature modules",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Dynamic Delivery: download feature on-demand sau khi install, giảm APK size ban đầu.",
+  "points": [
+    "Play Feature Delivery",
+    "SplitInstallManager để install on demand",
+    "onDemand vs onInstall vs conditional",
+    "Phù hợp cho feature ít người dùng"
+  ],
+  "interviewTips": [
+    "Dynamic feature vs standard module?"
+  ]
+}

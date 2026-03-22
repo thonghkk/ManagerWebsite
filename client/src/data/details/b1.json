@@ -1,0 +1,15 @@
+{
+  "title": "Gradle",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Gradle là build system của Android. build.gradle.kts (KTS) là format mới.",
+  "points": [
+    "app/build.gradle.kts: dependencies, compileSdk",
+    "Version catalog (libs.versions.toml)",
+    "buildSrc hoặc convention plugins",
+    "Gradle task graph và caching"
+  ],
+  "interviewTips": [
+    "Gradle sync vs build?",
+    "Cách optimize Gradle build?"
+  ]
+}

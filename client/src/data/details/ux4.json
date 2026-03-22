@@ -1,0 +1,15 @@
+{
+  "title": "RecyclerView",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "RecyclerView tái sử dụng ViewHolder để hiển thị danh sách lớn hiệu quả.",
+  "points": [
+    "ViewHolder pattern bắt buộc",
+    "LayoutManager: Linear/Grid/Staggered",
+    "DiffUtil tính toán diff thông minh",
+    "ItemAnimator, ItemDecoration"
+  ],
+  "interviewTips": [
+    "RecyclerView vs ListView?",
+    "notifyDataSetChanged() có hại gì?"
+  ]
+}

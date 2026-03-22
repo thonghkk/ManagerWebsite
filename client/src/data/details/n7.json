@@ -1,0 +1,14 @@
+{
+  "title": "Caching strategy",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "HTTP caching với OkHttp Cache. Cache-Control headers. Room làm offline cache.",
+  "points": [
+    "OkHttp Cache với disk cache",
+    "Cache-Control: max-age, no-cache",
+    "Room làm single source of truth",
+    "ETag / Last-Modified conditional requests"
+  ],
+  "interviewTips": [
+    "Offline-first architecture?"
+  ]
+}

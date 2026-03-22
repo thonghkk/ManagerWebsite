@@ -1,0 +1,14 @@
+{
+  "title": "Layouts",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "LinearLayout, RelativeLayout, FrameLayout, ConstraintLayout. Nên dùng ConstraintLayout để flat hierarchy.",
+  "points": [
+    "LinearLayout: theo chiều ngang/dọc",
+    "FrameLayout: stack views",
+    "ConstraintLayout: flat, flexible",
+    "Merge tag giảm nested layouts"
+  ],
+  "interviewTips": [
+    "Flat hierarchy vs deep hierarchy ảnh hưởng gì?"
+  ]
+}

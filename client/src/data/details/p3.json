@@ -1,0 +1,14 @@
+{
+  "title": "UI rendering",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "60fps = 16ms/frame. Jank khi frame miss. Tối ưu: flat hierarchy, hardware acceleration, overdraw reduction.",
+  "points": [
+    "GPU Overdraw checker trong Developer Options",
+    "Tracer for OpenGL ES",
+    "Compose: tránh unnecessary recomposition",
+    "RecyclerView: offscreen item limit"
+  ],
+  "interviewTips": [
+    "Jank là gì và cách tránh?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Service",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Service chạy background tasks. 3 loại: Started, Foreground, Bound Service.",
+  "points": [
+    "Started: startService() – chạy đến khi tự stop",
+    "Foreground: hiện notification – ít bị kill",
+    "Bound: bindService() – giao tiếp 2 chiều",
+    "IntentService: deprecated, dùng WorkManager"
+  ],
+  "interviewTips": [
+    "Foreground vs Background Service?",
+    "Bound Service dùng khi nào?"
+  ]
+}

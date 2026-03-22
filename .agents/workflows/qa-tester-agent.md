@@ -21,7 +21,7 @@ Khi bắt đầu phiên kiểm thử, bạn PHẢI tuân thủ các bước sau:
    - Đọc `server/main.py` và các hàm xử lý API trong `server/handlers/` để hiểu cách server phản hồi.
 2. **Kiểm tra trạng thái hệ thống:**
    - Dùng lệnh Bash hoặc kiểm tra server Python có đang chạy ở cổng `:8080` không.
-   - Nếu chưa chạy, hãy đề xuất lệnh khởi động server: `python3 -m server.main`.
+   - Nếu chưa chạy, hãy đề xuất lệnh khởi động server: `python3 -m server.main`, còn nếu đã chạy được hãy kiểm tra việc tải data ở màn hình chính đã được thực hiện hay chưa, nếu không phải chạy kiểm tra lại.
 
 ### Phase 2: Chạy Kịch Bản Kiểm Thử (Executing Test Scenarios)
 Bạn hãy sử dụng `browser_subagent` để mô phỏng thao tác của người dùng trên trình duyệt (hoặc dùng cURL để gọi API nếu muốn test Backend trực tiếp). Các kịch bản trọng tâm:

@@ -1,1 +1,794 @@
-[]
+[
+  {
+    "id": "dart",
+    "name": "Dart Language",
+    "icon": "🎯",
+    "items": [
+      {
+        "id": "d1",
+        "name": "Dart syntax cơ bản (var, final, const, late)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d2",
+        "name": "Null safety",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d3",
+        "name": "OOP (class, abstract, interface, mixin)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d4",
+        "name": "Collections (List, Set, Map)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d5",
+        "name": "Generics",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d6",
+        "name": "Extension methods",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d7",
+        "name": "async / await / Future",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d8",
+        "name": "Stream",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d9",
+        "name": "Isolates",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "d10",
+        "name": "Records & Patterns (Dart 3)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "fundamentals",
+    "name": "Flutter Fundamentals",
+    "icon": "🏛️",
+    "items": [
+      {
+        "id": "fl1",
+        "name": "Widget tree & Element tree",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl2",
+        "name": "BuildContext",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl3",
+        "name": "StatelessWidget vs StatefulWidget",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl4",
+        "name": "Widget lifecycle",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl5",
+        "name": "Keys",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl6",
+        "name": "InheritedWidget",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl7",
+        "name": "RenderObject tree",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "fl8",
+        "name": "Hot reload vs Hot restart",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "widgets",
+    "name": "Widgets",
+    "icon": "🧩",
+    "items": [
+      {
+        "id": "w1",
+        "name": "Layout widgets (Row, Column, Stack, Flex)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w2",
+        "name": "Scrollable widgets (ListView, GridView, CustomScrollView)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w3",
+        "name": "Text & TextField",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w4",
+        "name": "Image & NetworkImage",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w5",
+        "name": "GestureDetector & InkWell",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w6",
+        "name": "AppBar, Drawer, BottomNavigationBar",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w7",
+        "name": "Dialog, SnackBar, BottomSheet",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w8",
+        "name": "AnimatedWidget & AnimatedBuilder",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w9",
+        "name": "CustomPaint",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "w10",
+        "name": "Sliver widgets",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "state",
+    "name": "State Management",
+    "icon": "🔄",
+    "items": [
+      {
+        "id": "sm1",
+        "name": "setState",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm2",
+        "name": "InheritedWidget & InheritedModel",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm3",
+        "name": "Provider",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm4",
+        "name": "Riverpod",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm5",
+        "name": "BLoC / Cubit",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm6",
+        "name": "GetX",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm7",
+        "name": "MobX",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "sm8",
+        "name": "Redux",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "navigation",
+    "name": "Navigation & Routing",
+    "icon": "🗺️",
+    "items": [
+      {
+        "id": "nav1",
+        "name": "Navigator 1.0 (push/pop)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "nav2",
+        "name": "Navigator 2.0 (Router API)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "nav3",
+        "name": "go_router",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "nav4",
+        "name": "Named routes",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "nav5",
+        "name": "Deep linking",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "nav6",
+        "name": "Bottom navigation pattern",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "architecture",
+    "name": "Architecture",
+    "icon": "🏗️",
+    "items": [
+      {
+        "id": "ar1",
+        "name": "MVC trong Flutter",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar2",
+        "name": "MVVM",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar3",
+        "name": "MVI / Unidirectional Data Flow",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar4",
+        "name": "Clean Architecture",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar5",
+        "name": "Repository pattern",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar6",
+        "name": "UseCase / Domain layer",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ar7",
+        "name": "Dependency Injection (get_it, injectable)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "async",
+    "name": "Async & Concurrency",
+    "icon": "⚙️",
+    "items": [
+      {
+        "id": "ac1",
+        "name": "Future & async/await",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac2",
+        "name": "Stream & StreamController",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac3",
+        "name": "Isolates",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac4",
+        "name": "compute()",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac5",
+        "name": "FutureBuilder & StreamBuilder",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac6",
+        "name": "Completer",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "ac7",
+        "name": "Error handling trong async",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "networking",
+    "name": "Networking",
+    "icon": "🌐",
+    "items": [
+      {
+        "id": "net1",
+        "name": "http package",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "net2",
+        "name": "Dio",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "net3",
+        "name": "JSON serialization (json_serializable, freezed)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "net4",
+        "name": "Error handling & interceptors",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "net5",
+        "name": "WebSocket",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "net6",
+        "name": "GraphQL",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "storage",
+    "name": "Storage",
+    "icon": "💾",
+    "items": [
+      {
+        "id": "st1",
+        "name": "shared_preferences",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "st2",
+        "name": "flutter_secure_storage",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "st3",
+        "name": "Hive",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "st4",
+        "name": "Isar",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "st5",
+        "name": "SQLite (sqflite)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "st6",
+        "name": "File I/O",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "performance",
+    "name": "Performance",
+    "icon": "⚡",
+    "items": [
+      {
+        "id": "pf1",
+        "name": "Rebuild optimization (const, Keys)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf2",
+        "name": "RepaintBoundary",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf3",
+        "name": "DevTools & Flutter Inspector",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf4",
+        "name": "Jank / Frame drops (16ms budget)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf5",
+        "name": "Image caching (cached_network_image)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf6",
+        "name": "App size optimization",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "pf7",
+        "name": "Deferred loading",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "testing",
+    "name": "Testing",
+    "icon": "🧪",
+    "items": [
+      {
+        "id": "te1",
+        "name": "Unit test",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "te2",
+        "name": "Widget test",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "te3",
+        "name": "Integration test",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "te4",
+        "name": "Mocking (mockito, mocktail)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "te5",
+        "name": "Golden tests",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "te6",
+        "name": "flutter_test & testWidgets",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "build",
+    "name": "Build & Release",
+    "icon": "📦",
+    "items": [
+      {
+        "id": "bu1",
+        "name": "pubspec.yaml & pub.dev",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "bu2",
+        "name": "Build flavors",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "bu3",
+        "name": "App signing (Android & iOS)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "bu4",
+        "name": "Play Store & App Store deploy",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "bu5",
+        "name": "CI/CD (Fastlane, GitHub Actions, Codemagic)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "bu6",
+        "name": "Obfuscation & minify",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  }
+]

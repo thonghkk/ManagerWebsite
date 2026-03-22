@@ -58,7 +58,10 @@ if __name__ == '__main__':
         return IP
 
     local_ip = get_local_ip()
-    with socketserver.TCPServer(("", PORT), AppHandler) as httpd:
+    class ReusableTCPServer(socketserver.TCPServer):
+        allow_reuse_address = True
+        
+    with ReusableTCPServer(("", PORT), AppHandler) as httpd:
         print(f"🚀 Server running locally on: http://localhost:{PORT}")
         if local_ip != '127.0.0.1':
             print(f"🌐 Server sharing on LAN:    http://{local_ip}:{PORT}")

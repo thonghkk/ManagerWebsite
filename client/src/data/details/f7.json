@@ -1,0 +1,15 @@
+{
+  "title": "ContentProvider",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "ContentProvider chia sẻ structured data giữa apps qua URI chuẩn.",
+  "points": [
+    "CRUD qua: query/insert/update/delete",
+    "URI: content://authority/path/id",
+    "FileProvider để share files an toàn",
+    "CursorLoader để load data async"
+  ],
+  "interviewTips": [
+    "ContentProvider vs SQLite trực tiếp?",
+    "FileProvider dùng khi nào?"
+  ]
+}

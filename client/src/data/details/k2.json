@@ -1,0 +1,15 @@
+{
+  "title": "Null safety",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#1-null-safety-an-to%C3%A0n-null",
+  "summary": "Kotlin phân biệt nullable (String?) và non-null (String). Tránh NullPointerException tại compile time.",
+  "points": [
+    "?: (Elvis) – trả giá trị mặc định khi null",
+    "?. (Safe call) – không gọi nếu null",
+    "!! (Not-null assertion) – throw NPE nếu null",
+    "let { } – chạy block khi không null"
+  ],
+  "interviewTips": [
+    "Khi nào dùng !! và hậu quả?",
+    "Sự khác nhau giữa ?. và !!."
+  ]
+}

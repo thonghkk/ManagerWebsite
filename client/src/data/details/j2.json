@@ -1,0 +1,15 @@
+{
+  "title": "LiveData",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "LiveData là lifecycle-aware observable data holder. Chỉ deliver khi observer STARTED/RESUMED.",
+  "points": [
+    "observe() với LifecycleOwner",
+    "postValue() từ background thread",
+    "MediatorLiveData combine sources",
+    "Compose dùng StateFlow thay LiveData"
+  ],
+  "interviewTips": [
+    "LiveData vs StateFlow?",
+    "Tại sao LiveData ít dùng trong Compose?"
+  ]
+}

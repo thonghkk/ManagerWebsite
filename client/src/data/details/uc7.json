@@ -1,0 +1,15 @@
+{
+  "title": "Theming",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Material 3 Theming: MaterialTheme với colorScheme, typography, shapes.",
+  "points": [
+    "MaterialTheme.colorScheme.primary",
+    "Dynamic Color (Android 12+)",
+    "Custom typography với Google Fonts",
+    "Dark/Light theme switching"
+  ],
+  "interviewTips": [
+    "Material 2 vs Material 3?",
+    "Dynamic Color là gì?"
+  ]
+}

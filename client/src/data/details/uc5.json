@@ -1,0 +1,14 @@
+{
+  "title": "Side effects",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Side effects trong Compose: LaunchedEffect, SideEffect, DisposableEffect, produceState, derivedStateOf.",
+  "points": [
+    "LaunchedEffect(key) – coroutine, relaunch khi key đổi",
+    "DisposableEffect – cleanup khi leave",
+    "SideEffect – mỗi successful recompose",
+    "produceState – convert non-Compose state"
+  ],
+  "interviewTips": [
+    "Khi nào dùng LaunchedEffect vs SideEffect?"
+  ]
+}

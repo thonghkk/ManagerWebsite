@@ -1,0 +1,14 @@
+{
+  "title": "Product flavors",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Product flavors tạo nhiều variants của app (free/paid, staging/production).",
+  "points": [
+    "flavorDimensions: dimension grouping",
+    "applicationIdSuffix khác bundle ID",
+    "Source sets per flavor",
+    "Flavor-specific resources và code"
+  ],
+  "interviewTips": [
+    "Dùng flavors cho environment thế nào?"
+  ]
+}

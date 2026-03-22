@@ -1,0 +1,15 @@
+{
+  "title": "SavedInstanceState",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "onSaveInstanceState lưu UI state tạm thời để restore sau configuration change hoặc process death.",
+  "points": [
+    "Chỉ lưu data nhỏ, serializable (Bundle)",
+    "Không phù hợp data lớn như Bitmap",
+    "onRestoreInstanceState hoặc onCreate bundle",
+    "Compose: rememberSaveable tự động"
+  ],
+  "interviewTips": [
+    "Process death khác configuration change thế nào?",
+    "Giới hạn kích thước Bundle?"
+  ]
+}

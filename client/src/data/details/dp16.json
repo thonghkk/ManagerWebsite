@@ -1,0 +1,13 @@
+{
+  "title": "Template Method",
+  "summary": "Định nghĩa skeleton của thuật toán trong base class, để subclass override các bước cụ thể.",
+  "points": [
+    "Activity lifecycle",
+    "Data export",
+    "Report generator"
+  ],
+  "code": "abstract class DataExporter {\n    fun export() { read(); process(); write() }\n    abstract fun read()\n    abstract fun write()\n    open fun process() { /* default impl */ }\n}",
+  "interviewTips": [
+    "Template Method vs Strategy?"
+  ]
+}

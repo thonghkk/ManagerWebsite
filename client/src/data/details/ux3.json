@@ -1,0 +1,14 @@
+{
+  "title": "ConstraintLayout",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "ConstraintLayout giúp tạo UI phức tạp với flat hierarchy dùng constraints.",
+  "points": [
+    "Chains: spread/packed/weighted",
+    "Guideline, Barrier, Group",
+    "MotionLayout cho animation phức tạp",
+    "Hỗ trợ ratio: layout_constraintDimensionRatio"
+  ],
+  "interviewTips": [
+    "ConstraintLayout vs RelativeLayout?"
+  ]
+}

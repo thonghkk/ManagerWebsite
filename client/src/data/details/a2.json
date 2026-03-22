@@ -1,0 +1,14 @@
+{
+  "title": "MVP",
+  "url": "https://android-notebook.netlify.app/architecture/patterns",
+  "summary": "MVP: Model-View-Presenter. Presenter xử lý logic, View là passive interface, dễ unit test.",
+  "points": [
+    "View implement interface",
+    "Presenter nhận View interface – dễ mock",
+    "Trước ViewModel/LiveData, MVP phổ biến",
+    "Nhược: nhiều boilerplate interface"
+  ],
+  "interviewTips": [
+    "MVP vs MVVM?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Memory leak",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Memory leak: object không được GC vì còn reference. Phổ biến: Context leak, static reference, inner class.",
+  "points": [
+    "LeakCanary phát hiện leak",
+    "Tránh giữ Activity trong singleton",
+    "WeakReference cho optional reference",
+    "Unregister listener trong onDestroy"
+  ],
+  "interviewTips": [
+    "Common memory leak patterns trong Android?"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Data class",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#2-data-classes",
+  "summary": "Data class tự sinh equals/hashCode/toString/copy/componentN dựa trên các property trong constructor.",
+  "points": [
+    "copy() cho phép tạo bản sao với vài field thay đổi",
+    "Destructuring: val (a, b) = myData",
+    "Phải có ít nhất 1 property trong primary constructor",
+    "Không thể là abstract/open/sealed"
+  ],
+  "interviewTips": [
+    "Data class có thể kế thừa không?",
+    "Sự khác biệt giữa == và === với data class?"
+  ]
+}

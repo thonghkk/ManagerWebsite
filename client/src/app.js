@@ -14,14 +14,22 @@ import {
   handleEditNote,
   saveInputModal,
   openInputModal,
-  renderTips,
-  currentDetailItem
+  renderTips
 } from './ui/modals.js';
 import { showToast } from './ui/toast.js';
 import { ITEM_DETAILS } from './data/itemDetails.js';
 import { saveAnswer, deleteTip, addCustomTip } from './state/store.js';
+import { openDetailSPA, closeDetailSPA, currentDetailItem } from './detail.js';
 
 function wireUpEvents() {
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.view === 'detail') {
+      openDetailSPA(e.state.catId, e.state.itemId);
+    } else {
+      closeDetailSPA();
+    }
+  });
+
   $('btn-add-category').addEventListener('click', () => openCategoryModal(null));
 
   $('btn-add-item').addEventListener('click', () => {
@@ -42,8 +50,10 @@ function wireUpEvents() {
     sidebar.classList.add('collapsed');
   });
 
-  ['modal-item', 'modal-category', 'modal-note', 'modal-confirm', 'modal-detail', 'modal-input'].forEach(id => {
-    const closeBtn = $(id).querySelector('.modal-close');
+  MODAL_IDS.forEach(id => {
+    const modalEl = $(id);
+    if (!modalEl) return;
+    const closeBtn = modalEl.querySelector('.modal-close');
     if (closeBtn) closeBtn.addEventListener('click', () => closeModal(id));
     
     const cancelBtn = $(id).querySelector('.btn-secondary');
@@ -66,38 +76,36 @@ function wireUpEvents() {
   $('modal-note-edit').addEventListener('click', handleEditNote);
   $('modal-input-save').addEventListener('click', saveInputModal);
 
-  // Detail Modal Events
-  $('btn-add-tip').addEventListener('click', () => {
+  // Detail SPA Events Handler (Delegated inside detail-content)
+  $('detail-content').addEventListener('click', (e) => {
     const { catId, itemId } = currentDetailItem || {};
     if (!catId || !itemId) return;
 
-    openInputModal('Thêm Câu hỏi', 'Câu hỏi phỏng vấn', '', (question) => {
-      addCustomTip(catId, itemId, question);
-    });
-  });
-
-  $('detail-tips').addEventListener('click', (e) => {
-    const el = e.target.closest('.tip-btn');
-    if (!el) return;
-
-    const action = el.dataset.action;
-    const { catId, itemId } = currentDetailItem || {};
-    if (!catId || !itemId) return;
-
-    if (action === 'edit-answer') {
-      const tipId = el.dataset.id;
-      const cat = getState().categories.find(c => c.id === catId);
-      const item = cat.items.find(i => i.id === itemId);
-
-      const currentAnswer = (item.answers && item.answers[tipId]) ? item.answers[tipId] : '';
-      openInputModal('Trả lời Tips', 'Câu trả lời của bạn', currentAnswer, (answerText) => {
-        saveAnswer(catId, itemId, tipId, answerText);
+    if (e.target.id === 'btn-add-tip-detail' || e.target.id === 'btn-add-tip') {
+      openInputModal('Thêm Câu hỏi', 'Câu hỏi phỏng vấn', '', (question) => {
+        addCustomTip(catId, itemId, question);
       });
-    } else if (action === 'delete-tip') {
-      const idx = el.dataset.idx;
-      import('./ui/modals.js').then(({ openConfirmDelete }) => {
-        openConfirmDelete('tip', catId, itemId, idx);
-      });
+      return;
+    }
+
+    const tipBtn = e.target.closest('.tip-btn');
+    if (tipBtn) {
+      const action = tipBtn.dataset.action;
+      if (action === 'edit-answer') {
+        const tipId = tipBtn.dataset.id;
+        const cat = getState().categories.find(c => c.id === catId);
+        const item = cat.items.find(i => i.id === itemId);
+
+        const currentAnswer = (item.answers && item.answers[tipId]) ? item.answers[tipId] : '';
+        openInputModal('Trả lời Tips', 'Câu trả lời của bạn', currentAnswer, (answerText) => {
+          saveAnswer(catId, itemId, tipId, answerText);
+        });
+      } else if (action === 'delete-tip') {
+        const idx = tipBtn.dataset.idx;
+        import('./ui/modals.js').then(({ openConfirmDelete }) => {
+          openConfirmDelete('tip', catId, itemId, idx);
+        });
+      }
     }
   });
 
@@ -126,25 +134,30 @@ function wireUpSubscribers() {
   eventBus.on('categoryActivated', () => {
     renderSidebar();
     renderMain();
+    
+    const detailContainer = document.getElementById('detail-page-container');
+    if (detailContainer && detailContainer.style.display !== 'none') {
+      closeDetailSPA();
+      if (history.state && history.state.view === 'detail') {
+        history.replaceState({ view: 'home' }, '', window.location.pathname);
+      }
+    }
   });
 
   eventBus.on('itemToggled', () => {
     renderSidebar();
     renderMain();
   });
-
-  eventBus.on('customTipChanged', ({ catId, itemId }) => {
-    if (currentDetailItem && currentDetailItem.catId === catId && currentDetailItem.itemId === itemId) {
-      const cat = getState().categories.find(c => c.id === catId);
-      const item = cat.items.find(i => i.id === itemId);
-      const detail = ITEM_DETAILS[item.id] || {};
-      renderTips(item, detail.interviewTips || []);
-    }
-  });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
   wireUpSubscribers();
   wireUpEvents();
   loadState();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

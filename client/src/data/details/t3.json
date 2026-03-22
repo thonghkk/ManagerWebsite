@@ -1,0 +1,14 @@
+{
+  "title": "UI test",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "UI test (Espresso, Compose Testing) tương tác UI và verify visual state.",
+  "points": [
+    "Espresso: onView().perform().check()",
+    "Compose: composeTestRule.onNodeWithText()",
+    "ComposeTestRule cho Compose UI tests",
+    "IdlingResource cho async UI waits"
+  ],
+  "interviewTips": [
+    "Espresso vs Compose Testing?"
+  ]
+}

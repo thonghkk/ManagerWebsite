@@ -1,0 +1,14 @@
+{
+  "title": "Proxy",
+  "summary": "Cung cấp đối tượng thay thế để kiểm soát truy cập — lazy loading, caching, access control.",
+  "points": [
+    "Retrofit interface",
+    "Lazy loading",
+    "Auth guard",
+    "Cache proxy"
+  ],
+  "code": "interface ApiService {\n    suspend fun getUsers(): List<User>\n}\n// Retrofit tạo Proxy implement ApiService\nval api = retrofit.create(ApiService::class.java)",
+  "interviewTips": [
+    "Proxy vs Facade?"
+  ]
+}

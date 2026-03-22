@@ -1,0 +1,13 @@
+{
+  "title": "Facade",
+  "summary": "Cung cấp interface đơn giản cho một hệ thống con phức tạp — che giấu sự phức tạp bên trong.",
+  "points": [
+    "Repository",
+    "SDK wrapper",
+    "Service layer"
+  ],
+  "code": "class MediaFacade {\n    private val player = MediaPlayer()\n    private val buffer = BufferManager()\n    fun play(url: String) {\n        buffer.prepare(url); player.start()\n    }\n}",
+  "interviewTips": [
+    "Facade giúp gì trong thiết kế hệ thống?"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Iterator",
+  "summary": "Cung cấp cách tuần tự truy cập các phần tử mà không expose cấu trúc bên trong.",
+  "points": [
+    "for-each",
+    "Kotlin Iterable",
+    "Custom collection"
+  ],
+  "code": "class NumberRange(val from: Int, val to: Int) : Iterable<Int> {\n    override fun iterator() = (from..to).iterator()\n}\nfor (n in NumberRange(1, 5)) println(n)",
+  "interviewTips": [
+    "Iterator pattern lợi ích?"
+  ]
+}

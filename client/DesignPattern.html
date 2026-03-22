@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Design Patterns trong Lập Trình</title>
+ <style>
+   :root {
+     --bg: #0f1117;
+     --surface: #1a1d27;
+     --surface2: #21253a;
+     --border: #2e3354;
+     --accent-blue: #4f8ef7;
+     --accent-green: #43d9a2;
+     --accent-yellow: #f7c948;
+     --accent-red: #f76e6e;
+     --accent-purple: #c77dff;
+     --text: #e2e8f0;
+     --text-muted: #8892b0;
+     --code-bg: #141720;
+   }
+
+   * { box-sizing: border-box; margin: 0; padding: 0; }
+
+   body {
+     background: var(--bg);
+     color: var(--text);
+     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+     font-size: 15px;
+     line-height: 1.7;
+     padding: 0;
+   }
+
+   /* ── Header ── */
+   header {
+     background: linear-gradient(135deg, #1a1d27 0%, #0d1b3e 100%);
+     border-bottom: 1px solid var(--border);
+     padding: 48px 24px 36px;
+     text-align: center;
+   }
+   header h1 {
+     font-size: 2.4rem;
+     font-weight: 700;
+     background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+     margin-bottom: 10px;
+   }
+   header p {
+     color: var(--text-muted);
+     font-size: 1rem;
+   }
+   .badge {
+     display: inline-block;
+     background: var(--surface2);
+     border: 1px solid var(--border);
+     border-radius: 20px;
+     padding: 4px 14px;
+     font-size: 0.8rem;
+     color: var(--accent-green);
+     margin-top: 12px;
+   }
+
+   /* ── Layout ── */
+   .container {
+     max-width: 1100px;
+     margin: 0 auto;
+     padding: 40px 24px 80px;
+   }
+
+   /* ── Section titles ── */
+   .section-title {
+     font-size: 1.5rem;
+     font-weight: 700;
+     margin: 52px 0 24px;
+     display: flex;
+     align-items: center;
+     gap: 12px;
+   }
+   .section-title .icon {
+     width: 36px;
+     height: 36px;
+     border-radius: 10px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 1.1rem;
+     flex-shrink: 0;
+   }
+   .icon-blue  { background: rgba(79,142,247,0.15); color: var(--accent-blue); }
+   .icon-green { background: rgba(67,217,162,0.15); color: var(--accent-green); }
+   .icon-purple{ background: rgba(199,125,255,0.15); color: var(--accent-purple); }
+   .icon-yellow{ background: rgba(247,201,72,0.15);  color: var(--accent-yellow); }
+
+   /* ── Pattern grid ── */
+   .pattern-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+     gap: 18px;
+   }
+
+   .card {
+     background: var(--surface);
+     border: 1px solid var(--border);
+     border-radius: 12px;
+     padding: 22px 22px 20px;
+     transition: border-color 0.2s, transform 0.2s;
+   }
+   .card:hover {
+     border-color: var(--accent-blue);
+     transform: translateY(-2px);
+   }
+
+   .card-header {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     margin-bottom: 12px;
+   }
+   .card-tag {
+     font-size: 0.72rem;
+     font-weight: 600;
+     padding: 3px 9px;
+     border-radius: 6px;
+     letter-spacing: 0.03em;
+     text-transform: uppercase;
+   }
+   .tag-creational { background: rgba(79,142,247,0.15); color: var(--accent-blue); }
+   .tag-structural  { background: rgba(67,217,162,0.15); color: var(--accent-green); }
+   .tag-behavioral  { background: rgba(199,125,255,0.15); color: var(--accent-purple); }
+
+   .card h3 {
+     font-size: 1.05rem;
+     font-weight: 700;
+     color: #fff;
+   }
+   .card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 10px; }
+   .use-label {
+     font-size: 0.78rem;
+     color: var(--accent-yellow);
+     font-weight: 600;
+     margin-bottom: 4px;
+   }
+   .use-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+   .chip {
+     background: var(--surface2);
+     border: 1px solid var(--border);
+     border-radius: 6px;
+     padding: 2px 9px;
+     font-size: 0.75rem;
+     color: var(--text-muted);
+   }
+
+   /* ── Code block ── */
+   pre {
+     background: var(--code-bg);
+     border: 1px solid var(--border);
+     border-radius: 8px;
+     padding: 14px 16px;
+     font-size: 0.8rem;
+     font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+     overflow-x: auto;
+     line-height: 1.6;
+     color: #a9b7d6;
+   }
+   .kw  { color: #c77dff; }
+   .fn  { color: #4f8ef7; }
+   .st  { color: #f7c948; }
+   .cm  { color: #4e5d78; }
+   .cl  { color: #43d9a2; }
+
+   /* ── Summary table ── */
+   .table-wrap {
+     overflow-x: auto;
+     border-radius: 12px;
+     border: 1px solid var(--border);
+     margin-top: 24px;
+   }
+   table {
+     width: 100%;
+     border-collapse: collapse;
+     background: var(--surface);
+   }
+   thead tr { background: var(--surface2); }
+   thead th {
+     padding: 14px 18px;
+     text-align: left;
+     font-size: 0.8rem;
+     font-weight: 700;
+     text-transform: uppercase;
+     letter-spacing: 0.06em;
+     color: var(--text-muted);
+     border-bottom: 1px solid var(--border);
+   }
+   tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+   tbody tr:last-child { border-bottom: none; }
+   tbody tr:hover { background: var(--surface2); }
+   tbody td { padding: 12px 18px; font-size: 0.88rem; color: var(--text); }
+   tbody td:first-child { font-weight: 700; color: #fff; }
+
+   /* ── Tips ── */
+   .tips-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+     gap: 16px;
+     margin-top: 24px;
+   }
+   .tip-card {
+     background: var(--surface);
+     border: 1px solid var(--border);
+     border-left: 4px solid var(--accent-blue);
+     border-radius: 10px;
+     padding: 18px 20px;
+   }
+   .tip-card.green  { border-left-color: var(--accent-green); }
+   .tip-card.purple { border-left-color: var(--accent-purple); }
+   .tip-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: #fff; }
+   .tip-card p  { font-size: 0.85rem; color: var(--text-muted); }
+
+   /* ── Divider ── */
+   hr { border: none; border-top: 1px solid var(--border); margin: 48px 0 0; }
+ </style>
+</head>
+<body>
+
+<header>
+ <h1>Design Patterns trong Lập Trình</h1>
+ <p>Phân tích các pattern phổ biến &amp; nổi bật theo phân loại Gang of Four (GoF)</p>
+ <div class="badge">23 Patterns · 3 Nhóm chính</div>
+</header>
+
+<div class="container">
+
+ <!-- ════════════════════════════════
+      CREATIONAL
+ ════════════════════════════════ -->
+ <div class="section-title">
+   <span class="icon icon-blue">🏗️</span>
+   <span>1. Creational Patterns — Tạo đối tượng</span>
+ </div>
+
+ <div class="pattern-grid">
+
+   <!-- Singleton -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-creational">Creational</span>
+       <h3>Singleton</h3>
+     </div>
+     <p>Đảm bảo chỉ có <strong>một instance duy nhất</strong> của class tồn tại trong toàn bộ ứng dụng.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Database connection</span>
+       <span class="chip">Logger</span>
+       <span class="chip">Config manager</span>
+       <span class="chip">Room DB</span>
+     </div>
+     <pre><span class="kw">object</span> <span class="cl">DatabaseManager</span> {
+   <span class="kw">fun</span> <span class="fn">connect</span>() { <span class="cm">/* ... */</span> }
+   <span class="kw">fun</span> <span class="fn">query</span>(sql: <span class="cl">String</span>) { <span class="cm">/* ... */</span> }
+}</pre>
+   </div>
+
+   <!-- Builder -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-creational">Creational</span>
+       <h3>Builder</h3>
+     </div>
+     <p>Xây dựng object phức tạp theo <strong>từng bước</strong>, tách rời quá trình tạo khỏi representation.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">AlertDialog</span>
+       <span class="chip">OkHttpClient</span>
+       <span class="chip">Retrofit</span>
+       <span class="chip">Notification</span>
+     </div>
+     <pre><span class="kw">val</span> dialog = <span class="cl">AlertDialog</span>.<span class="fn">Builder</span>(context)
+   .<span class="fn">setTitle</span>(<span class="st">"Tiêu đề"</span>)
+   .<span class="fn">setMessage</span>(<span class="st">"Nội dung"</span>)
+   .<span class="fn">setPositiveButton</span>(<span class="st">"OK"</span>) { _, _ -> }
+   .<span class="fn">build</span>()</pre>
+   </div>
+
+   <!-- Factory Method -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-creational">Creational</span>
+       <h3>Factory Method</h3>
+     </div>
+     <p>Định nghĩa interface tạo object, để <strong>subclass quyết định</strong> class nào được tạo.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">ViewModel Factory</span>
+       <span class="chip">Cross-platform UI</span>
+       <span class="chip">Plugin system</span>
+     </div>
+     <pre><span class="kw">abstract class</span> <span class="cl">Dialog</span> {
+   <span class="kw">abstract fun</span> <span class="fn">createButton</span>(): <span class="cl">Button</span>
+}
+<span class="kw">class</span> <span class="cl">WindowsDialog</span> : <span class="cl">Dialog</span>() {
+   <span class="kw">override fun</span> <span class="fn">createButton</span>() = <span class="cl">WindowsButton</span>()
+}</pre>
+   </div>
+
+   <!-- Abstract Factory -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-creational">Creational</span>
+       <h3>Abstract Factory</h3>
+     </div>
+     <p>Tạo ra <strong>họ các object liên quan</strong> mà không chỉ định class cụ thể.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Dark/Light theme</span>
+       <span class="chip">Cross-platform</span>
+       <span class="chip">UI component family</span>
+     </div>
+     <pre><span class="kw">interface</span> <span class="cl">UIFactory</span> {
+   <span class="kw">fun</span> <span class="fn">createButton</span>(): <span class="cl">Button</span>
+   <span class="kw">fun</span> <span class="fn">createCheckbox</span>(): <span class="cl">Checkbox</span>
+}
+<span class="kw">class</span> <span class="cl">DarkThemeFactory</span> : <span class="cl">UIFactory</span> { <span class="cm">/*...*/</span> }</pre>
+   </div>
+
+   <!-- Prototype -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-creational">Creational</span>
+       <h3>Prototype</h3>
+     </div>
+     <p>Clone object hiện tại thay vì tạo mới, hữu ích khi khởi tạo object <strong>tốn chi phí cao</strong>.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Copy objects</span>
+       <span class="chip">Game entities</span>
+       <span class="chip">Config templates</span>
+     </div>
+     <pre><span class="kw">data class</span> <span class="cl">UserConfig</span>(
+   <span class="kw">val</span> theme: <span class="cl">String</span>,
+   <span class="kw">val</span> locale: <span class="cl">String</span>
+)
+<span class="kw">val</span> copy = config.<span class="fn">copy</span>(theme = <span class="st">"dark"</span>)</pre>
+   </div>
+
+ </div><!-- /pattern-grid -->
+
+
+ <!-- ════════════════════════════════
+      STRUCTURAL
+ ════════════════════════════════ -->
+ <div class="section-title">
+   <span class="icon icon-green">🔗</span>
+   <span>2. Structural Patterns — Cấu trúc</span>
+ </div>
+
+ <div class="pattern-grid">
+
+   <!-- Adapter -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Adapter</h3>
+     </div>
+     <p>Chuyển đổi interface của class sang interface khác mà client mong đợi — như <strong>bộ chuyển đổi phích cắm</strong>.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">RecyclerView.Adapter</span>
+       <span class="chip">3rd party lib</span>
+       <span class="chip">Legacy code</span>
+     </div>
+     <pre><span class="kw">class</span> <span class="cl">ItemAdapter</span>(
+   <span class="kw">private val</span> items: <span class="cl">List</span>&lt;<span class="cl">Item</span>&gt;
+) : <span class="cl">RecyclerView.Adapter</span>&lt;<span class="cl">ViewHolder</span>&gt;() {
+   <span class="kw">override fun</span> <span class="fn">getItemCount</span>() = items.<span class="fn">size</span>
+}</pre>
+   </div>
+
+   <!-- Decorator -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Decorator</h3>
+     </div>
+     <p>Thêm behavior mới vào object <strong>tại runtime</strong> bằng cách wrap nó, không thay đổi class gốc.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Java I/O Streams</span>
+       <span class="chip">Middleware</span>
+       <span class="chip">Logging wrapper</span>
+     </div>
+     <pre><span class="kw">val</span> stream = <span class="cl">BufferedInputStream</span>(
+   <span class="cl">FileInputStream</span>(<span class="st">"data.txt"</span>)
+)
+<span class="cm">// BufferedInputStream "decorates" FileInputStream</span></pre>
+   </div>
+
+   <!-- Facade -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Facade</h3>
+     </div>
+     <p>Cung cấp <strong>interface đơn giản</strong> cho một hệ thống con phức tạp — che giấu sự phức tạp bên trong.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Repository</span>
+       <span class="chip">SDK wrapper</span>
+       <span class="chip">Service layer</span>
+     </div>
+     <pre><span class="kw">class</span> <span class="cl">MediaFacade</span> {
+   <span class="kw">private val</span> player = <span class="cl">MediaPlayer</span>()
+   <span class="kw">private val</span> buffer = <span class="cl">BufferManager</span>()
+   <span class="kw">fun</span> <span class="fn">play</span>(url: <span class="cl">String</span>) {
+       buffer.<span class="fn">prepare</span>(url); player.<span class="fn">start</span>()
+   }
+}</pre>
+   </div>
+
+   <!-- Proxy -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Proxy</h3>
+     </div>
+     <p>Cung cấp đối tượng thay thế để <strong>kiểm soát truy cập</strong> — lazy loading, caching, access control.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Retrofit interface</span>
+       <span class="chip">Lazy loading</span>
+       <span class="chip">Auth guard</span>
+       <span class="chip">Cache proxy</span>
+     </div>
+     <pre><span class="kw">interface</span> <span class="cl">ApiService</span> {
+   <span class="kw">suspend fun</span> <span class="fn">getUsers</span>(): <span class="cl">List</span>&lt;<span class="cl">User</span>&gt;
+}
+<span class="cm">// Retrofit tạo Proxy implement ApiService</span>
+<span class="kw">val</span> api = retrofit.<span class="fn">create</span>(<span class="cl">ApiService</span>::<span class="kw">class</span>.java)</pre>
+   </div>
+
+   <!-- Composite -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Composite</h3>
+     </div>
+     <p>Xử lý <strong>object đơn lẻ và nhóm object</strong> theo cách thống nhất — cấu trúc cây.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">View hierarchy</span>
+       <span class="chip">File system</span>
+       <span class="chip">Menu tree</span>
+     </div>
+     <pre><span class="cm">// Android: ViewGroup là Composite của View</span>
+<span class="kw">val</span> layout = <span class="cl">LinearLayout</span>(context)
+layout.<span class="fn">addView</span>(<span class="cl">TextView</span>(context))
+layout.<span class="fn">addView</span>(<span class="cl">ImageView</span>(context))
+<span class="cm">// draw() gọi đệ quy xuống toàn bộ cây</span></pre>
+   </div>
+
+   <!-- Bridge -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-structural">Structural</span>
+       <h3>Bridge</h3>
+     </div>
+     <p>Tách <strong>abstraction khỏi implementation</strong> để cả hai có thể thay đổi độc lập nhau.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Multi-platform renderer</span>
+       <span class="chip">Device drivers</span>
+       <span class="chip">Remote/Local data</span>
+     </div>
+     <pre><span class="kw">interface</span> <span class="cl">Renderer</span> { <span class="kw">fun</span> <span class="fn">render</span>(shape: <span class="cl">Shape</span>) }
+<span class="kw">class</span> <span class="cl">OpenGLRenderer</span> : <span class="cl">Renderer</span> { <span class="cm">/*...*/</span> }
+<span class="kw">class</span> <span class="cl">VulkanRenderer</span>  : <span class="cl">Renderer</span> { <span class="cm">/*...*/</span> }
+<span class="kw">class</span> <span class="cl">Circle</span>(<span class="kw">val</span> renderer: <span class="cl">Renderer</span>) : <span class="cl">Shape</span>()</pre>
+   </div>
+
+ </div><!-- /pattern-grid -->
+
+
+ <!-- ════════════════════════════════
+      BEHAVIORAL
+ ════════════════════════════════ -->
+ <div class="section-title">
+   <span class="icon icon-purple">⚡</span>
+   <span>3. Behavioral Patterns — Hành vi</span>
+ </div>
+
+ <div class="pattern-grid">
+
+   <!-- Observer -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Observer</h3>
+     </div>
+     <p>Một object thay đổi → <strong>thông báo tự động</strong> đến tất cả các object đang theo dõi nó.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">LiveData</span>
+       <span class="chip">StateFlow</span>
+       <span class="chip">RxJava</span>
+       <span class="chip">EventBus</span>
+     </div>
+     <pre>viewModel.uiState
+   .<span class="fn">collect</span> { state ->
+       <span class="fn">updateUI</span>(state)
+   }
+<span class="cm">// StateFlow là Observer pattern</span></pre>
+   </div>
+
+   <!-- Strategy -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Strategy</h3>
+     </div>
+     <p>Định nghĩa một họ thuật toán, đóng gói từng cái, cho phép <strong>hoán đổi linh hoạt</strong> tại runtime.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Payment methods</span>
+       <span class="chip">Sort algorithms</span>
+       <span class="chip">Compression</span>
+     </div>
+     <pre><span class="kw">interface</span> <span class="cl">SortStrategy</span> {
+   <span class="kw">fun</span> <span class="fn">sort</span>(data: <span class="cl">List</span>&lt;<span class="cl">Int</span>&gt;): <span class="cl">List</span>&lt;<span class="cl">Int</span>&gt;
+}
+<span class="kw">class</span> <span class="cl">Sorter</span>(<span class="kw">var</span> strategy: <span class="cl">SortStrategy</span>) {
+   <span class="kw">fun</span> <span class="fn">sort</span>(d: <span class="cl">List</span>&lt;<span class="cl">Int</span>&gt;) = strategy.<span class="fn">sort</span>(d)
+}</pre>
+   </div>
+
+   <!-- Command -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Command</h3>
+     </div>
+     <p>Đóng gói request như một object — hỗ trợ <strong>undo/redo, queue, logging</strong> các action.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Undo/Redo</span>
+       <span class="chip">Transaction</span>
+       <span class="chip">Macro recording</span>
+       <span class="chip">Task queue</span>
+     </div>
+     <pre><span class="kw">interface</span> <span class="cl">Command</span> {
+   <span class="kw">fun</span> <span class="fn">execute</span>()
+   <span class="kw">fun</span> <span class="fn">undo</span>()
+}
+<span class="kw">class</span> <span class="cl">DeleteTextCommand</span> : <span class="cl">Command</span> {
+   <span class="kw">override fun</span> <span class="fn">execute</span>() { <span class="cm">/* xóa */</span> }
+   <span class="kw">override fun</span> <span class="fn">undo</span>() { <span class="cm">/* khôi phục */</span> }
+}</pre>
+   </div>
+
+   <!-- Chain of Responsibility -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Chain of Responsibility</h3>
+     </div>
+     <p>Truyền request qua <strong>chuỗi handler</strong> cho đến khi có handler xử lý được.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">OkHttp Interceptor</span>
+       <span class="chip">Touch events</span>
+       <span class="chip">Middleware</span>
+     </div>
+     <pre><span class="cm">// OkHttp Interceptor là Chain of Responsibility</span>
+client = <span class="cl">OkHttpClient</span>.<span class="fn">Builder</span>()
+   .<span class="fn">addInterceptor</span>(<span class="cl">AuthInterceptor</span>())
+   .<span class="fn">addInterceptor</span>(<span class="cl">LoggingInterceptor</span>())
+   .<span class="fn">addInterceptor</span>(<span class="cl">CacheInterceptor</span>())
+   .<span class="fn">build</span>()</pre>
+   </div>
+
+   <!-- Template Method -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Template Method</h3>
+     </div>
+     <p>Định nghĩa <strong>skeleton của thuật toán</strong> trong base class, để subclass override các bước cụ thể.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Activity lifecycle</span>
+       <span class="chip">Data export</span>
+       <span class="chip">Report generator</span>
+     </div>
+     <pre><span class="kw">abstract class</span> <span class="cl">DataExporter</span> {
+   <span class="kw">fun</span> <span class="fn">export</span>() { <span class="fn">read</span>(); <span class="fn">process</span>(); <span class="fn">write</span>() }
+   <span class="kw">abstract fun</span> <span class="fn">read</span>()
+   <span class="kw">abstract fun</span> <span class="fn">write</span>()
+   <span class="kw">open fun</span> <span class="fn">process</span>() { <span class="cm">/* default impl */</span> }
+}</pre>
+   </div>
+
+   <!-- State -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>State</h3>
+     </div>
+     <p>Object thay đổi <strong>behavior dựa trên state</strong> nội tại — như máy trạng thái (FSM).</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Media player</span>
+       <span class="chip">UI State Machine</span>
+       <span class="chip">Order status</span>
+     </div>
+     <pre><span class="kw">sealed class</span> <span class="cl">UiState</span> {
+   <span class="kw">object</span> <span class="cl">Loading</span> : <span class="cl">UiState</span>()
+   <span class="kw">data class</span> <span class="cl">Success</span>(<span class="kw">val</span> data: <span class="cl">List</span>&lt;<span class="cl">Item</span>&gt;) : <span class="cl">UiState</span>()
+   <span class="kw">data class</span> <span class="cl">Error</span>(<span class="kw">val</span> msg: <span class="cl">String</span>) : <span class="cl">UiState</span>()
+}</pre>
+   </div>
+
+   <!-- Iterator -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Iterator</h3>
+     </div>
+     <p>Cung cấp cách <strong>tuần tự truy cập</strong> các phần tử mà không expose cấu trúc bên trong.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">for-each</span>
+       <span class="chip">Kotlin Iterable</span>
+       <span class="chip">Custom collection</span>
+     </div>
+     <pre><span class="kw">class</span> <span class="cl">NumberRange</span>(<span class="kw">val</span> from: <span class="cl">Int</span>, <span class="kw">val</span> to: <span class="cl">Int</span>) : <span class="cl">Iterable</span>&lt;<span class="cl">Int</span>&gt; {
+   <span class="kw">override fun</span> <span class="fn">iterator</span>() = (from..to).<span class="fn">iterator</span>()
+}
+<span class="kw">for</span> (n <span class="kw">in</span> <span class="cl">NumberRange</span>(1, 5)) <span class="fn">println</span>(n)</pre>
+   </div>
+
+   <!-- Mediator -->
+   <div class="card">
+     <div class="card-header">
+       <span class="card-tag tag-behavioral">Behavioral</span>
+       <h3>Mediator</h3>
+     </div>
+     <p>Giảm sự phụ thuộc trực tiếp giữa các object bằng cách giao tiếp qua <strong>một đối tượng trung gian</strong>.</p>
+     <div class="use-label">Dùng khi</div>
+     <div class="use-chips">
+       <span class="chip">Chat room</span>
+       <span class="chip">Air traffic control</span>
+       <span class="chip">EventBus</span>
+     </div>
+     <pre><span class="kw">class</span> <span class="cl">EventBus</span> {
+   <span class="kw">private val</span> listeners = <span class="fn">mutableMapOf</span>&lt;<span class="cl">String</span>, <span class="cl">MutableList</span>&lt;<span class="cl">() -> Unit</span>&gt;&gt;()
+   <span class="kw">fun</span> <span class="fn">emit</span>(event: <span class="cl">String</span>) = listeners[event]?.<span class="fn">forEach</span> { <span class="fn">it</span>() }
+}</pre>
+   </div>
+
+ </div><!-- /pattern-grid -->
+
+
+ <!-- ════════════════════════════════
+      SUMMARY TABLE
+ ════════════════════════════════ -->
+ <div class="section-title">
+   <span class="icon icon-yellow">📊</span>
+   <span>Bảng tổng hợp nhanh</span>
+ </div>
+
+ <div class="table-wrap">
+   <table>
+     <thead>
+       <tr>
+         <th>Pattern</th>
+         <th>Nhóm</th>
+         <th>Vấn đề giải quyết</th>
+         <th>Phổ biến trong Android/Kotlin</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td>Singleton</td>
+         <td><span class="card-tag tag-creational">Creational</span></td>
+         <td>Một instance duy nhất</td>
+         <td>Room DB, Retrofit, SharedPreferences</td>
+       </tr>
+       <tr>
+         <td>Builder</td>
+         <td><span class="card-tag tag-creational">Creational</span></td>
+         <td>Object phức tạp nhiều tham số</td>
+         <td>AlertDialog, OkHttpClient, Notification</td>
+       </tr>
+       <tr>
+         <td>Factory Method</td>
+         <td><span class="card-tag tag-creational">Creational</span></td>
+         <td>Tạo object linh hoạt</td>
+         <td>ViewModel Factory, Fragment.newInstance()</td>
+       </tr>
+       <tr>
+         <td>Prototype</td>
+         <td><span class="card-tag tag-creational">Creational</span></td>
+         <td>Clone object hiệu quả</td>
+         <td>data class .copy()</td>
+       </tr>
+       <tr>
+         <td>Adapter</td>
+         <td><span class="card-tag tag-structural">Structural</span></td>
+         <td>Ghép nối interface không tương thích</td>
+         <td>RecyclerView.Adapter, PagerAdapter</td>
+       </tr>
+       <tr>
+         <td>Facade</td>
+         <td><span class="card-tag tag-structural">Structural</span></td>
+         <td>Đơn giản hóa hệ thống phức tạp</td>
+         <td>Repository, UseCase</td>
+       </tr>
+       <tr>
+         <td>Proxy</td>
+         <td><span class="card-tag tag-structural">Structural</span></td>
+         <td>Kiểm soát truy cập</td>
+         <td>Retrofit, lazy delegate</td>
+       </tr>
+       <tr>
+         <td>Decorator</td>
+         <td><span class="card-tag tag-structural">Structural</span></td>
+         <td>Thêm behavior không sửa class</td>
+         <td>Java I/O, Compose Modifier</td>
+       </tr>
+       <tr>
+         <td>Observer</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Notify khi state thay đổi</td>
+         <td>LiveData, StateFlow, RxJava</td>
+       </tr>
+       <tr>
+         <td>Strategy</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Hoán đổi thuật toán</td>
+         <td>Sort, Payment, Validation</td>
+       </tr>
+       <tr>
+         <td>Command</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Đóng gói action, undo/redo</td>
+         <td>WorkManager task, Transaction</td>
+       </tr>
+       <tr>
+         <td>Chain of Resp.</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Xử lý request qua chuỗi</td>
+         <td>OkHttp Interceptor, Touch dispatch</td>
+       </tr>
+       <tr>
+         <td>State</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Behavior thay đổi theo state</td>
+         <td>UiState sealed class, ViewModel</td>
+       </tr>
+       <tr>
+         <td>Template Method</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Skeleton thuật toán</td>
+         <td>Activity lifecycle, AsyncTask</td>
+       </tr>
+       <tr>
+         <td>Iterator</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Duyệt collection ẩn cấu trúc</td>
+         <td>Kotlin Iterable, Sequence</td>
+       </tr>
+       <tr>
+         <td>Mediator</td>
+         <td><span class="card-tag tag-behavioral">Behavioral</span></td>
+         <td>Trung gian giao tiếp</td>
+         <td>ViewModel (MVVM), EventBus</td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+
+
+ <!-- ════════════════════════════════
+      TIPS
+ ════════════════════════════════ -->
+ <div class="section-title">
+   <span class="icon icon-yellow">💡</span>
+   <span>Lời khuyên thực tế</span>
+ </div>
+
+ <div class="tips-grid">
+   <div class="tip-card">
+     <h4>Không dùng pattern vì pattern</h4>
+     <p>Chỉ áp dụng khi nó thực sự giải quyết được vấn đề cụ thể. Over-engineering là kẻ thù của clean code.</p>
+   </div>
+   <div class="tip-card green">
+     <h4>Android hiện đại</h4>
+     <p><strong>Observer</strong> (Flow/StateFlow), <strong>Repository</strong> (Facade+Proxy), <strong>Factory</strong> (Hilt/DI) là phổ biến nhất trong MVVM.</p>
+   </div>
+   <div class="tip-card purple">
+     <h4>MVVM = Tổ hợp patterns</h4>
+     <p>MVVM bản thân là tổ hợp của <strong>Observer + Facade + Strategy</strong> — patterns không tồn tại độc lập.</p>
+   </div>
+   <div class="tip-card">
+     <h4>Học từ thư viện</h4>
+     <p>OkHttp, Retrofit, Room, Coroutines — đều là những ví dụ xuất sắc về cách áp dụng design patterns trong thực tế.</p>
+   </div>
+ </div>
+
+ <hr/>
+ <p style="text-align:center; color: var(--text-muted); font-size: 0.8rem; margin-top: 32px;">
+   Design Patterns Reference · Gang of Four (GoF) · Generated March 2026
+ </p>
+
+</div><!-- /container -->
+</body>
+</html>

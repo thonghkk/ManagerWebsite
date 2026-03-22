@@ -1,0 +1,14 @@
+{
+  "title": "Navigation",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Jetpack Navigation quản lý back stack và navigation giữa destinations.",
+  "points": [
+    "NavGraph định nghĩa destinations",
+    "SafeArgs cho type-safe arguments",
+    "Deep link support",
+    "Multiple back stacks (bottom nav)"
+  ],
+  "interviewTips": [
+    "Navigation Component lợi ích?"
+  ]
+}

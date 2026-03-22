@@ -1,0 +1,14 @@
+{
+  "title": "Unit test",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Unit test kiểm tra 1 unit code (function/class) độc lập với dependencies.",
+  "points": [
+    "JUnit 4/5 framework",
+    "Assert: assertEquals, assertTrue...",
+    "Arrange-Act-Assert pattern",
+    "Fast, no Android dependency"
+  ],
+  "interviewTips": [
+    "Unit test vs integration test?"
+  ]
+}

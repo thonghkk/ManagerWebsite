@@ -1,0 +1,15 @@
+{
+  "title": "Navigation Compose",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Navigation Compose dùng NavController để navigate giữa composable destinations.",
+  "points": [
+    "NavHost định nghĩa graph",
+    "navigate(\"route\") để chuyển màn",
+    "popBackStack() để quay lại",
+    "Type-safe navigation với Kotlin Serialization (2.8+)"
+  ],
+  "interviewTips": [
+    "Truyền data qua navigation?",
+    "Deep link trong Navigation Compose?"
+  ]
+}

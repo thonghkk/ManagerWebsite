@@ -1,0 +1,15 @@
+{
+  "title": "Singleton",
+  "summary": "Đảm bảo chỉ có một instance duy nhất của class tồn tại trong toàn bộ ứng dụng.",
+  "points": [
+    "Database connection",
+    "Logger",
+    "Config manager",
+    "Room DB"
+  ],
+  "code": "object DatabaseManager {\n    fun connect() { /* ... */ }\n    fun query(sql: String) { /* ... */ }\n}",
+  "interviewTips": [
+    "Khi nào dùng Singleton?",
+    "Vấn đề thread-safe trong Singleton?"
+  ]
+}

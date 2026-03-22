@@ -1,0 +1,14 @@
+{
+  "title": "TDD",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "TDD: Test-Driven Development. Write failing test → implement → refactor (Red-Green-Refactor).",
+  "points": [
+    "Write test trước implementation",
+    "Test forces good design",
+    "Nhược: chậm ban đầu, khó với UI",
+    "BDD mở rộng với Given-When-Then"
+  ],
+  "interviewTips": [
+    "TDD lợi ích trong thực tế?"
+  ]
+}

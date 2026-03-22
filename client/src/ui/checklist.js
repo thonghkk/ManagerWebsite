@@ -2,7 +2,8 @@ import { $, escHtml } from '../utils/helpers.js';
 import { getState, toggleItem } from '../state/store.js';
 import { getCatStats } from './sidebar.js';
 import { ITEM_DETAILS } from '../data/itemDetails.js';
-import { openCategoryModal, openConfirmDelete, openItemModal, openNoteViewer, openDetailModal } from './modals.js';
+import { openCategoryModal, openConfirmDelete, openItemModal, openNoteViewer } from './modals.js';
+import { openDetailSPA } from '../detail.js';
 
 let activePatternFilter = localStorage.getItem('android_knowledge_active_filter') || 'all';
 
@@ -131,7 +132,10 @@ function attachMainEvents(area) {
       else if (action === 'edit') openItemModal(catId, itemId);
       else if (action === 'note') openNoteViewer(catId, itemId);
       else if (action === 'delete') openConfirmDelete('item', catId, itemId);
-      else if (action === 'detail') openDetailModal(catId, itemId);
+      else if (action === 'detail') {
+         history.pushState({ view: 'detail', catId, itemId }, '', '?id=' + itemId);
+         openDetailSPA(catId, itemId);
+      }
       return;
     }
 
@@ -141,7 +145,8 @@ function attachMainEvents(area) {
       e.preventDefault();
       const catId = cardEl.dataset.catId;
       const itemId = cardEl.dataset.itemId;
-      openDetailModal(catId, itemId);
+      history.pushState({ view: 'detail', catId, itemId }, '', '?id=' + itemId);
+      openDetailSPA(catId, itemId);
       return;
     }
   });

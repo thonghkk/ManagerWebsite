@@ -1,0 +1,14 @@
+{
+  "title": "DataStore",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "DataStore: async, safe, Flow-based replacement cho SharedPreferences.",
+  "points": [
+    "Preferences DataStore: key-value",
+    "Proto DataStore: typed với protobuf",
+    "Không block main thread",
+    "Exception handling tốt hơn"
+  ],
+  "interviewTips": [
+    "Ưu điểm DataStore vs SharedPreferences?"
+  ]
+}

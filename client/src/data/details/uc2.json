@@ -1,0 +1,15 @@
+{
+  "title": "Recomposition",
+  "url": "https://android-notebook.netlify.app/android/compose",
+  "summary": "Recomposition: Compose chỉ re-render composable bị ảnh hưởng bởi state thay đổi.",
+  "points": [
+    "Smart recomposition – chỉ update cần thiết",
+    "Stable types tránh recompose không cần",
+    "@Stable, @Immutable annotation",
+    "derivedStateOf giảm recompose thừa"
+  ],
+  "interviewTips": [
+    "Tại sao tránh recompose quá nhiều?",
+    "Cách debug recomposition?"
+  ]
+}

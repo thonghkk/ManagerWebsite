@@ -1,0 +1,15 @@
+{
+  "title": "Proguard / R8",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "R8 (thay Proguard): shrink, obfuscate, optimize code cho release build.",
+  "points": [
+    "minifyEnabled true trong release",
+    "proguard-rules.pro: keep rules",
+    "Keep rules cho reflection, serialization",
+    "Mapping file để deobfuscate crash"
+  ],
+  "interviewTips": [
+    "Tại sao cần keep rules?",
+    "R8 vs Proguard?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Cache management",
+  "url": "https://android-notebook.netlify.app/android/room",
+  "summary": "Cache giảm network request. Disk cache (OkHttp), memory cache (LruCache), image cache (Coil/Glide).",
+  "points": [
+    "getCacheDir(): bộ nhớ cache, hệ thống xóa khi cần",
+    "LruCache cho in-memory caching",
+    "DiskLruCache qua OkHttp",
+    "Coil/Glide quản lý image cache tự động"
+  ],
+  "interviewTips": [
+    "LRU cache hoạt động thế nào?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Coroutine testing",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Test coroutines với kotlinx-coroutines-test: TestCoroutineDispatcher, runTest, advanceTimeBy.",
+  "points": [
+    "runTest thay runBlocking cho tests",
+    "TestCoroutineDispatcher control time",
+    "advanceUntilIdle() chạy hết pending",
+    "Turbine library test Flow"
+  ],
+  "interviewTips": [
+    "Cách test suspend function?"
+  ]
+}

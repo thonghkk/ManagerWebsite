@@ -1,0 +1,14 @@
+{
+  "title": "Retrofit",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "Retrofit là type-safe HTTP client. Define API interface, Retrofit tự generate implementation.",
+  "points": [
+    "@GET, @POST, @PUT, @DELETE",
+    "@Query, @Path, @Body, @Header",
+    "Converter: Gson, Moshi, Kotlin Serialization",
+    "suspend fun cho coroutines support"
+  ],
+  "interviewTips": [
+    "Retrofit + OkHttp mối quan hệ?"
+  ]
+}

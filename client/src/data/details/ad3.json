@@ -1,0 +1,14 @@
+{
+  "title": "Multi-module architecture",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Architecture cho multi-module: navigation graph giữa features, DI setup với Hilt subcomponents.",
+  "points": [
+    "Navigation giữa feature modules",
+    "Shared ViewModel qua navigation graph",
+    "Hilt: @InstallIn module scope",
+    "Avoiding circular dependencies"
+  ],
+  "interviewTips": [
+    "Vấn đề thường gặp với multi-module?"
+  ]
+}

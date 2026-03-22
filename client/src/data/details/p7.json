@@ -1,0 +1,14 @@
+{
+  "title": "Profiling tools",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Android Studio Profiler: CPU, Memory, Network, Battery profiler.",
+  "points": [
+    "CPU Profiler: method traces, callstacks",
+    "Memory Profiler: heap dump, allocation",
+    "Network Profiler: request/response",
+    "Systrace / Perfetto cho system-level"
+  ],
+  "interviewTips": [
+    "Cách profil memory leak?"
+  ]
+}

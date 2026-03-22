@@ -1,0 +1,13 @@
+{
+  "title": "Abstract Factory",
+  "summary": "Tạo ra họ các object liên quan mà không chỉ định class cụ thể.",
+  "points": [
+    "Dark/Light theme",
+    "Cross-platform",
+    "UI component family"
+  ],
+  "code": "interface UIFactory {\n    fun createButton(): Button\n    fun createCheckbox(): Checkbox\n}\nclass DarkThemeFactory : UIFactory { /*...*/ }",
+  "interviewTips": [
+    "Abstract Factory vs Factory Method?"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Threading model",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Android main thread (UI thread). Background work dùng Coroutines, WorkManager, hoặc threads.",
+  "points": [
+    "Main thread: UI update, touch events",
+    "ANR nếu block main > 5s",
+    "Dispatchers.IO cho IO work",
+    "Dispatchers.Default cho CPU-intensive"
+  ],
+  "interviewTips": [
+    "Tại sao không làm network trên main thread?"
+  ]
+}

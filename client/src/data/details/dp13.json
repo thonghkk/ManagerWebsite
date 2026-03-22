@@ -1,0 +1,13 @@
+{
+  "title": "Strategy",
+  "summary": "Định nghĩa một họ thuật toán, đóng gói từng cái, cho phép hoán đổi linh hoạt tại runtime.",
+  "points": [
+    "Payment methods",
+    "Sort algorithms",
+    "Compression"
+  ],
+  "code": "interface SortStrategy {\n    fun sort(data: List<Int>): List<Int>\n}\nclass Sorter(var strategy: SortStrategy) {\n    fun sort(d: List<Int>) = strategy.sort(d)\n}",
+  "interviewTips": [
+    "Strategy vs State pattern?"
+  ]
+}

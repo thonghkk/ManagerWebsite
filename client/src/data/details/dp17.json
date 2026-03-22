@@ -1,0 +1,13 @@
+{
+  "title": "State",
+  "summary": "Object thay đổi behavior dựa trên state nội tại — như máy trạng thái (FSM).",
+  "points": [
+    "Media player",
+    "UI State Machine",
+    "Order status"
+  ],
+  "code": "sealed class UiState {\n    object Loading : UiState()\n    data class Success(val data: List<Item>) : UiState()\n    data class Error(val msg: String) : UiState()\n}",
+  "interviewTips": [
+    "State pattern giúp gì cho UI logic?"
+  ]
+}

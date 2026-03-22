@@ -1,0 +1,16 @@
+{
+  "title": "Activity lifecycle",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Activity có 7 lifecycle callbacks: onCreate, onStart, onResume, onPause, onStop, onDestroy, onRestart.",
+  "points": [
+    "onCreate: init UI, restore state",
+    "onResume: Activity visible + interactive",
+    "onPause: sắp bị covered, save lightweight state",
+    "onStop: không visible – release heavy resources",
+    "onDestroy: cleanup hoàn toàn"
+  ],
+  "interviewTips": [
+    "Thứ tự lifecycle khi xoay màn hình?",
+    "Khác biệt onPause vs onStop?"
+  ]
+}

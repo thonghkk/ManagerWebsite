@@ -1,0 +1,14 @@
+{
+  "title": "Adapter pattern",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Adapter là bridge giữa data source và RecyclerView/ListView.",
+  "points": [
+    "RecyclerView.Adapter + ViewHolder",
+    "ListAdapter với DiffUtil.ItemCallback",
+    "ConcatAdapter ghép nhiều adapter",
+    "submitList() để update data"
+  ],
+  "interviewTips": [
+    "ListAdapter vs RecyclerView.Adapter?"
+  ]
+}

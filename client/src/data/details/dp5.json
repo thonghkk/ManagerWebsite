@@ -1,0 +1,13 @@
+{
+  "title": "Prototype",
+  "summary": "Clone object hiện tại thay vì tạo mới, hữu ích khi khởi tạo object tốn chi phí cao.",
+  "points": [
+    "Copy objects",
+    "Game entities",
+    "Config templates"
+  ],
+  "code": "data class UserConfig(\n    val theme: String,\n    val locale: String\n)\nval copy = config.copy(theme = \"dark\")",
+  "interviewTips": [
+    "Deep copy vs Shallow copy?"
+  ]
+}

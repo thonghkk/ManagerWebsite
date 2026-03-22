@@ -1,0 +1,14 @@
+{
+  "title": "WorkManager",
+  "url": "https://android-notebook.netlify.app/async/workmanager",
+  "summary": "WorkManager chạy guaranteed background work, kể cả khi app bị kill hoặc device reboot.",
+  "points": [
+    "OneTimeWorkRequest vs PeriodicWorkRequest",
+    "Constraints: network, battery, charging",
+    "Chain work: then(), combine()",
+    "Worker vs CoroutineWorker"
+  ],
+  "interviewTips": [
+    "WorkManager vs Foreground Service?"
+  ]
+}

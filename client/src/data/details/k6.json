@@ -1,0 +1,15 @@
+{
+  "title": "Enum",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals#4-enum-classes",
+  "summary": "Enum class – tập hợp hằng số có kiểu, hỗ trợ properties, methods và abstract methods.",
+  "points": [
+    "Mỗi entry là singleton instance của enum class",
+    "values() và valueOf() là helper mặc định",
+    "Hỗ trợ ordinal và name property",
+    "Enum có thể implement interface"
+  ],
+  "interviewTips": [
+    "Khi nào enum, khi nào sealed class?",
+    "Enum vs companion object constants?"
+  ]
+}

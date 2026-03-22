@@ -1,0 +1,14 @@
+{
+  "title": "StateFlow",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "StateFlow là hot flow có initial value, luôn giữ state hiện tại. Thay thế LiveData trong Kotlin.",
+  "points": [
+    "collect() trong lifecycle scope",
+    "collectAsState() trong Compose",
+    "MutableStateFlow để update",
+    "So sánh: StateFlow vs SharedFlow"
+  ],
+  "interviewTips": [
+    "StateFlow vs LiveData trong Compose?"
+  ]
+}

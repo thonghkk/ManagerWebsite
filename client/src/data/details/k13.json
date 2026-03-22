@@ -1,0 +1,15 @@
+{
+  "title": "Flow / Channel",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Flow là cold stream bất đồng bộ. Channel là hot communication giữa coroutines.",
+  "points": [
+    "Flow: cold – chỉ chạy khi collect",
+    "StateFlow: hot – luôn có value hiện tại",
+    "SharedFlow: hot – broadcast tới nhiều collector",
+    "Channel: send/receive giữa coroutines"
+  ],
+  "interviewTips": [
+    "StateFlow vs SharedFlow khác gì?",
+    "Flow cold vs hot stream?"
+  ]
+}

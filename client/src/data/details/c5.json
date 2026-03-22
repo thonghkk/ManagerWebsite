@@ -1,0 +1,14 @@
+{
+  "title": "Flow cold vs hot",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Cold flow: chỉ chạy khi có collector. Hot flow (StateFlow/SharedFlow): chạy kể cả không có collector.",
+  "points": [
+    "flow { } = cold",
+    "StateFlow, SharedFlow = hot",
+    "Cold: mỗi collector nhận từ đầu",
+    "Hot: collector nhận từ thời điểm subscribe"
+  ],
+  "interviewTips": [
+    "Cold vs hot stream ví dụ thực tế?"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "SOLID",
+  "url": "https://android-notebook.netlify.app/architecture/solid-principles",
+  "summary": "SOLID: 5 principles để code dễ maintain, extend, test.",
+  "points": [
+    "S: Single Responsibility",
+    "O: Open/Closed – open for extension",
+    "L: Liskov Substitution",
+    "I: Interface Segregation",
+    "D: Dependency Inversion"
+  ],
+  "interviewTips": [
+    "Ví dụ SOLID trong Android code?",
+    "Principle nào hay vi phạm nhất?"
+  ]
+}

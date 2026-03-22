@@ -1,0 +1,14 @@
+{
+  "title": "Bitmap optimization",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Bitmap tốn nhiều memory. Dùng Coil/Glide để cache, resize, và load hiệu quả.",
+  "points": [
+    "inSampleSize để scale down khi decode",
+    "Coil/Glide tự handle lifecycle + cache",
+    "Bitmap.recycle() khi không dùng (ít cần với GC)",
+    "Use appropriate image format (WebP)"
+  ],
+  "interviewTips": [
+    "OOM từ Bitmap xảy ra thế nào?"
+  ]
+}

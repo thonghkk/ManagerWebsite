@@ -1,0 +1,15 @@
+{
+  "title": "MVVM",
+  "url": "https://android-notebook.netlify.app/architecture/patterns",
+  "summary": "MVVM: Model-View-ViewModel. ViewModel expose state qua StateFlow/LiveData. View observe và render.",
+  "points": [
+    "ViewModel không biết View",
+    "Unidirectional data flow",
+    "ViewModel survive configuration change",
+    "Kết hợp tốt với Jetpack và Compose"
+  ],
+  "interviewTips": [
+    "MVVM trong Android khác MVVM gốc?",
+    "ViewModel communicate back to View thế nào?"
+  ]
+}

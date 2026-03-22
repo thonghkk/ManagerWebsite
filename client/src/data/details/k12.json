@@ -1,0 +1,15 @@
+{
+  "title": "Coroutines",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Coroutines là lightweight threads cho async programming. Chạy trên CoroutineScope với Dispatcher.",
+  "points": [
+    "launch – fire and forget, trả Job",
+    "async/await – trả Deferred<T>",
+    "suspend fun – có thể suspend không block thread",
+    "Dispatcher: Main, IO, Default"
+  ],
+  "interviewTips": [
+    "Coroutine vs Thread khác gì?",
+    "Structured concurrency là gì?"
+  ]
+}

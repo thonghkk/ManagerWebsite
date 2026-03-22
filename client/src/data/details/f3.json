@@ -1,0 +1,15 @@
+{
+  "title": "Context types",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Context là cầu nối với hệ thống Android. Có 2 loại chính: Application Context và Activity Context.",
+  "points": [
+    "Application Context: sống cùng app, tránh leak",
+    "Activity Context: dùng cho UI (Dialog, Toast)",
+    "getApplicationContext() vs this trong Activity",
+    "Tránh giữ Activity context trong singleton"
+  ],
+  "interviewTips": [
+    "Memory leak từ Context là gì?",
+    "Khi nào dùng Application Context?"
+  ]
+}

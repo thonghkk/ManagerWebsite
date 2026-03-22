@@ -1,0 +1,15 @@
+{
+  "title": "Delegation",
+  "url": "https://android-notebook.netlify.app/kotlin/fundamentals",
+  "summary": "Kotlin hỗ trợ delegation pattern qua by keyword: class delegation và property delegation.",
+  "points": [
+    "Class delegation: class A : I by b",
+    "lazy { } – khởi tạo lần đầu truy cập",
+    "observable – callback khi property thay đổi",
+    "Tự tạo delegate implement getValue/setValue"
+  ],
+  "interviewTips": [
+    "lazy vs lateinit khác gì?",
+    "Delegation giúp gì về architecture?"
+  ]
+}

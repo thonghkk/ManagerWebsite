@@ -1,0 +1,14 @@
+{
+  "title": "OkHttp",
+  "url": "https://android-notebook.netlify.app/networking/",
+  "summary": "OkHttp là HTTP client underlying Retrofit. Xử lý connection pooling, caching, interceptors.",
+  "points": [
+    "Interceptor: logging, auth token injection",
+    "Connection pooling tái sử dụng connections",
+    "Response caching với Cache",
+    "Certificate pinning cho security"
+  ],
+  "interviewTips": [
+    "Viết Interceptor thêm auth header?"
+  ]
+}

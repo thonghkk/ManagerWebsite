@@ -1,0 +1,14 @@
+{
+  "title": "Large scale architecture",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "Architecture cho app lớn: convention plugins, version catalog, shared module patterns.",
+  "points": [
+    "Convention plugins chuẩn hoá build config",
+    "libs.versions.toml version catalog",
+    "Composable build logic",
+    "Dependency management tập trung"
+  ],
+  "interviewTips": [
+    "Scalability concerns cho Android team lớn?"
+  ]
+}

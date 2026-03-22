@@ -1,0 +1,14 @@
+{
+  "title": "RxJava basics",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "RxJava: reactive programming với Observable streams. Ít dùng hơn trong project Kotlin mới.",
+  "points": [
+    "Observable, Single, Completable, Maybe",
+    "subscribeOn / observeOn chuyển thread",
+    "Operators: map, flatMap, filter",
+    "Dispose để tránh leak"
+  ],
+  "interviewTips": [
+    "RxJava vs Coroutines/Flow?"
+  ]
+}

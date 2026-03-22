@@ -1,0 +1,14 @@
+{
+  "title": "Dispatcher",
+  "url": "https://android-notebook.netlify.app/async/coroutines-flow",
+  "summary": "Dispatcher quyết định coroutine chạy trên thread nào.",
+  "points": [
+    "Main: UI, Compose state",
+    "IO: network, disk (64 threads)",
+    "Default: CPU-heavy computation",
+    "Unconfined: kế thừa thread caller"
+  ],
+  "interviewTips": [
+    "Dispatchers.IO vs Default?"
+  ]
+}

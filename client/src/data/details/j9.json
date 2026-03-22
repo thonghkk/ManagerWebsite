@@ -1,0 +1,14 @@
+{
+  "title": "Hilt / Dagger",
+  "url": "https://android-notebook.netlify.app/di/hilt",
+  "summary": "Hilt là DI library built on Dagger, tích hợp với Android components.",
+  "points": [
+    "@HiltAndroidApp trên Application",
+    "@AndroidEntryPoint trên Activity/Fragment",
+    "@Inject constructor cho auto provide",
+    "@Module, @Provides cho external deps"
+  ],
+  "interviewTips": [
+    "Hilt scopes: ActivityScoped vs ViewModelScoped?"
+  ]
+}

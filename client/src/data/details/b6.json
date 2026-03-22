@@ -1,0 +1,14 @@
+{
+  "title": "CI/CD",
+  "url": "https://android-notebook.netlify.app/android/components",
+  "summary": "CI/CD tự động hoá build, test, deploy. Phổ biến: GitHub Actions, Bitrise, CircleCI, Fastlane.",
+  "points": [
+    "GitHub Actions: workflow YAML",
+    "Fastlane: lane, gym, supply",
+    "Tự động run tests trên mỗi PR",
+    "Deploy AAB lên Play Store tự động"
+  ],
+  "interviewTips": [
+    "CI/CD pipeline cơ bản cho Android?"
+  ]
+}

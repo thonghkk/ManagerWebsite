@@ -1,0 +1,15 @@
+{
+  "title": "Builder",
+  "summary": "Xây dựng object phức tạp theo từng bước, tách rời quá trình tạo khỏi representation.",
+  "points": [
+    "AlertDialog",
+    "OkHttpClient",
+    "Retrofit",
+    "Notification"
+  ],
+  "code": "val dialog = AlertDialog.Builder(context)\n    .setTitle(\"Tiêu đề\")\n    .setMessage(\"Nội dung\")\n    .setPositiveButton(\"OK\") { _, _ -> }\n    .build()",
+  "interviewTips": [
+    "Builder vs Factory?",
+    "Tại sao dùng Builder thay vì constructor nhiều tham số?"
+  ]
+}

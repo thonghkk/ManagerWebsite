@@ -15,7 +15,7 @@ export function openHubModal(hub) {
   setTimeout(() => $('hub-name-input').focus(), 50);
 }
 
-export function handleSaveHub() {
+export async function handleSaveHub() {
   if (!editingHub) return;
   const name = $('hub-name-input').value.trim();
   const icon = $('hub-icon-input').value.trim() || '📚';
@@ -25,7 +25,7 @@ export function handleSaveHub() {
     return;
   }
   
-  updateCustomHub(editingHub.id, { name, icon, title: `${name} Knowledge List` });
+  await updateCustomHub(editingHub.id, { name, icon, title: `${name} Knowledge List` });
   
   showToast('Đã lưu thay đổi Hub!', 'success');
   closeModal('modal-hub');

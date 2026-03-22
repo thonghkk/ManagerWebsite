@@ -1,7 +1,7 @@
 import json
 import os
 from server.config import DATA_DIR
-from server.handlers.helpers import get_config_filepath, _ensure_hub_dir
+from server.handlers.helpers import get_config_filepath, get_data_filepath, get_questions_filepath, _ensure_hub_dir
 
 def handle_get_hubs(handler, storage):
     hubs = []
@@ -35,6 +35,15 @@ def handle_post_hubs(handler, storage):
             
         config_path = get_config_filepath(hub_id)
         storage.write(config_path, hub_config)
+
+        # Initialize empty data files for the new hub if they don't exist yet
+        db_path = get_data_filepath(hub_id)
+        if not os.path.exists(db_path):
+            storage.write(db_path, [])
+
+        questions_path = get_questions_filepath(hub_id)
+        if not os.path.exists(questions_path):
+            storage.write(questions_path, [])
         
         handler.send_response(200)
         handler.send_header('Content-type', 'application/json; charset=utf-8')

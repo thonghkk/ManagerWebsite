@@ -1,8 +1,9 @@
-import { STORAGE_KEY } from '../constants/config.js';
+// We don't need STORAGE_KEY anymore since it's dynamic
 import * as api from '../services/api.js';
 import { eventBus } from '../events/eventBus.js';
 import { DEFAULT_DATA } from '../data/defaultData.js';
 import { uid, showLoading, hideLoading } from '../utils/helpers.js';
+import { getActiveHubId } from '../data/hubs.js';
 
 let state = {
   categories: [],
@@ -12,6 +13,18 @@ let state = {
 export const getState = () => state;
 export const getCategories = () => state.categories;
 export const getActiveCatId = () => state.activeCatId;
+
+function getStorageKey() {
+  const hub = getActiveHubId() || 'android';
+  if (hub === 'android') return 'android_knowledge_v1';
+  return `android_knowledge_${hub}_v1`;
+}
+
+function getActiveCatKey() {
+  const hub = getActiveHubId() || 'android';
+  if (hub === 'android') return 'android_knowledge_active_cat';
+  return `android_knowledge_${hub}_active_cat`;
+}
 
 export async function loadState() {
   showLoading('Đang tải dữ liệu...');
@@ -32,22 +45,30 @@ export async function loadState() {
   await new Promise(r => setTimeout(r, 600));
 
   if (!loadedData) {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(getStorageKey());
     if (raw) {
       try { loadedData = JSON.parse(raw); } catch (_) {}
     }
   }
 
+  const hub = getActiveHubId() || 'android';
+
   if (!loadedData) {
-    // deep copy
-    loadedData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    if (hub === 'android') {
+      // deep copy
+      loadedData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    } else {
+      loadedData = [];
+    }
   } else {
-    // Merge logic: ensure any categories in DEFAULT_DATA that are missing in loadedData are added
-    DEFAULT_DATA.forEach(defCat => {
-      if (!loadedData.some(c => c.id === defCat.id)) {
-        loadedData.push(JSON.parse(JSON.stringify(defCat)));
-      }
-    });
+    if (hub === 'android') {
+      // Merge logic: ensure any categories in DEFAULT_DATA that are missing in loadedData are added
+      DEFAULT_DATA.forEach(defCat => {
+        if (!loadedData.some(c => c.id === defCat.id)) {
+          loadedData.push(JSON.parse(JSON.stringify(defCat)));
+        }
+      });
+    }
   }
 
   loadedQuestions = loadedQuestions || {};
@@ -66,7 +87,7 @@ export async function loadState() {
   });
 
   state.categories = loadedData;
-  const savedCatId = localStorage.getItem('android_knowledge_active_cat');
+  const savedCatId = localStorage.getItem(getActiveCatKey());
   if (savedCatId && state.categories.some(c => c.id === savedCatId)) {
     state.activeCatId = savedCatId;
   } else if (!state.activeCatId && state.categories.length > 0) {
@@ -88,7 +109,7 @@ export async function saveState(showUI = true) {
     cat.completed = total > 0 && total === done;
   });
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.categories));
+  localStorage.setItem(getStorageKey(), JSON.stringify(state.categories));
   
   try {
     await api.saveData(state.categories);
@@ -119,9 +140,9 @@ export async function saveState(showUI = true) {
 export function setActiveCatId(catId) {
   state.activeCatId = catId;
   if (catId) {
-    localStorage.setItem('android_knowledge_active_cat', catId);
+    localStorage.setItem(getActiveCatKey(), catId);
   } else {
-    localStorage.removeItem('android_knowledge_active_cat');
+    localStorage.removeItem(getActiveCatKey());
   }
   eventBus.emit('categoryActivated', catId);
 }

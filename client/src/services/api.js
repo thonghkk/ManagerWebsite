@@ -1,13 +1,16 @@
 import { API_BASE_URL } from '../constants/config.js';
+import { getActiveHubId } from '../data/hubs.js';
 
 export async function fetchData() {
-  const res = await fetch(`${API_BASE_URL}/api/data`);
+  const hub = getActiveHubId() || 'android';
+  const res = await fetch(`${API_BASE_URL}/api/data?hub=${hub}`);
   if (!res.ok) throw new Error('Failed to fetch data');
   return res.json();
 }
 
 export async function saveData(categories) {
-  return fetch(`${API_BASE_URL}/api/data`, {
+  const hub = getActiveHubId() || 'android';
+  return fetch(`${API_BASE_URL}/api/data?hub=${hub}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(categories),
@@ -15,13 +18,15 @@ export async function saveData(categories) {
 }
 
 export async function fetchQuestions() {
-  const res = await fetch(`${API_BASE_URL}/api/questions`);
+  const hub = getActiveHubId() || 'android';
+  const res = await fetch(`${API_BASE_URL}/api/questions?hub=${hub}`);
   if (!res.ok) throw new Error('Failed to fetch questions');
   return res.json();
 }
 
 export async function saveQuestions(questionsData) {
-  return fetch(`${API_BASE_URL}/api/questions`, {
+  const hub = getActiveHubId() || 'android';
+  return fetch(`${API_BASE_URL}/api/questions?hub=${hub}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(questionsData),

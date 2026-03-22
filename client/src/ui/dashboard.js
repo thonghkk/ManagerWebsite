@@ -1,0 +1,91 @@
+import { $ } from '../utils/helpers.js';
+import { getCustomHubs, setActiveHubId, getActiveHubId, getActiveHubConfig } from '../data/hubs.js';
+import { loadState } from '../state/store.js';
+
+export function renderDashboard() {
+  const container = $('hub-grid');
+  if (!container) return;
+
+  const hubs = getCustomHubs();
+  container.innerHTML = '';
+
+  hubs.forEach(hub => {
+    const el = document.createElement('div');
+    el.className = 'hub-card';
+    el.style.setProperty('--hub-theme', hub.theme || '#6c63ff');
+    
+    el.innerHTML = `
+      <div class="hub-card-icon">${hub.icon || '📦'}</div>
+      <div class="hub-card-title">${hub.name}</div>
+      <div class="hub-card-desc">${hub.sub || 'Knowledge Hub'}</div>
+    `;
+
+    el.addEventListener('click', () => {
+      selectHub(hub.id);
+    });
+
+    container.appendChild(el);
+  });
+
+  const btnAdd = document.createElement('div');
+  btnAdd.className = 'hub-card btn-add-hub';
+  btnAdd.innerHTML = `
+    <div class="hub-card-icon">+</div>
+    <div class="hub-card-title">Tạo mới Hub</div>
+    <div class="hub-card-desc">Thêm phân vùng kiến thức</div>
+  `;
+  
+  btnAdd.addEventListener('click', () => {
+    import('./modals.js').then(({ openInputModal }) => {
+      openInputModal('Tạo Hub mới', 'Tên Hub (VD: Backend, iOS, UI/UX)', '', (name) => {
+        if (!name.trim()) return;
+        const newHub = {
+          id: name.trim().toLowerCase().replace(/\s+/g, '-'),
+          name: name.trim(),
+          sub: 'Knowledge Hub',
+          icon: '📚',
+          theme: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+          title: `${name} Knowledge List`
+        };
+        import('../data/hubs.js').then(({ addCustomHub }) => {
+          addCustomHub(newHub);
+          renderDashboard();
+        });
+      });
+    });
+  });
+  
+  container.appendChild(btnAdd);
+}
+
+export function showDashboard() {
+  $('hub-dashboard').classList.remove('hidden');
+  $('sidebar').style.display = 'none';
+  $('main').style.display = 'none';
+  renderDashboard();
+}
+
+export function hideDashboard() {
+  $('hub-dashboard').classList.add('hidden');
+  $('sidebar').style.display = 'flex';
+  $('main').style.display = 'flex';
+}
+
+export function selectHub(hubId) {
+  setActiveHubId(hubId);
+  updateAppBranding();
+  hideDashboard();
+  loadState(); // Reload the state for the new hub
+}
+
+export function updateAppBranding() {
+  const config = getActiveHubConfig();
+  if (config) {
+    if ($('sidebar-hub-icon')) $('sidebar-hub-icon').textContent = config.icon || '⚡';
+    if ($('sidebar-hub-title')) $('sidebar-hub-title').textContent = config.name;
+    if ($('sidebar-hub-sub')) $('sidebar-hub-sub').textContent = config.sub || 'Knowledge Hub';
+    if ($('welcome-icon')) $('welcome-icon').textContent = config.icon || '📱';
+    if ($('welcome-title')) $('welcome-title').textContent = config.title || `${config.name} Knowledge Hub`;
+    document.title = config.title || `${config.name} Knowledge Hub`;
+  }
+}

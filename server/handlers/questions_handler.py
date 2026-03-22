@@ -1,8 +1,10 @@
 import json
-from server.config import QUESTIONS_FILE
+from server.handlers.helpers import get_hub_from_path, get_questions_filepath
 
 def handle_get_questions(handler, storage):
-    data = storage.read(QUESTIONS_FILE)
+    hub = get_hub_from_path(handler.path)
+    questions_file = get_questions_filepath(hub)
+    data = storage.read(questions_file)
     if data is None:
         data = {}
     handler.send_response(200)
@@ -14,11 +16,13 @@ def handle_get_questions(handler, storage):
     handler.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 
 def handle_post_questions(handler, storage):
+    hub = get_hub_from_path(handler.path)
+    questions_file = get_questions_filepath(hub)
     content_length = int(handler.headers['Content-Length'])
     post_data = handler.rfile.read(content_length)
     try:
         json_data = json.loads(post_data.decode('utf-8'))
-        storage.write(QUESTIONS_FILE, json_data)
+        storage.write(questions_file, json_data)
         handler.send_response(200)
         handler.send_header('Content-type', 'application/json; charset=utf-8')
         handler.end_headers()

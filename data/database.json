@@ -7,7 +7,7 @@
       {
         "id": "k1",
         "name": "Syntax cơ bản",
-        "done": false,
+        "done": true,
         "note": "",
         "customQuestions": [
           "In what situations should i use 'Lazy' ?"
@@ -113,14 +113,6 @@
       {
         "id": "k13",
         "name": "Flow / Channel",
-        "done": false,
-        "note": "",
-        "customQuestions": [],
-        "answers": {}
-      },
-      {
-        "id": "mmqdtv13oofd8",
-        "name": "Test server item",
         "done": false,
         "note": "",
         "customQuestions": [],

@@ -27,17 +27,17 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == '/api/data':
+        if self.path.startswith('/api/data'):
             handle_get_data(self, storage)
-        elif self.path == '/api/questions':
+        elif self.path.startswith('/api/questions'):
             handle_get_questions(self, storage)
         else:
             super().do_GET()
 
     def do_POST(self):
-        if self.path == '/api/data':
+        if self.path.startswith('/api/data'):
             handle_post_data(self, storage)
-        elif self.path == '/api/questions':
+        elif self.path.startswith('/api/questions'):
             handle_post_questions(self, storage)
         else:
             self.send_response(404)

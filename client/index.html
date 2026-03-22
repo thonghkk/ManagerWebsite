@@ -10,16 +10,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/detail.css" />
+  <link rel="stylesheet" href="styles/dashboard.css" />
 </head>
 <body>
+  <!-- Hub Dashboard -->
+  <div id="hub-dashboard" class="hub-dashboard">
+    <div class="hub-dashboard-header">
+      <div class="hub-logo">⚡</div>
+      <h1>Knowledge Hubs</h1>
+      <p>Chọn một thư viện kiến thức để tiếp tục</p>
+    </div>
+    <div class="hub-grid" id="hub-grid">
+      <!-- JS rendered -->
+    </div>
+  </div>
+
   <!-- Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-header">
-      <div class="logo">
-        <span class="logo-icon">⚡</span>
+      <div class="logo" id="btn-back-home" style="cursor: pointer;" title="Back to Home Hub">
+        <span class="logo-icon" id="sidebar-hub-icon">⚡</span>
         <div style="flex: 1;">
-          <div class="logo-title">Android</div>
-          <div class="logo-sub">Knowledge Hub</div>
+          <div class="logo-title" id="sidebar-hub-title">Android</div>
+          <div class="logo-sub" id="sidebar-hub-sub">Knowledge Hub</div>
         </div>
         <button class="sidebar-close-btn" id="sidebar-close-btn">✕</button>
       </div>
@@ -63,8 +76,8 @@
 
     <div class="content-area" id="content-area">
       <div class="welcome-screen">
-        <div class="welcome-icon">📱</div>
-        <h1>Android Full Knowledge List</h1>
+        <div class="welcome-icon" id="welcome-icon">📱</div>
+        <h1 id="welcome-title">Knowledge List</h1>
         <p>Chọn một danh mục bên trái để xem và quản lý danh sách kiến thức.</p>
       </div>
     </div>

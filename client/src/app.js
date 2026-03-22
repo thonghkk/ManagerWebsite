@@ -1,5 +1,7 @@
 import { $ } from './utils/helpers.js';
 import { getState, loadState, getActiveCatId } from './state/store.js';
+import { getActiveHubId } from './data/hubs.js';
+import { showDashboard, hideDashboard, updateAppBranding } from './ui/dashboard.js';
 import { eventBus } from './events/eventBus.js';
 import { renderSidebar } from './ui/sidebar.js';
 import { renderMain } from './ui/checklist.js';
@@ -49,6 +51,13 @@ function wireUpEvents() {
   $('sidebar-close-btn').addEventListener('click', () => {
     sidebar.classList.add('collapsed');
   });
+
+  const btnBackHome = $('btn-back-home');
+  if (btnBackHome) {
+    btnBackHome.addEventListener('click', () => {
+      showDashboard();
+    });
+  }
 
   MODAL_IDS.forEach(id => {
     const modalEl = $(id);
@@ -153,7 +162,15 @@ function wireUpSubscribers() {
 function init() {
   wireUpSubscribers();
   wireUpEvents();
-  loadState();
+  
+  const activeHub = getActiveHubId();
+  if (activeHub) {
+    updateAppBranding();
+    hideDashboard();
+    loadState();
+  } else {
+    showDashboard();
+  }
 }
 
 if (document.readyState === 'loading') {

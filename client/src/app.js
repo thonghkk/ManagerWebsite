@@ -95,9 +95,9 @@ function wireUpEvents() {
     if (!catId || !itemId) return;
 
     // Handle generic edits
-    const editBtn = e.target.closest('.action-btn.edit');
-    if (editBtn) {
-      const action = editBtn.dataset.action;
+    const actionBtn = e.target.closest('.action-btn');
+    if (actionBtn) {
+      const action = actionBtn.dataset.action;
       
       import('./detail.js').then(({ latestDetailData, updateDetailData }) => {
         if (action === 'edit-summary') {
@@ -110,14 +110,38 @@ function wireUpEvents() {
           return;
         }
         
-        if (action === 'edit-points') {
-          const pointsStr = (latestDetailData?.points || []).join('\n\n- ');
+        if (action === 'add-point') {
           import('./ui/modals.js').then(({ openInputModal }) => {
-            openInputModal('Sửa Điểm quan trọng', 'Mỗi mục cách nhau một dòng, có gạch đầu dòng (-)', pointsStr ? '- ' + pointsStr : '', (val) => {
-              const points = val.split(/\n+/).map(p => p.replace(/^- /, '').trim()).filter(Boolean);
+            openInputModal('Thêm Điểm quan trọng', 'Nhập điểm mới', '', (val) => {
+              const points = [...(latestDetailData?.points || []), val.trim()].filter(Boolean);
               updateDetailData(itemId, { points });
             });
           });
+          return;
+        }
+
+        if (action === 'edit-point') {
+          const idx = parseInt(actionBtn.dataset.idx, 10);
+          const currentPoints = latestDetailData?.points || [];
+          import('./ui/modals.js').then(({ openInputModal }) => {
+            openInputModal('Sửa Điểm quan trọng', 'Nội dung', currentPoints[idx] || '', (val) => {
+              if (val.trim()) {
+                const points = [...currentPoints];
+                points[idx] = val.trim();
+                updateDetailData(itemId, { points });
+              }
+            });
+          });
+          return;
+        }
+
+        if (action === 'delete-point') {
+          if (confirm("Chắc chắn xoá điểm quan trọng này?")) {
+             const idx = parseInt(actionBtn.dataset.idx, 10);
+             const points = [...(latestDetailData?.points || [])];
+             points.splice(idx, 1);
+             updateDetailData(itemId, { points });
+          }
           return;
         }
 

@@ -97,17 +97,19 @@ export function renderDetail(id, detail) {
         <span class="section-icon">⚡</span>
         <span class="section-title" style="flex:1;">Điểm quan trọng</span>
         <span class="section-count">${points.length} mục</span>
-        <button class="action-btn edit" data-action="edit-points" style="margin-left: 8px;" title="Sửa điểm quan trọng">✏️</button>
       </div>
       ${points.length > 0 ? `
       <ul class="points-list">
-        ${points.map(p => `
-          <li>
-            <span class="point-bullet"></span>
-            <span>${escHtml(p)}</span>
+        ${points.map((p, index) => `
+          <li style="display: flex; gap: 8px; align-items: flex-start;">
+            <span class="point-bullet" style="margin-top: 6px;"></span>
+            <span style="flex: 1;">${escHtml(p)}</span>
+            <button class="action-btn edit tip-btn" data-action="edit-point" data-idx="${index}" title="Sửa điểm này">✏️</button>
+            <button class="action-btn del tip-btn" data-action="delete-point" data-idx="${index}" title="Xoá điểm này">🗑️</button>
           </li>
         `).join('')}
-      </ul>` : '<p style="color:#888; margin-top:10px;">Chưa có điểm quan trọng nào. Nhấn biểu tượng ✏️ để thêm.</p>'}
+      </ul>` : '<p style="color:#888; margin-top:10px;">Chưa có điểm quan trọng nào.</p>'}
+      <button class="btn-secondary btn-sm action-btn" data-action="add-point" style="margin-top: 12px; font-size: 12px;">➕</button>
     </div>
     <div class="detail-divider"></div>
   `;

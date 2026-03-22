@@ -1,87 +1,117 @@
 export const ITEM_DETAILS = {
-  // ── Kotlin ───────────────────────────────────────────────────────────────
+  // ── Kotlin ──────────────────────────────────────────────────────────────
   k1: {
-    title: 'Syntax cơ bản',
+
+    title: 'Kotlin Syntax cơ bản',
     url: 'https://android-notebook.netlify.app/kotlin/fundamentals',
-    summary: 'Kotlin được thiết kế với triết lý "Expression-oriented": if, when, try đều trả về giá trị — loại bỏ boilerplate không cần thiết. Từ biến, hàm, đến control flow, mọi thứ đều hướng đến code ngắn gọn, tường minh và an toàn theo từng bước.',
+    summary: 'Kotlin được thiết kế theo triết lý "Expression-oriented & Safe by Default": mọi thứ từ biến, hàm, đến control flow đều hướng đến code ngắn gọn, tường minh và an toàn. Compiler làm nhiều việc hơn (type inference, smart cast, exhaustive check) để lập trình viên focus vào logic — không phải boilerplate.',
+
     points: [
-      // ── Bắt đầu từ biến: nền tảng của mọi thứ ──
-      'Kotlin khuyến khích immutability ngay từ khai báo: mặc định dùng val (read-only reference) thay vì var (mutable) — đây là nền tảng để code dễ đọc và ít bug hơn.',
-      'Nhờ type inference, compiler tự suy luận kiểu từ giá trị: val name = "Kotlin" đủ tường minh mà không cần khai báo String như Java — giảm noise, tăng focus vào logic.',
-      'val không đồng nghĩa với immutable object: val chỉ đảm bảo reference không bị reassign, nhưng object bên trong (ví dụ MutableList) vẫn có thể bị thay đổi — đây là điểm dễ nhầm lẫn nhất.',
-      'Đi xa hơn val một bước là const val: được tính hoàn toàn lúc compile-time và nhúng thẳng vào bytecode, chỉ áp dụng cho String và số nguyên thủy ở top-level hoặc companion object.',
-      // ── Type system: hiểu tại sao mọi thứ là Object ──
-      'Mặc dù mọi thứ trong Kotlin đều là Object (Int, Boolean...), compiler tự tối ưu xuống Java primitives trong bytecode khi kiểu không nullable — vì vậy không có đánh đổi về hiệu năng.',
-      'Khi kiểu được đánh dấu nullable (Int?) hoặc dùng trong Generics, Kotlin mới buộc dùng kiểu wrapper (Integer) — điều này giải thích tại sao null safety và type system liên kết chặt nhau.',
-      // ── Hàm: xây dựng trên nền type inference ──
-      'Vì đã có type inference, hàm có thể viết dạng expression-body (fun square(x: Int) = x * x) — không cần return, compiler tự suy luận kiểu trả về, code ngắn mà không mất rõ ràng.',
-      'Default arguments bổ trợ tự nhiên: thay vì nhiều overloads như Java, một hàm duy nhất với tham số mặc định đã đủ dùng. Named arguments tiếp tục mở rộng: greet(shout = true) tự document call-site.',
-      'Top-level functions (hàm đứng ngoài class) là hệ quả logic: không cần class wrapper, compiler tự gom vào FileNameKt.class dưới dạng static final — loại bỏ hoàn toàn class "Utils" của Java.',
-      // ── Control flow trở thành expression: nhất quán với hàm ──
-      'Vì hàm có thể là một biểu thức, Kotlin mở rộng tư duy đó sang if: if không chỉ là câu lệnh mà trả về giá trị trực tiếp — val type = if (isKotlin) "Modern" else "Legacy" — không cần toán tử ba ngôi.',
-      'when tiến hóa tự nhiên từ if: hỗ trợ range check (in 1..10), type check (is String), arbitrary expression làm điều kiện, và không fall-through — loại bỏ cả class bug "quên break" của switch.',
-      'Khi when là expression (gán vào biến hoặc return), compiler bắt buộc có else — trừ khi đã cover hết sealed class hoặc enum. Đây là exhaustive check tại compile-time, không phải runtime.',
-      'try-catch cũng trở thành expression vì cùng triết lý: val result = try { parse() } catch (e: Exception) { -1 } — không cần biến trung gian, không cần gán lại trong block.',
-      // ── Smart Cast: kết quả tự nhiên của type check trong control flow ──
-      'Smart Cast là hệ quả trực tiếp của control flow: sau khi compiler thấy if (x is String), nó đủ bằng chứng tự ép kiểu x thành String bên trong block — không cần (x as String) thủ công.',
-      'Smart Cast không hoạt động với var trong class vì compiler không đảm bảo thread khác không reassign biến đó giữa lúc check is và lúc dùng — đây là an toàn được bảo đảm tại compile-time, không phải hạn chế.',
-      // ── Equality & Ranges: hoàn thiện bức tranh ──
-      'Cuối cùng Kotlin đổi lại ngữ nghĩa của ==: thay vì so sánh địa chỉ bộ nhớ như Java, == gọi .equals() (so sánh giá trị). === mới là reference comparison — đây là quyết định thiết kế nhất quán với triết lý "làm đúng mặc định".',
-      '1..10 (gồm cả 10) và 1 until 10 (không gồm 10) dùng in operator — nhất quán với when và if, giúp validate và iterate với cùng một cú pháp: val ok = score in 1..100 hoạt động trong mọi context.',
+      // ─── [OVERVIEW] Triết lý thiết kế ─────────────────────────────────────
+      'TRIẾT LÝ: Kotlin ưu tiên "làm đúng theo mặc định" — val > var, == gọi equals(), if/when/try đều là expression. Mọi quyết định đều nhất quán quanh hai mục tiêu: an toàn (null-safe, type-safe) và súc tích (ít boilerplate hơn Java).',
+
+      // ─── [VARIABLES & TYPE SYSTEM] Tầng biến & hệ thống kiểu ──────────────
+      'val = read-only reference (không thể reassign), var = mutable reference. val KHÔNG có nghĩa là immutable object — val list = mutableListOf() vẫn cho phép list.add(). Luôn ưu tiên val để giảm side-effect.',
+      'const val tính toán lúc compile-time, nhúng thẳng vào bytecode (inlined), chỉ cho phép String và số nguyên thủy ở top-level hoặc companion object. val khởi tạo lúc runtime mỗi lần truy cập.',
+      'Type inference: compiler tự suy luận kiểu từ giá trị khởi tạo — val name = "Kotlin" đủ tường minh. Không cần khai báo String như Java, giảm noise và tăng focus vào logic thực sự.',
+      'Unified type system: mọi thứ đều là Object (Int, Boolean…) nhưng compiler tối ưu xuống Java primitives (int, boolean) trong bytecode khi kiểu non-nullable → không đánh đổi hiệu năng. Chỉ khi nullable (Int?) hoặc dùng trong Generics mới buộc dùng wrapper Integer.',
+
+      // ─── [FUNCTIONS] Hàm là expression ────────────────────────────────────
+      'Expression-body function: fun square(x: Int) = x * x — compiler tự suy luận kiểu trả về, không cần return, không mất rõ ràng. Phù hợp cho hàm 1 biểu thức.',
+      'Default arguments thay thế overloading: fun greet(name: String, shout: Boolean = false) là 1 hàm duy nhất thay vì 2 overloads. Named arguments: greet(shout = true) tự document call-site, không phụ thuộc thứ tự.',
+      'Top-level functions: hàm đứng ngoài class, compiler gom vào FileNameKt.class dưới dạng public static final. Loại bỏ hoàn toàn class "Utils" chứa toàn static method của Java. Gọi từ Java: UtilsKt.myFn(). Đổi tên qua @file:JvmName("Utils").',
+
+      // ─── [CONTROL FLOW AS EXPRESSIONS] Control flow là expression ──────────
+      'if là expression, không phải statement: val type = if (isKotlin) "Modern" else "Legacy" — không cần toán tử ba ngôi của Java. Chú ý: ?: trong Kotlin là Elvis operator cho null, KHÔNG phải ternary.',
+      'when thay thế switch và cải tiến toàn diện: không fall-through, hỗ trợ range check (in 1..10), type check (is String), arbitrary boolean expression làm nhánh. Khi dùng làm expression, else bắt buộc — trừ khi đã cover hết sealed class/enum (exhaustive check tại compile-time).',
+      'try-catch là expression: val result = try { parse() } catch (e: Exception) { -1 } — không cần biến trung gian. Nhất quán với if/when: mọi control flow đều có thể trả về giá trị.',
+
+      // ─── [SMART CAST] Tầng type inference nâng cao ─────────────────────────
+      'Smart Cast: sau khi check "if (x is String)", compiler có đủ bằng chứng để tự ép kiểu x thành String bên trong block — không cần "(x as String)" thủ công. Hoạt động với val local, val property, và var local nếu không bị reassign trong lambda.',
+      'Smart Cast KHÔNG hoạt động với var trong class vì compiler không đảm bảo thread khác không reassign biến giữa lúc check is và lúc dùng. Đây là an toàn compile-time, không phải hạn chế tùy tiện. Workaround: gán vào local val trước khi check.',
+
+      // ─── [EQUALITY & RANGES] Hoàn thiện bức tranh ─────────────────────────
+      '== gọi equals() (so sánh giá trị), === so sánh reference (địa chỉ bộ nhớ). Ngược hoàn toàn với Java (== là reference). Đây là quyết định thiết kế nhất quán: "làm đúng theo mặc định" — 99% trường hợp dev muốn so sánh giá trị.',
+      '1..10 (IntRange, gồm 10) vs 1 until 10 (không gồm 10) vs 10 downTo 1 (giảm dần). Dùng in operator đồng nhất trong when, if, for — score in 1..100 hoạt động ở mọi context. ClosedRange implement chặt chẽ, không phải syntax sugar đơn thuần.',
+
+      // ─── [TRADE-OFFS & PITFALLS] Tầng senior ──────────────────────────────
+      'PITFALL: val list = mutableListOf<Int>() — list không thể reassign nhưng nội dung MutableList vẫn thay đổi được. Muốn immutable thực sự: val list = listOf<Int>() (trả về List interface không có mutating methods).',
+      'PITFALL: const val chỉ tính được lúc compile-time — không thể dùng hàm hay biểu thức runtime. val lazy { } là giải pháp cho "khởi tạo trễ nhưng chỉ một lần" — khác hẳn const val.',
+      'TRADE-OFF: Kotlin bỏ checked exceptions (không có throws declaration). Lý do: checked exceptions không tương thích với function type trong lambdas/HOF. Đánh đổi: dev dễ bỏ sót xử lý → RuntimeException crash. Khuyến khích dùng sealed class Result<T, E> để model errors explicitly.',
+      'ADVANCED: String template ("${expr}") compile xuống StringBuilder.append() — không phải string concatenation thuần túy. Với interpolation phức tạp lặp lại nhiều lần trong loop, buildString { append(...) } hiệu quả hơn.',
     ],
-    code: `// Câu chuyện Kotlin: mỗi tính năng dẫn đến tính năng tiếp theo
 
-// [1] val/var → type inference: compiler tự suy luận, ưu tiên immutable
-const val MAX_SCORE = 100             // Compile-time → nhúng thẳng vào bytecode
-val language = "Kotlin"              // Type inferred: String, không thể reassign
-var retryCount = 0                   // Mutable — chỉ dùng khi thực sự cần
+    code: `// ── KOTLIN SYNTAX: Từ biến đến expression-oriented programming ──
 
-// [2] Vì có type inference → hàm có thể là expression-body
-// Vì hàm là expression → default args thay thế overloading
-// Vì có default args → named args giúp call-site tường minh
-fun classify(score: Int, label: String = ""): String =
-    when {                           // when là expression → trả về String trực tiếp
+// [1] val / var / const val — ba mức immutability khác nhau
+const val MAX_RETRY = 3              // compile-time constant → nhúng vào bytecode
+val apiVersion = "v2"               // runtime val → không thể reassign
+var retryCount = 0                  // mutable → reassign được
+
+// PITFALL: val ≠ immutable content
+val errors = mutableListOf<String>()
+errors.add("err")                   // ✅ val reference không đổi, content thay đổi
+
+// [2] Type inference + Expression-body function + Default/Named args
+fun classify(score: Int, label: String = ""): String =  // expression-body, default arg
+    when {
         score >= 90          -> "✅ Xuất sắc \${label}".trim()
-        score in 70..89      -> "👍 Tốt"         // range check với in
-        score in 50 until 70 -> "📘 Trung bình"  // until: không gồm 70
+        score in 70..89      -> "👍 Tốt"         // range check: in IntRange
+        score in 50 until 70 -> "📘 Trung bình"  // until = exclusive upper bound
         else                 -> "❌ Cần cải thiện" // else bắt buộc khi when là expression
     }
+println(classify(score = 85, label = "K1"))  // named args → self-documenting
 
-// Named args → call-site tự document, không cần nhớ thứ tự
-println(classify(score = 85, label = "K1")) // 👍 Tốt K1
+// [3] Smart Cast — compiler chứng minh type, loại bỏ manual cast
+fun describe(value: Any): String = when (value) {
+    is String -> "Chuỗi dài \${value.length} ký tự"    // Smart cast: value → String
+    is Int    -> "Số, bình phương = \${value * value}"  // Smart cast: value → Int
+    in 1..100 -> "Trong khoảng hợp lệ"
+    else      -> "Không xác định"
+}
 
-// [3] when với type check → compiler đủ bằng chứng → Smart Cast tự động
-fun describe(value: Any): String =
-    when (value) {
-        is String -> "Chuỗi dài \${value.length} ký tự"   // Smart cast → value là String
-        is Int    -> "Số, bình phương = \${value * value}" // Smart cast → value là Int
-        in 1..100 -> "Nằm trong khoảng hợp lệ"
-        else      -> "Không xác định"
+// PITFALL: Smart Cast thất bại với var trong class
+class Validator {
+    var input: Any = ""
+    fun check() {
+        // if (input is String) input.length  // ❌ Compile error: không đảm bảo thread-safe
+        val local = input                     // ✅ Workaround: snapshot vào local val
+        if (local is String) local.length
     }
+}
 
-// [4] try-catch là expression → nhất quán với if/when
-val input = "42abc"
-val parsed = try { input.toInt() } catch (e: NumberFormatException) { -1 }
+// [4] try-catch là expression → không cần biến trung gian
+val parsed = try { "42abc".toInt() } catch (e: NumberFormatException) { -1 }
 
-// [5] == so sánh giá trị (gọi .equals()), === so sánh reference
+// [5] == vs === — value equality vs reference equality
 val a = "hello"
 val b = String(charArrayOf('h', 'e', 'l', 'l', 'o'))
-println(a == b)   // true  — cùng giá trị
-println(a === b)  // false — khác object trong memory`,
+println(a == b)   // true  — gọi .equals(), so sánh giá trị
+println(a === b)  // false — khác object trong heap`,
+
     interviewTips: [
-      '[Junior] val và var khác gì nhau? → val = read-only reference (object bên trong vẫn mutable); var = có thể reassign. Ưu tiên val vì giảm bug, dễ lý luận về code.',
-      '[Junior] const val và val khác nhau thế nào? → const val tính toán lúc compile-time, nhúng thẳng vào bytecode, chỉ dùng cho String và số nguyên thủy. val khởi tạo lúc runtime.',
-      '[Junior] String template dùng thế nào? → "$biến" cho biến đơn; "${biểu_thức}" cho biểu thức phức tạp. Không cần nối chuỗi bằng + như Java.',
-      '[Mid] Kotlin có primitive types không? Tại sao? → Không ở mặt code (mọi thứ là Object), nhưng compiler tự tối ưu xuống Java primitives (int, boolean) khi không nullable — không đánh đổi hiệu năng.',
-      '[Mid] == và === trong Kotlin khác nhau thế nào? → == gọi .equals() (so sánh giá trị). === so sánh reference (địa chỉ bộ nhớ). Ngược lại với Java nơi == mặc định là reference comparison.',
-      '[Mid] Tại sao Kotlin không cần toán tử ba ngôi ?: của Java? → Vì if là expression: val x = if (a > b) a else b. Trong Kotlin, ?: là Elvis operator dành riêng cho null: val y = nullable ?: "default".',
-      '[Mid] when expression bắt buộc có else khi nào? → Khi when dùng làm expression (gán vào biến hoặc return). Ngoại lệ: khi cover hết toàn bộ subclass sealed class hoặc enum entries (exhaustive).',
-      '[Mid-Senior] Smart Cast hoạt động thế nào và khi nào KHÔNG hoạt động? → Sau khi check is, compiler đủ bằng chứng tự ép kiểu. Không hoạt động với var trong class vì compiler không đảm bảo thread khác không reassign giữa lúc check và lúc dùng.',
-      '[Mid-Senior] Default và named arguments giải quyết bài toán gì? → Default args loại bỏ hoàn toàn overloading. Named args giúp call-site tự document và không phụ thuộc thứ tự — cả hai kết hợp tạo API rõ ràng hơn nhiều.',
-      '[Senior] Top-level function biên dịch xuống JVM như thế nào? → Gom vào FileNameKt.class dưới dạng public static final. Từ Java gọi UtilsKt.myFn(). Đổi tên với @file:JvmName("Utils").',
-      '[Senior] Tại sao Kotlin bỏ checked exceptions? Đánh đổi gì? → Checked exceptions không thể truyền qua function type trong Higher-Order Functions và Lambda. Đánh đổi: dev dễ bỏ sót xử lý exception → RuntimeException crash. Kotlin khuyến khích sealed class Result<T> thay thế.',
+      // ─── Junior ───────────────────────────────────────────────────────────
+      '[Junior] val và var khác gì nhau? → val = read-only reference (không thể reassign); var = mutable reference. Ưu tiên val vì immutable reference dễ lý luận, ít race condition hơn trong concurrent code.',
+      '[Junior] val có đảm bảo object bên trong không thay đổi không? → Không. val chỉ prevent reassignment của reference. val list = mutableListOf() vẫn cho phép list.add(). Muốn deep immutability: dùng List (read-only interface) thay MutableList.',
+      '[Junior] const val và val khác nhau thế nào? → const val: compile-time constant, inlined vào bytecode, chỉ String/primitive ở top-level/companion. val: runtime initialization mỗi lần program start.',
+      '[Junior] Tại sao Kotlin không cần toán tử ?: của Java (ternary)? → Vì if là expression: val x = if (a > b) a else b. Trong Kotlin, ?: là Elvis operator dành riêng cho null-safety: val y = nullable ?: "default".',
+
+      // ─── Mid ──────────────────────────────────────────────────────────────
+      '[Mid] Kotlin có primitive types không? Trả lời chính xác như một senior. → Ở source level: không, mọi thứ là Object. Ở bytecode level: compiler tối ưu Int (non-nullable) xuống int Java primitive. Chỉ khi nullable (Int?) hoặc trong Generics mới buộc dùng Integer wrapper — không có đánh đổi hiệu năng trong trường hợp thông thường.',
+      '[Mid] Smart Cast hoạt động như thế nào và khi nào KHÔNG hoạt động? → Sau is check, compiler có "type proof" tự động ép kiểu. Không hoạt động với var trong class vì compiler không thể đảm bảo không có thread khác reassign giữa check và use. Workaround: val local = varProp; if (local is String) { ... }.',
+      '[Mid] when expression bắt buộc có else khi nào? → Khi when dùng làm expression (gán vào biến hoặc return từ function). Ngoại lệ: khi đã cover hết subclasses của sealed class hoặc tất cả entries của enum — compiler biết exhaustive.',
+      '[Mid] == và === trong Kotlin khác nhau thế nào? → == gọi .equals() (structural equality). === so sánh reference (referential equality). Ngược với Java nơi == là reference comparison mặc định. Data class tự generate equals() nên == hoạt động đúng.',
+
+      // ─── Mid-Senior ───────────────────────────────────────────────────────
+      '[Mid-Senior] Default và named arguments giải quyết bài toán gì mà Java phải dùng overloading? → Default args: 1 function thay vì N overloads. Named args: call-site self-documenting, không phụ thuộc thứ tự parameter. Kết hợp lại: API rõ ràng hơn, ít code hơn. Cạm bẫy: đổi thứ tự param là breaking change nếu caller dùng positional args.',
+      '[Mid-Senior] if/when/try là expression mang lại lợi gì về mặt engineering? → Loại bỏ biến trung gian mutable, code flow rõ ràng hơn (1 expression = 1 giá trị), dễ compose các expression lại với nhau. Giảm side-effect surface area — quan trọng khi refactor.',
+
+      // ─── Senior ───────────────────────────────────────────────────────────
+      '[Senior] Top-level function compile xuống JVM như thế nào và impact với Java interop? → Compile vào FileNameKt.class dưới dạng public static final methods. Java call: UtilsKt.myFn(). Đổi tên class qua @file:JvmName("Utils"). Nếu có nhiều top-level fun cùng signature với @JvmOverloads, từng combination của default args được generated dưới dạng separate static methods.',
+      '[Senior] Tại sao Kotlin bỏ checked exceptions? Trade-off là gì? → Checked exceptions không tương thích với function types (lambdas/HOF không thể declare throws). Trade-off: dev dễ bỏ sót handle exception → silent RuntimeException. Kotlin approach: model errors explicitly với sealed class Result<T> hoặc Result<T, E> — tốt hơn checked exceptions vì type-safe và composable qua map/flatMap.',
     ],
   },
+
 
 
   k2: {

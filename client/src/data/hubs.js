@@ -64,3 +64,12 @@ export function addCustomHub(hub) {
   hubs.push(hub);
   localStorage.setItem('custom_hubs', JSON.stringify(hubs));
 }
+
+export function updateCustomHub(hubId, updates) {
+  const hubs = getCustomHubs();
+  const index = hubs.findIndex(h => h.id === hubId);
+  if (index !== -1) {
+    hubs[index] = { ...hubs[index], ...updates };
+    localStorage.setItem('custom_hubs', JSON.stringify(hubs));
+  }
+}

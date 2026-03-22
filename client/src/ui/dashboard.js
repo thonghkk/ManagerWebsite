@@ -24,6 +24,17 @@ export function renderDashboard() {
       selectHub(hub.id);
     });
 
+    const editBtn = document.createElement('div');
+    editBtn.className = 'hub-edit-btn';
+    editBtn.innerHTML = '✏️';
+    editBtn.title = 'Sửa Hub';
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      import('./hubModal.js').then(({ openHubModal }) => openHubModal(hub));
+    });
+
+    el.appendChild(editBtn);
+
     container.appendChild(el);
   });
 
@@ -58,7 +69,15 @@ export function renderDashboard() {
   container.appendChild(btnAdd);
 }
 
+export function clearActiveHub() {
+  localStorage.removeItem('active_hub_id');
+  const newUrl = new URL(window.location);
+  newUrl.searchParams.delete('hub');
+  window.history.pushState({}, '', newUrl);
+}
+
 export function showDashboard() {
+  clearActiveHub();
   $('hub-dashboard').classList.remove('hidden');
   $('sidebar').style.display = 'none';
   $('main').style.display = 'none';

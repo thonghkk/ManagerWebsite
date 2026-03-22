@@ -137,6 +137,26 @@
     </div>
   </div>
 
+  <!-- Modal: Add / Edit Hub -->
+  <div class="modal-overlay" id="modal-hub" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-hub-title">Sửa Hub</h2>
+        <button class="modal-close" id="modal-hub-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Tên Hub <span class="required">*</span></label>
+        <input class="form-input" type="text" id="hub-name-input" placeholder="Nhập tên Hub..." />
+        <label class="form-label" style="margin-top:16px">Biểu tượng (emoji)</label>
+        <input class="form-input" type="text" id="hub-icon-input" placeholder="📚" maxlength="4" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-hub-cancel">Hủy</button>
+        <button class="btn-primary" id="modal-hub-save">Lưu</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Add / Edit Category -->
   <div class="modal-overlay" id="modal-category" role="dialog" aria-modal="true">
     <div class="modal">

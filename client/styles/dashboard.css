@@ -5,7 +5,7 @@
   position: fixed;
   inset: 0;
   background: var(--bg-base);
-  z-index: 2000;
+  z-index: 900;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,6 +79,35 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.hub-edit-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transition);
+  z-index: 10;
+}
+
+.hub-card:hover .hub-edit-btn {
+  opacity: 1;
+}
+
+.hub-edit-btn:hover {
+  color: var(--accent-light);
+  border-color: var(--accent);
+  background: var(--accent-glow);
 }
 
 .hub-card::before {

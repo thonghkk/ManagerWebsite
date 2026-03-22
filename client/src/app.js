@@ -84,6 +84,9 @@ function wireUpEvents() {
   $('modal-confirm-ok').addEventListener('click', handleConfirmDelete);
   $('modal-note-edit').addEventListener('click', handleEditNote);
   $('modal-input-save').addEventListener('click', saveInputModal);
+  $('modal-hub-save').addEventListener('click', () => {
+    import('./ui/hubModal.js').then(({ handleSaveHub }) => handleSaveHub());
+  });
 
   // Detail SPA Events Handler (Delegated inside detail-content)
   $('detail-content').addEventListener('click', (e) => {

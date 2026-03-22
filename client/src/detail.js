@@ -262,7 +262,7 @@ export async function openDetailSPA(catId, itemId) {
   const sidebar = $('sidebar');
   
   if (detailContainer && detailContainer.style.display !== 'block') {
-    savedScrollY = window.scrollY;
+    if (contentArea) savedScrollY = contentArea.scrollTop;
   }
 
   if (contentArea) contentArea.style.display = 'none';
@@ -271,9 +271,10 @@ export async function openDetailSPA(catId, itemId) {
     sidebar.classList.add('collapsed');
   }
 
-  if (detailContainer) detailContainer.style.display = 'block';
-
-  window.scrollTo(0, 0);
+  if (detailContainer) {
+    detailContainer.style.display = 'block';
+    detailContainer.scrollTop = 0;
+  }
 
   const hero = $('detail-hero');
   if (hero) hero.style.display = '';
@@ -312,7 +313,7 @@ export function closeDetailSPA() {
   if (topbar) topbar.style.display = '';
 
   document.title = 'Android Full Knowledge List';
-  window.scrollTo(0, savedScrollY);
+  if (contentArea) contentArea.scrollTop = savedScrollY;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

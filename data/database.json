@@ -591,7 +591,9 @@
         "name": "Retrofit",
         "done": false,
         "note": "",
-        "customQuestions": [],
+        "customQuestions": [
+          "Có các bên nào cũng cung cấp dịch vụ như Retrofit nữa không ? Tại sao nên dùng retrofit so với các dịch vụ đó"
+        ],
         "answers": {}
       },
       {

@@ -134,6 +134,14 @@ function wireUpSubscribers() {
   eventBus.on('categoryActivated', () => {
     renderSidebar();
     renderMain();
+    
+    const detailContainer = document.getElementById('detail-page-container');
+    if (detailContainer && detailContainer.style.display !== 'none') {
+      closeDetailSPA();
+      if (history.state && history.state.view === 'detail') {
+        history.replaceState({ view: 'home' }, '', window.location.pathname);
+      }
+    }
   });
 
   eventBus.on('itemToggled', () => {

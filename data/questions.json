@@ -36,5 +36,13 @@
       "Hãy so sánh từng loại Service với nhau."
     ],
     "answers": {}
+  },
+  "n1": {
+    "catId": "networking",
+    "itemName": "Retrofit",
+    "customQuestions": [
+      "Có các bên nào cũng cung cấp dịch vụ như Retrofit nữa không ? Tại sao nên dùng retrofit so với các dịch vụ đó"
+    ],
+    "answers": {}
   }
 }

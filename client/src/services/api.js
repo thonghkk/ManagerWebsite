@@ -46,3 +46,19 @@ export async function saveHub(hubConfig) {
     body: JSON.stringify(hubConfig),
   });
 }
+
+export async function fetchDetail(id) {
+  const hub = getActiveHubId() || 'android';
+  const res = await fetch(`${API_BASE_URL}/api/details?hub=${hub}&id=${id}`);
+  if (!res.ok) throw new Error('Failed to fetch detail');
+  return res.json();
+}
+
+export async function saveDetail(id, detailData) {
+  const hub = getActiveHubId() || 'android';
+  return fetch(`${API_BASE_URL}/api/details?hub=${hub}&id=${id}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(detailData),
+  });
+}

@@ -73,7 +73,7 @@ export function renderDashboard() {
 export function clearActiveHub() {
   localStorage.removeItem('active_hub_id');
   const newUrl = new URL(window.location);
-  newUrl.searchParams.delete('hub');
+  newUrl.search = ''; // Delete all search params like ?id= or ?hub=
   window.history.pushState({}, '', newUrl);
 }
 

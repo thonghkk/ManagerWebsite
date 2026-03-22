@@ -12,6 +12,7 @@ from server.storage.file_storage import FileStorage
 from server.handlers.data_handler import handle_get_data, handle_post_data
 from server.handlers.questions_handler import handle_get_questions, handle_post_questions
 from server.handlers.hubs_handler import handle_get_hubs, handle_post_hubs
+from server.handlers.details_handler import handle_get_details, handle_post_details
 
 storage = FileStorage()
 
@@ -34,6 +35,8 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
             handle_get_questions(self, storage)
         elif self.path.startswith('/api/hubs'):
             handle_get_hubs(self, storage)
+        elif self.path.startswith('/api/details'):
+            handle_get_details(self, storage)
         else:
             super().do_GET()
 
@@ -44,6 +47,8 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
             handle_post_questions(self, storage)
         elif self.path.startswith('/api/hubs'):
             handle_post_hubs(self, storage)
+        elif self.path.startswith('/api/details'):
+            handle_post_details(self, storage)
         else:
             self.send_response(404)
             self.end_headers()

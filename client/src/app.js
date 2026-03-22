@@ -55,6 +55,7 @@ function wireUpEvents() {
   const btnBackHome = $('btn-back-home');
   if (btnBackHome) {
     btnBackHome.addEventListener('click', () => {
+      closeDetailSPA();
       showDashboard();
     });
   }
@@ -88,14 +89,66 @@ function wireUpEvents() {
     import('./ui/hubModal.js').then(({ handleSaveHub }) => handleSaveHub());
   });
 
-  // Detail SPA Events Handler (Delegated inside detail-content)
-  $('detail-content').addEventListener('click', (e) => {
+  // Detail SPA Events Handler (Delegated inside detail-page-container to cover hero)
+  $('detail-page-container').addEventListener('click', (e) => {
     const { catId, itemId } = currentDetailItem || {};
     if (!catId || !itemId) return;
 
+    // Handle generic edits
+    const editBtn = e.target.closest('.action-btn.edit');
+    if (editBtn) {
+      const action = editBtn.dataset.action;
+      
+      import('./detail.js').then(({ latestDetailData, updateDetailData }) => {
+        if (action === 'edit-summary') {
+          const currentSummary = latestDetailData?.summary || '';
+          import('./ui/modals.js').then(({ openInputModal }) => {
+            openInputModal('Sửa Mô tả (Summary)', 'Description', currentSummary, (newSummary) => {
+              updateDetailData(itemId, { summary: newSummary });
+            });
+          });
+          return;
+        }
+        
+        if (action === 'edit-points') {
+          const pointsStr = (latestDetailData?.points || []).join('\n\n- ');
+          import('./ui/modals.js').then(({ openInputModal }) => {
+            openInputModal('Sửa Điểm quan trọng', 'Mỗi mục cách nhau một dòng, có gạch đầu dòng (-)', pointsStr ? '- ' + pointsStr : '', (val) => {
+              const points = val.split(/\n+/).map(p => p.replace(/^- /, '').trim()).filter(Boolean);
+              updateDetailData(itemId, { points });
+            });
+          });
+          return;
+        }
+
+        if (action === 'edit-code') {
+          const codeStr = latestDetailData?.code || '';
+          import('./ui/modals.js').then(({ openInputModal }) => {
+            openInputModal('Sửa Code Sample', 'Nhập mã nguồn', codeStr, (val) => {
+              updateDetailData(itemId, { code: val });
+            });
+          });
+          return;
+        }
+
+        if (action === 'edit-tips') {
+          const tipsStr = (latestDetailData?.interviewTips || []).join('\n\n');
+          import('./ui/modals.js').then(({ openInputModal }) => {
+            openInputModal('Sửa Interview Tips (Mặc định)', 'Dạng: [Level] Câu hỏi -> Đáp án. Các câu cách nhau một dòng trống.', tipsStr, (val) => {
+              const interviewTips = val.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+              updateDetailData(itemId, { interviewTips });
+            });
+          });
+          return;
+        }
+      });
+    }
+
     if (e.target.id === 'btn-add-tip-detail' || e.target.id === 'btn-add-tip') {
-      openInputModal('Thêm Câu hỏi', 'Câu hỏi phỏng vấn', '', (question) => {
-        addCustomTip(catId, itemId, question);
+      import('./ui/modals.js').then(({ openInputModal }) => {
+        openInputModal('Thêm Câu hỏi', 'Câu hỏi phỏng vấn', '', (question) => {
+          import('./state/store.js').then(({ addCustomTip }) => addCustomTip(catId, itemId, question));
+        });
       });
       return;
     }
@@ -109,8 +162,10 @@ function wireUpEvents() {
         const item = cat.items.find(i => i.id === itemId);
 
         const currentAnswer = (item.answers && item.answers[tipId]) ? item.answers[tipId] : '';
-        openInputModal('Trả lời Tips', 'Câu trả lời của bạn', currentAnswer, (answerText) => {
-          saveAnswer(catId, itemId, tipId, answerText);
+        import('./ui/modals.js').then(({ openInputModal }) => {
+          openInputModal('Trả lời Tips', 'Câu trả lời của bạn', currentAnswer, (answerText) => {
+            import('./state/store.js').then(({ saveAnswer }) => saveAnswer(catId, itemId, tipId, answerText));
+          });
         });
       } else if (action === 'delete-tip') {
         const idx = tipBtn.dataset.idx;

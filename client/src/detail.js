@@ -62,10 +62,10 @@ function getCategoryLabel(id) {
 export function renderDetail(id, detail) {
   const { label, icon } = getCategoryLabel(id);
 
-  document.title = `${detail.title} – Android Knowledge`;
+  document.title = `${detail.title || id} – Android Knowledge`;
 
   const breadcrumb = $('detail-breadcrumb');
-  if (breadcrumb) breadcrumb.textContent = `${icon} ${label} › ${detail.title}`;
+  if (breadcrumb) breadcrumb.textContent = `${icon} ${label} › ${detail.title || id}`;
 
   const badgeRow = $('detail-badge-row');
   if (badgeRow) {
@@ -76,55 +76,61 @@ export function renderDetail(id, detail) {
   }
 
   const titleEl = $('detail-title');
-  if (titleEl) titleEl.textContent = detail.title || id;
+  if (titleEl) {
+    titleEl.textContent = detail.title || id;
+  }
 
   const summaryEl = $('detail-summary-hero');
-  if (summaryEl) summaryEl.textContent = detail.summary || '';
+  if (summaryEl) {
+    summaryEl.innerHTML = `${escHtml(detail.summary || '(Chưa có mô tả)')} <button class="action-btn edit" data-action="edit-summary" style="font-size: 0.8em; margin-left: 8px; border:none; background:transparent; cursor:pointer;" title="Sửa Mô tả">✏️</button>`;
+  }
 
   const content = $('detail-content');
   if (!content) return;
 
   let html = '';
 
-  if (detail.points && detail.points.length > 0) {
-    html += `
-      <div class="detail-card" id="section-points">
-        <div class="section-header">
-          <span class="section-icon">⚡</span>
-          <span class="section-title">Điểm quan trọng</span>
-          <span class="section-count">${detail.points.length} mục</span>
-        </div>
-        <ul class="points-list">
-          ${detail.points.map(p => `
-            <li>
-              <span class="point-bullet"></span>
-              <span>${escHtml(p)}</span>
-            </li>
-          `).join('')}
-        </ul>
+  const points = detail.points || [];
+  html += `
+    <div class="detail-card" id="section-points">
+      <div class="section-header">
+        <span class="section-icon">⚡</span>
+        <span class="section-title" style="flex:1;">Điểm quan trọng</span>
+        <span class="section-count">${points.length} mục</span>
+        <button class="action-btn edit" data-action="edit-points" style="margin-left: 8px;" title="Sửa điểm quan trọng">✏️</button>
       </div>
-      <div class="detail-divider"></div>
-    `;
-  }
+      ${points.length > 0 ? `
+      <ul class="points-list">
+        ${points.map(p => `
+          <li>
+            <span class="point-bullet"></span>
+            <span>${escHtml(p)}</span>
+          </li>
+        `).join('')}
+      </ul>` : '<p style="color:#888; margin-top:10px;">Chưa có điểm quan trọng nào. Nhấn biểu tượng ✏️ để thêm.</p>'}
+    </div>
+    <div class="detail-divider"></div>
+  `;
 
-  if (detail.code) {
-    html += `
-      <div class="detail-card" id="section-code">
-        <div class="section-header">
-          <span class="section-icon">💻</span>
-          <span class="section-title">Code Sample</span>
-        </div>
-        <div class="code-block-wrapper">
-          <div class="code-block-header">
-            <span class="code-lang-badge">Kotlin</span>
-            <button class="btn-copy" id="btn-copy-code">Copy</button>
-          </div>
-          <pre class="detail-code"><code id="code-content">${escHtml(detail.code)}</code></pre>
-        </div>
+  const code = detail.code || '';
+  html += `
+    <div class="detail-card" id="section-code">
+      <div class="section-header">
+        <span class="section-icon">💻</span>
+        <span class="section-title" style="flex:1;">Code Sample</span>
+        <button class="action-btn edit" data-action="edit-code" title="Sửa mã nguồn">✏️</button>
       </div>
-      <div class="detail-divider"></div>
-    `;
-  }
+      ${code ? `
+      <div class="code-block-wrapper">
+        <div class="code-block-header">
+          <span class="code-lang-badge">Code</span>
+          <button class="btn-copy" id="btn-copy-code">Copy</button>
+        </div>
+        <pre class="detail-code"><code id="code-content">${escHtml(code)}</code></pre>
+      </div>` : '<p style="color:#888; margin-top:10px;">Chưa có code sample nào. Nhấn biểu tượng ✏️ để thêm.</p>'}
+    </div>
+    <div class="detail-divider"></div>
+  `;
 
   let itemState = null;
   if (currentDetailItem) {
@@ -134,82 +140,82 @@ export function renderDetail(id, detail) {
   const customQuestions = itemState?.customQuestions || [];
   const answers = itemState?.answers || {};
 
-  if ((detail.interviewTips && detail.interviewTips.length > 0) || customQuestions.length > 0) {
-    const rawTips = detail.interviewTips || [];
-    const parsedTips = rawTips.map((tip, i) => {
-      const levelMatch = tip.match(/^\[([^\]]+)\]\s*/);
-      const level  = levelMatch ? levelMatch[1] : null;
-      const rest   = levelMatch ? tip.slice(levelMatch[0].length) : tip;
+  const rawTips = detail.interviewTips || [];
+  const parsedTips = rawTips.map((tip, i) => {
+    const levelMatch = tip.match(/^\[([^\]]+)\]\s*/);
+    const level  = levelMatch ? levelMatch[1] : null;
+    const rest   = levelMatch ? tip.slice(levelMatch[0].length) : tip;
 
-      const arrowIdx = rest.indexOf('→');
-      const question = arrowIdx >= 0 ? rest.slice(0, arrowIdx).trim() : rest.trim();
-      const defaultAnswer = arrowIdx >= 0 ? rest.slice(arrowIdx + 1).trim() : '';
+    const arrowIdx = rest.indexOf('→');
+    const question = arrowIdx >= 0 ? rest.slice(0, arrowIdx).trim() : rest.trim();
+    const defaultAnswer = arrowIdx >= 0 ? rest.slice(arrowIdx + 1).trim() : '';
 
-      return { 
-        level, 
-        question, 
-        answer: answers[tip] || defaultAnswer, // user answer overrides default
-        idx: i, 
-        idId: tip,
-        isCustom: false 
-      };
-    });
-
-    customQuestions.forEach((cq, i) => {
-      parsedTips.push({
-        level: 'Custom',
-        question: cq,
-        answer: answers[String(i)] || '',
-        idx: rawTips.length + i,
-        idId: String(i),
-        isCustom: true
-      });
-    });
-
-    const levelColors = {
-      'Junior':      'level-junior',
-      'Mid':         'level-mid',
-      'Mid-Senior':  'level-mid-senior',
-      'Senior':      'level-senior',
+    return { 
+      level, 
+      question, 
+      answer: answers[tip] || defaultAnswer, 
+      idx: i, 
+      idId: tip,
+      isCustom: false 
     };
+  });
 
-    html += `
-      <div class="detail-card" id="section-tips">
-        <div class="section-header">
-          <span class="section-icon">🎯</span>
-          <span class="section-title">Interview Tips</span>
-          <span class="section-count">${parsedTips.length} câu hỏi</span>
-        </div>
-        <p class="tips-hint">💡 Nhấn vào câu hỏi để xem gợi ý trả lời</p>
-        <ul class="tips-accordion-list" id="tips-accordion-list">
-          ${parsedTips.map(({ level, question, answer, idx, idId, isCustom }) => `
-            <li class="tip-accordion-item" data-idx="${idx}">
-              <div style="display: flex; gap: 8px;">
-                <button class="tip-accordion-trigger" aria-expanded="false" aria-controls="tip-answer-${idx}" style="flex: 1;">
-                  <span class="tip-q-left">
-                    ${level ? `<span class="tip-level-badge ${levelColors[level] || 'level-mid'}">${escHtml(level)}</span>` : `<span class="tip-num">Q${idx + 1}</span>`}
-                    <span class="tip-question-text">${escHtml(question)}</span>
-                  </span>
-                  <span class="tip-chevron">›</span>
-                </button>
-                <button class="action-btn edit tip-btn" data-action="edit-answer" data-id="${escHtml(idId)}" title="Trả lời / Sửa">✏️</button>
-                ${isCustom ? `<button class="action-btn del tip-btn" data-action="delete-tip" data-idx="${idId}" title="Xoá câu hỏi">🗑️</button>` : ''}
-              </div>
-              ${answer ? `
-                <div class="tip-accordion-panel" id="tip-answer-${idx}" hidden>
-                  <div class="tip-answer-content">
-                    <span class="tip-answer-icon">💡</span>
-                    <span>${escHtml(answer)}</span>
-                  </div>
-                </div>
-              ` : ''}
-            </li>
-          `).join('')}
-        </ul>
-        <button class="btn-secondary btn-sm" id="btn-add-tip-detail" style="margin-top: 12px; font-size: 12px;">+ Thêm câu hỏi interview</button>
+  customQuestions.forEach((cq, i) => {
+    parsedTips.push({
+      level: 'Custom',
+      question: cq,
+      answer: answers[String(i)] || '',
+      idx: rawTips.length + i,
+      idId: String(i),
+      isCustom: true
+    });
+  });
+
+  const levelColors = {
+    'Junior':      'level-junior',
+    'Mid':         'level-mid',
+    'Mid-Senior':  'level-mid-senior',
+    'Senior':      'level-senior',
+  };
+
+  html += `
+    <div class="detail-card" id="section-tips">
+      <div class="section-header">
+        <span class="section-icon">🎯</span>
+        <span class="section-title" style="flex:1;">Interview Tips</span>
+        <span class="section-count">${parsedTips.length} câu</span>
+        <button class="action-btn edit" data-action="edit-tips" style="margin-left: 8px;" title="Sửa bộ câu mặc định">✏️</button>
       </div>
-    `;
-  }
+      <p class="tips-hint">💡 Nhấn vào câu hỏi để xem gợi ý trả lời</p>
+      ${parsedTips.length > 0 ? `
+      <ul class="tips-accordion-list" id="tips-accordion-list">
+        ${parsedTips.map(({ level, question, answer, idx, idId, isCustom }) => `
+          <li class="tip-accordion-item" data-idx="${idx}">
+            <div style="display: flex; gap: 8px;">
+              <button class="tip-accordion-trigger" aria-expanded="false" aria-controls="tip-answer-${idx}" style="flex: 1;">
+                <span class="tip-q-left">
+                  ${level ? `<span class="tip-level-badge ${levelColors[level] || 'level-mid'}">${escHtml(level)}</span>` : `<span class="tip-num">Q${idx + 1}</span>`}
+                  <span class="tip-question-text">${escHtml(question)}</span>
+                </span>
+                <span class="tip-chevron">›</span>
+              </button>
+              <button class="action-btn edit tip-btn" data-action="edit-answer" data-id="${escHtml(idId)}" title="Trả lời / Sửa">✏️</button>
+              ${isCustom ? `<button class="action-btn del tip-btn" data-action="delete-tip" data-idx="${idId}" title="Xoá câu hỏi">🗑️</button>` : ''}
+            </div>
+            ${answer ? `
+              <div class="tip-accordion-panel" id="tip-answer-${idx}" hidden>
+                <div class="tip-answer-content">
+                  <span class="tip-answer-icon">💡</span>
+                  <span>${escHtml(answer)}</span>
+                </div>
+              </div>
+            ` : ''}
+          </li>
+        `).join('')}
+      </ul>` : '<p style="color:#888; margin-top:10px;">Chưa có câu hỏi phỏng vấn nào.</p>'}
+      <button class="btn-secondary btn-sm" id="btn-add-tip-detail" style="margin-top: 12px; font-size: 12px;">+ Thêm câu hỏi interview (Custom)</button>
+    </div>
+  `;
 
   content.innerHTML = html;
 
@@ -230,6 +236,30 @@ export function renderDetail(id, detail) {
     });
   });
 }
+
+import { saveDetail } from './services/api.js';
+import { showToast } from './ui/toast.js';
+
+export async function updateDetailData(id, newFields) {
+  const current = latestDetailData || {};
+  const updated = { ...current, ...newFields, id };
+  
+  if (!updated.title && currentDetailItem) {
+     const cat = getState().categories.find(c => c.id === currentDetailItem.catId);
+     const it = cat ? cat.items.find(i => i.id === currentDetailItem.itemId) : null;
+     if (it) updated.title = it.name;
+  }
+  
+  try {
+    await saveDetail(id, updated);
+    latestDetailData = updated;
+    renderDetail(id, updated);
+    showToast('Đã lưu thành công!', 'success');
+  } catch (err) {
+    showToast('Lỗi lưu thay đổi chi tiết!', 'error');
+  }
+}
+
 
 function renderNotFound(id) {
   document.title = 'Không tìm thấy – Android Knowledge';
@@ -314,6 +344,12 @@ export function closeDetailSPA() {
 
   document.title = 'Android Full Knowledge List';
   if (contentArea) contentArea.scrollTop = savedScrollY;
+
+  const url = new URL(window.location);
+  if (url.searchParams.has('id')) {
+    url.searchParams.delete('id');
+    window.history.replaceState({ view: 'home' }, '', url);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -204,7 +204,7 @@ function renderCheckItem(catId, item) {
     ? `<div class="item-note-preview">${escHtml(item.note.split('\n')[0].slice(0, 80))}</div>`
     : '';
 
-  const hasDetail = typeof ITEM_DETAILS !== 'undefined' && ITEM_DETAILS[item.id];
+  const hasDetail = true;
 
   return `
     <div class="check-item ${item.done ? 'done-item' : ''}" data-cat-id="${catId}" data-item-id="${item.id}">

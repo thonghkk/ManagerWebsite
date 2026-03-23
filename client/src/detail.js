@@ -1,8 +1,16 @@
 import { ITEM_DETAILS } from './data/itemDetails.js';
 import { getState } from './state/store.js';
 import { eventBus } from './events/eventBus.js';
+import { getActiveHubId } from './data/hubs.js';
 
 export let currentDetailItem = null;
+
+// ─── English Hub proxy ───────────────────────────────────────────────────────
+let _engModule = null;
+async function getEngModule() {
+  if (!_engModule) _engModule = await import('./englishDetail.js');
+  return _engModule;
+}
 
 function escHtml(s) {
   return String(s)
@@ -239,7 +247,7 @@ export function renderDetail(id, detail) {
   });
 }
 
-import { saveDetail } from './services/api.js';
+import { saveDetail, fetchDetail } from './services/api.js';
 import { showToast } from './ui/toast.js';
 
 export async function updateDetailData(id, newFields) {
@@ -292,7 +300,7 @@ export async function openDetailSPA(catId, itemId) {
   const topbar = document.querySelector('.topbar');
   const detailContainer = $('detail-page-container');
   const sidebar = $('sidebar');
-  
+
   if (detailContainer && detailContainer.style.display !== 'block') {
     if (contentArea) savedScrollY = contentArea.scrollTop;
   }
@@ -311,11 +319,30 @@ export async function openDetailSPA(catId, itemId) {
   const hero = $('detail-hero');
   if (hero) hero.style.display = '';
 
+  // ── Route English Hub to dedicated renderer ──────────────────────────────
+  const activeHub = getActiveHubId();
+  if (activeHub === 'english') {
+    const eng = await getEngModule();
+    // Wire events once
+    if (!detailContainer._engEventsWired) {
+      eng.wireEnglishDetailEvents(detailContainer);
+      detailContainer._engEventsWired = true;
+    }
+    await eng.openEnglishDetailSPA(catId, itemId);
+    return;
+  }
+
+  // ── Default: Android / other hubs ───────────────────────────────────────
   const id = itemId;
-  if (!id || !ITEM_DETAILS[id]) {
+  if (!id) {
     renderNotFound(id);
     return;
   }
+
+  const state = getState();
+  const cat = state?.categories?.find(c => c.id === catId);
+  const item = cat?.items?.find(i => i.id === itemId);
+  const itemName = item?.name || id;
 
   const content = $('detail-content');
   if (content) {
@@ -323,15 +350,14 @@ export async function openDetailSPA(catId, itemId) {
   }
 
   try {
-    const res = await fetch(`./src/data/details/${id}.json`);
-    if (!res.ok) throw new Error("JSON not found");
-    const fullDetail = await res.json();
+    const fullDetail = await fetchDetail(id);
+    if (!fullDetail.title) fullDetail.title = itemName;
     latestDetailData = fullDetail;
     renderDetail(id, fullDetail);
   } catch (err) {
-    console.warn("Failed to load details json, falling back to summary", err);
-    latestDetailData = ITEM_DETAILS[id];
-    renderDetail(id, ITEM_DETAILS[id]); 
+    console.warn('Failed to load details json, falling back to summary', err);
+    latestDetailData = ITEM_DETAILS[id] || { title: itemName, summary: '', points: [], code: '', interviewTips: [] };
+    renderDetail(id, latestDetailData);
   }
 }
 

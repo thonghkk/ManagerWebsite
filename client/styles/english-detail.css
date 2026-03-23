@@ -1,0 +1,535 @@
+/* ══════════════════════════════════════════════════════════════════
+   english-detail.css
+   Giao diện chi tiết cho English Grammar Hub
+   Theme: Xanh ngọc / Tím nhạt — vui, dễ học, dễ nhìn
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── English hub tokens ── */
+:root {
+  --eng-primary:      #10b981;   /* emerald */
+  --eng-primary-lt:   #34d399;
+  --eng-primary-dim:  rgba(16,185,129,0.12);
+  --eng-accent:       #818cf8;   /* indigo-light */
+  --eng-accent-dim:   rgba(129,140,248,0.12);
+  --eng-gold:         #fbbf24;
+  --eng-gold-dim:     rgba(251,191,36,0.10);
+  --eng-red:          #f87171;
+  --eng-blue:         #60a5fa;
+  --eng-blue-dim:     rgba(96,165,250,0.10);
+  --eng-bg-card:      #161b29;
+  --eng-bg-inner:     rgba(255,255,255,0.03);
+  --eng-border:       rgba(255,255,255,0.08);
+  --eng-border-glow:  rgba(16,185,129,0.3);
+  --eng-radius:       16px;
+  --eng-radius-sm:    10px;
+  --eng-shadow:       0 8px 32px rgba(0,0,0,0.45);
+  --eng-shadow-glow:  0 0 40px rgba(16,185,129,0.10);
+  --eng-font:         'Inter', system-ui, sans-serif;
+}
+
+/* ══ Tag / Badge overrides for English Hub ══════════════════════════ */
+.eng-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  background: var(--eng-primary-dim);
+  border: 1px solid rgba(16,185,129,0.35);
+  color: var(--eng-primary-lt);
+}
+
+.eng-id-badge {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--eng-border);
+  color: #64748b;
+}
+
+/* ══ Loading ════════════════════════════════════════════════════════ */
+.eng-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.eng-loading-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid rgba(255,255,255,0.08);
+  border-top-color: var(--eng-primary);
+  border-radius: 50%;
+  animation: engSpin 0.8s linear infinite;
+}
+
+@keyframes engSpin { to { transform: rotate(360deg); } }
+
+/* ══ Card base ══════════════════════════════════════════════════════ */
+.eng-card {
+  background: var(--eng-bg-card);
+  border: 1px solid var(--eng-border);
+  border-radius: var(--eng-radius);
+  padding: 24px 28px;
+  margin-bottom: 18px;
+  box-shadow: var(--eng-shadow);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+  animation: engCardIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.eng-card:hover {
+  border-color: var(--eng-border-glow);
+  box-shadow: var(--eng-shadow), var(--eng-shadow-glow);
+  transform: translateY(-1px);
+}
+
+@keyframes engCardIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eng-card:nth-child(1) { animation-delay: 0.05s; }
+.eng-card:nth-child(2) { animation-delay: 0.10s; }
+.eng-card:nth-child(3) { animation-delay: 0.15s; }
+.eng-card:nth-child(4) { animation-delay: 0.20s; }
+.eng-card:nth-child(5) { animation-delay: 0.25s; }
+
+/* ══ Card header ════════════════════════════════════════════════════ */
+.eng-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--eng-border);
+}
+
+.eng-section-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.eng-section-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.eng-count-badge {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--eng-border);
+  color: #64748b;
+}
+
+/* ══ Action buttons ════════════════════════════════════════════════ */
+.eng-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--eng-border);
+  background: rgba(255,255,255,0.04);
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.eng-action-btn:hover {
+  background: var(--eng-primary-dim);
+  border-color: rgba(16,185,129,0.4);
+  color: var(--eng-primary-lt);
+  transform: scale(1.08);
+}
+
+.eng-action-btn.sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.eng-action-btn.danger:hover {
+  background: rgba(248,113,113,0.12);
+  border-color: rgba(248,113,113,0.35);
+  color: var(--eng-red);
+}
+
+.eng-item-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+*:hover > .eng-item-actions,
+.eng-example-card:hover .eng-item-actions,
+.eng-rule-item:hover .eng-item-actions,
+.eng-practice-card:hover .eng-item-actions {
+  opacity: 1;
+}
+
+/* ══ Formula / Structure Card ═══════════════════════════════════════ */
+.eng-formula-card {
+  border-color: rgba(129,140,248,0.25);
+  background: linear-gradient(135deg, #161b29 0%, #1a1633 100%);
+}
+
+.eng-formula-card:hover {
+  border-color: rgba(129,140,248,0.45);
+  box-shadow: var(--eng-shadow), 0 0 30px rgba(129,140,248,0.12);
+}
+
+.eng-formula-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 22px;
+  border-radius: var(--eng-radius-sm);
+  background: rgba(129,140,248,0.06);
+  border: 1px solid rgba(129,140,248,0.15);
+  min-height: 60px;
+}
+
+.eng-formula-line {
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  color: #c4b5fd;
+  letter-spacing: .04em;
+  line-height: 1.7;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(129,140,248,0.08);
+  border-left: 3px solid var(--eng-accent);
+  word-break: break-word;
+}
+
+/* ══ Rules list ════════════════════════════════════════════════════ */
+.eng-rules-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eng-rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: var(--eng-radius-sm);
+  background: var(--eng-bg-inner);
+  border: 1px solid var(--eng-border);
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.eng-rule-item:hover {
+  background: rgba(16,185,129,0.05);
+  border-color: rgba(16,185,129,0.2);
+  transform: translateX(2px);
+}
+
+.eng-rule-bullet {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.eng-rule-text {
+  flex: 1;
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* ══ Examples ══════════════════════════════════════════════════════ */
+.eng-examples-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eng-example-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: var(--eng-radius-sm);
+  border: 1px solid rgba(16,185,129,0.18);
+  background: rgba(16,185,129,0.04);
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.eng-example-card:hover {
+  border-color: rgba(16,185,129,0.35);
+  background: rgba(16,185,129,0.07);
+  box-shadow: 0 4px 16px rgba(16,185,129,0.08);
+}
+
+.eng-example-inner {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eng-example-en,
+.eng-example-vi {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.eng-ex-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  padding: 2px 8px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: var(--eng-primary-dim);
+  color: var(--eng-primary-lt);
+  border: 1px solid rgba(16,185,129,0.25);
+}
+
+.eng-ex-label.vi {
+  background: var(--eng-gold-dim);
+  color: var(--eng-gold);
+  border-color: rgba(251,191,36,0.25);
+}
+
+.eng-ex-en-text {
+  font-size: 15px;
+  color: #e2e8f0;
+  font-weight: 500;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.eng-ex-vi-text {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.eng-example-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 7px;
+  background: var(--eng-gold-dim);
+  border: 1px solid rgba(251,191,36,0.15);
+  font-size: 13px;
+  color: #d4a843;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.eng-ex-note-icon { flex-shrink: 0; font-size: 14px; }
+
+.eng-example-card .eng-item-actions {
+  padding: 10px 10px 10px 0;
+  flex-direction: column;
+}
+
+/* ══ My Notes section ══════════════════════════════════════════════ */
+.eng-notes-card {
+  border-color: rgba(251,191,36,0.2);
+  background: linear-gradient(135deg, #161b29 0%, #1c1a0e 100%);
+}
+
+.eng-notes-card:hover {
+  border-color: rgba(251,191,36,0.4);
+  box-shadow: var(--eng-shadow), 0 0 30px rgba(251,191,36,0.08);
+}
+
+.eng-notes-pre {
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  color: #d4c48a;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 16px 20px;
+  border-radius: var(--eng-radius-sm);
+  background: rgba(251,191,36,0.05);
+  border: 1px solid rgba(251,191,36,0.12);
+  min-height: 80px;
+}
+
+.eng-notes-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 20px;
+  text-align: center;
+  border-radius: var(--eng-radius-sm);
+  border: 2px dashed rgba(251,191,36,0.2);
+  color: #78716c;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.eng-notes-placeholder-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+/* ══ Practice section ══════════════════════════════════════════════ */
+.eng-practice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eng-practice-card {
+  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: var(--eng-radius-sm);
+  background: var(--eng-blue-dim);
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.eng-practice-card:hover {
+  border-color: rgba(96,165,250,0.38);
+  box-shadow: 0 4px 16px rgba(96,165,250,0.08);
+}
+
+.eng-practice-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+}
+
+.eng-practice-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 5px;
+  background: var(--eng-blue-dim);
+  color: var(--eng-blue);
+  border: 1px solid rgba(96,165,250,0.25);
+  flex-shrink: 0;
+  font-family: 'Fira Code', monospace;
+}
+
+.eng-practice-q {
+  flex: 1;
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.eng-practice-toggle {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 0 16px 10px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px dashed rgba(96,165,250,0.25);
+  background: transparent;
+  color: var(--eng-blue);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: .03em;
+}
+
+.eng-practice-toggle:hover {
+  background: var(--eng-blue-dim);
+  border-style: solid;
+}
+
+.eng-practice-toggle.revealed {
+  border-color: rgba(16,185,129,0.3);
+  color: var(--eng-primary-lt);
+}
+
+.eng-practice-answer {
+  padding: 0 16px 14px;
+}
+
+.eng-practice-answer-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 15px;
+  border-radius: 8px;
+  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(16,185,129,0.2);
+  font-size: 14px;
+  color: #a7f3d0;
+  line-height: 1.6;
+}
+
+.eng-answer-icon { flex-shrink: 0; font-size: 16px; }
+
+/* ══ Empty states ══════════════════════════════════════════════════ */
+.eng-empty-hint {
+  font-size: 13px;
+  color: #475569;
+  font-style: italic;
+  padding: 12px 0;
+}
+
+.eng-empty-state {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.eng-empty-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.eng-empty-state p {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* ══ Detail Hero override for English ══════════════════════════════ */
+#detail-page-container .detail-title {
+  background: linear-gradient(135deg, #e2e8f0 0%, var(--eng-primary-lt) 60%, var(--eng-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══ Responsive ════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .eng-card { padding: 18px 16px; }
+  .eng-formula-line { font-size: 13px; }
+  .eng-ex-en-text { font-size: 14px; }
+  .eng-example-card .eng-item-actions { opacity: 1; }
+  .eng-rule-item .eng-item-actions { opacity: 1; }
+  .eng-practice-card .eng-item-actions { opacity: 1; }
+}

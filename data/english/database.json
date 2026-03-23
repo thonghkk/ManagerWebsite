@@ -2,20 +2,533 @@
   {
     "id": "mn1mylvj4ilcb",
     "name": "Grammar",
-    "icon": "📦",
-    "items": [],
+    "icon": "📚",
+    "items": [
+      {
+        "id": "gr_tenses_01",
+        "name": "Simple Present (Thì hiện tại đơn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_02",
+        "name": "Present Continuous (Thì hiện tại tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_03",
+        "name": "Present Perfect (Thì hiện tại hoàn thành)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_04",
+        "name": "Present Perfect Continuous (Thì hiện tại hoàn thành tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_05",
+        "name": "Simple Past (Thì quá khứ đơn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_06",
+        "name": "Past Continuous (Thì quá khứ tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_07",
+        "name": "Past Perfect (Thì quá khứ hoàn thành)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_08",
+        "name": "Past Perfect Continuous (Thì quá khứ hoàn thành tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_09",
+        "name": "Simple Future (Thì tương lai đơn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_10",
+        "name": "Future Continuous (Thì tương lai tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_11",
+        "name": "Future Perfect (Thì tương lai hoàn thành)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_tenses_12",
+        "name": "Future Perfect Continuous (Thì tương lai hoàn thành tiếp diễn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_modal_01",
+        "name": "Modal Verbs (Động từ khuyết thiếu: can, could, may, might, must, should, would, shall, ought to)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_modal_02",
+        "name": "Semi-Modals (need to, have to, be able to, used to, dare)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_passive_01",
+        "name": "Passive Voice (Câu bị động) — All Tenses",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_passive_02",
+        "name": "Passive with Modal Verbs (Bị động với động từ khuyết thiếu)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conditional_01",
+        "name": "Zero Conditional (Câu điều kiện loại 0 — Sự thật hiển nhiên)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conditional_02",
+        "name": "First Conditional (Câu điều kiện loại 1 — Có thể xảy ra)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conditional_03",
+        "name": "Second Conditional (Câu điều kiện loại 2 — Giả định hiện tại)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conditional_04",
+        "name": "Third Conditional (Câu điều kiện loại 3 — Giả định quá khứ)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conditional_05",
+        "name": "Mixed Conditional (Câu điều kiện hỗn hợp)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_reported_01",
+        "name": "Reported Speech — Statements (Câu tường thuật — Câu kể)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_reported_02",
+        "name": "Reported Speech — Questions (Câu tường thuật — Câu hỏi)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_reported_03",
+        "name": "Reported Speech — Commands & Requests (Câu tường thuật — Câu mệnh lệnh)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_verb_forms_01",
+        "name": "Infinitive vs Gerund (Động từ nguyên mẫu vs Danh động từ)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_verb_forms_02",
+        "name": "Participles (Present Participle & Past Participle)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_verb_forms_03",
+        "name": "Causative Verbs (have/get/make/let someone do something)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_verb_forms_04",
+        "name": "Phrasal Verbs (Động từ cụm — cấu trúc & cách dùng)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_articles_01",
+        "name": "Articles: a / an / the / zero article (Mạo từ)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_nouns_01",
+        "name": "Countable & Uncountable Nouns (Danh từ đếm được & không đếm được)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_nouns_02",
+        "name": "Plural Forms & Irregular Plurals (Dạng số nhiều bất quy tắc)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_nouns_03",
+        "name": "Possessives & Genitive Case (Sở hữu cách: 's / of)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_pronouns_01",
+        "name": "Personal, Reflexive & Emphatic Pronouns (Đại từ nhân xưng, phản thân, nhấn mạnh)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_pronouns_02",
+        "name": "Relative Pronouns & Relative Clauses (who, which, that, whose, whom)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_pronouns_03",
+        "name": "Indefinite Pronouns (some, any, no, every + body/one/thing/where)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_adj_adv_01",
+        "name": "Adjectives — Order, Comparative & Superlative (Tính từ — thứ tự, so sánh)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_adj_adv_02",
+        "name": "Adverbs — Types, Position & Formation (Trạng từ — loại, vị trí, cấu tạo)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_adj_adv_03",
+        "name": "Adjective vs Adverb (Phân biệt tính từ và trạng từ)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_prepositions_01",
+        "name": "Prepositions of Time (at, on, in, by, until, for, since, during)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_prepositions_02",
+        "name": "Prepositions of Place & Direction (in, on, at, under, above, between, through...)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_prepositions_03",
+        "name": "Fixed Prepositions with Verbs, Adjectives & Nouns (depend on, interested in...)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conjunctions_01",
+        "name": "Coordinating Conjunctions (for, and, nor, but, or, yet, so — FANBOYS)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conjunctions_02",
+        "name": "Subordinating Conjunctions (because, although, while, unless, if, when...)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_conjunctions_03",
+        "name": "Correlative Conjunctions (either...or, neither...nor, both...and, not only...but also)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_01",
+        "name": "Sentence Structure: Simple, Compound, Complex & Compound-Complex",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_02",
+        "name": "Subject-Verb Agreement (Sự hòa hợp chủ ngữ — động từ)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_03",
+        "name": "Question Forms: Yes/No, Wh-questions & Tag Questions",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_04",
+        "name": "Negative Forms & Double Negatives",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_05",
+        "name": "Inversion (Đảo ngữ — Not only..., Rarely..., So...that...)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_sentence_06",
+        "name": "Cleft Sentences (Câu chẻ — It is...that/who, What...is/are)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_clause_01",
+        "name": "Relative Clauses: Defining vs Non-defining",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_clause_02",
+        "name": "Noun Clauses (that-clauses, wh-clauses as subject/object)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_clause_03",
+        "name": "Adverbial Clauses (time, reason, result, purpose, concession, condition)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_clause_04",
+        "name": "Participle Clauses (Mệnh đề phân từ — rút gọn mệnh đề)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_quantifiers_01",
+        "name": "Quantifiers (much, many, few, little, a lot of, plenty of, enough, too many...)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_determiners_01",
+        "name": "Determiners: this/that/these/those + each/every/all/both/either/neither",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_wishes_01",
+        "name": "Wish & If only (Ước muốn — hiện tại, quá khứ, tương lai)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_regret_01",
+        "name": "Regret Expressions (should have, ought to have, needn't have, didn't need to)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_emphasis_01",
+        "name": "Emphasis & Fronting (Nhấn mạnh — do/does/did, fronted adverbials)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_punctuation_01",
+        "name": "Punctuation Rules (dấu câu: comma, semicolon, colon, apostrophe, dash)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_wordform_01",
+        "name": "Word Formation: Prefixes & Suffixes (Cấu tạo từ — tiền tố & hậu tố)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "gr_wordform_02",
+        "name": "Parts of Speech Conversion (Chuyển đổi từ loại: noun/verb/adj/adv)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
     "completed": false
   },
   {
     "id": "mn1wbagd8gqrs",
     "name": "Vocabulary",
-    "icon": "📦",
+    "icon": "🔤📘",
     "items": [
       {
         "id": "mn1wbzup3wjih",
         "name": "House",
         "done": false,
         "note": "",
+        "customQuestions": [],
+        "answers": {}
+      }
+    ],
+    "completed": false
+  },
+  {
+    "id": "mn3b5jnifyemx",
+    "name": "Speaking",
+    "icon": "🗣",
+    "items": [
+      {
+        "id": "mn3b7q9fsqcy2",
+        "name": "Shadowing",
+        "done": false,
+        "note": "ddd",
         "customQuestions": [],
         "answers": {}
       }

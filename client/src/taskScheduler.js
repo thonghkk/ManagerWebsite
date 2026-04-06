@@ -45,26 +45,23 @@ export class TaskSchedulerController {
     );
   }
 
-  // Progress = done scheduled days / total scheduled days
-  // If no daily_schedule set at all → fall back to total days in range
+  // Progress = completion across all days in the range
+  // Removed implicit skip logic; all days must be completed 
   getTaskProgress(task) {
-    const ds = task.daily_schedule || {};
     const dp = task.daily_progress || {};
-
-    const scheduledDates = Object.entries(ds)
-      .filter(([, s]) => s && s.start && s.end)
-      .map(([d]) => d);
-
-    if (scheduledDates.length === 0) {
-      // Fallback: iterate date range
-      const totalDays = this.getDaysDiff(task.start_date, task.end_date) + 1;
-      const doneDays = Object.values(dp).filter(Boolean).length;
-      return { done: doneDays, total: totalDays, pct: Math.round((doneDays / totalDays) * 100) };
+    const totalDays = this.getDaysDiff(task.start_date, task.end_date) + 1;
+    let doneDays = 0;
+    
+    // Count days done within range
+    for (let i = 0; i < totalDays; i++) {
+        const d = new Date(task.start_date + 'T00:00:00');
+        d.setDate(d.getDate() + i);
+        const dateStr = d.toISOString().split('T')[0];
+        if (dp[dateStr] === true) doneDays++;
     }
 
-    const doneDays = scheduledDates.filter(d => dp[d] === true).length;
-    const pct = Math.round((doneDays / scheduledDates.length) * 100);
-    return { done: doneDays, total: scheduledDates.length, pct };
+    const pct = totalDays > 0 ? Math.round((doneDays / totalDays) * 100) : 0;
+    return { done: doneDays, total: totalDays, pct };
   }
 
   formatDateLabel(dateStr) {
@@ -191,23 +188,21 @@ export class TaskSchedulerController {
     for (let d = 1; d <= daysInMonth; d++) {
       const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const dayTasks = this.getTasksForDay(dateStr);
-      
-      // Filter out tasks that are skipped on this date (no schedule)
       const scheduledTasks = dayTasks.filter(t => {
         const s = t.daily_schedule && t.daily_schedule[dateStr];
         return s && s.start && s.end;
       });
 
-      const cell = document.createElement('div');
-      cell.className = 'ts-cal-cell';
-      if (dateStr === today) cell.classList.add('today');
-      if (dateStr === this.selectedDate) cell.classList.add('selected');
-
-      // Dots: one per scheduled task, green if done that day, else colored
+      // Dots: one per scheduled task for this day
       const dots = scheduledTasks.slice(0, 4).map(t => {
         const done = t.daily_progress && t.daily_progress[dateStr];
         return `<span class="ts-dot ${done ? 'done' : 'pending'}"></span>`;
       }).join('');
+
+      const cell = document.createElement('div');
+      cell.className = 'ts-cal-cell';
+      if (dateStr === today) cell.classList.add('today');
+      if (dateStr === this.selectedDate) cell.classList.add('selected');
 
       const hasAny = scheduledTasks.length > 0;
       cell.innerHTML = `
@@ -233,7 +228,7 @@ export class TaskSchedulerController {
     const isPast = this.selectedDate < today;
     let dayTasks = this.getTasksForDay(this.selectedDate);
 
-    // Sort tasks: Scheduled ones first (by start time), then skipped ones
+    // Sort tasks: Scheduled ones first (by start time), then un-scheduled ones
     dayTasks.sort((a, b) => {
       const sA = a.daily_schedule && a.daily_schedule[this.selectedDate];
       const sB = b.daily_schedule && b.daily_schedule[this.selectedDate];
@@ -246,13 +241,10 @@ export class TaskSchedulerController {
       }
       if (aHas && !bHas) return -1;
       if (!aHas && bHas) return 1;
-      return 0; // Both skipped
+      return 0; // Both un-scheduled
     });
 
-    const scheduledCount = dayTasks.filter(t => {
-      const s = t.daily_schedule && t.daily_schedule[this.selectedDate];
-      return s && s.start && s.end;
-    }).length;
+    const taskCount = dayTasks.length;
 
     // Header
     const header = document.getElementById('ts-day-header');
@@ -273,7 +265,7 @@ export class TaskSchedulerController {
         </div>
       </div>
       <div class="ts-day-summary">
-        ${isPast ? '<span class="ts-past-note">🔒 Read-only</span>' : `${scheduledCount} scheduled task${scheduledCount !== 1 ? 's' : ''}`}
+        ${isPast ? '<span class="ts-past-note">🔒 Read-only</span>' : `${taskCount} task${taskCount !== 1 ? 's' : ''}`}
       </div>
     `;
 
@@ -364,7 +356,6 @@ export class TaskSchedulerController {
       const done       = dp[this.selectedDate] === true;
       const daySched   = ds[this.selectedDate]; // { start, end } | null/undefined
       const hasTimeSched = daySched && daySched.start && daySched.end;
-      const isSkipped  = !hasTimeSched; // no schedule = skip this day
 
       const progress   = this.getTaskProgress(task);
       const totalDays  = this.getDaysDiff(task.start_date, task.end_date) + 1;
@@ -377,26 +368,25 @@ export class TaskSchedulerController {
 
       const isLocked = isPast || isTimeLocked;
 
-      // Toggle state: locked or skipped → disabled
-      const toggleDisabled = (isLocked || isSkipped) ? 'disabled' : '';
-      const toggleClass = `ts-toggle ${done ? 'done' : ''} ${isLocked ? 'locked' : ''} ${isSkipped ? 'skip' : ''}`;
-      const toggleIcon  = isSkipped ? '/' : isLocked ? (done ? '✓' : '—') : (done ? '✓' : '');
-      const toggleTitle = isSkipped  ? 'Not scheduled today'
-        : isPast          ? 'Past day — read only'
+      // Toggle state: locked → disabled
+      const toggleDisabled = isLocked ? 'disabled' : '';
+      const toggleClass = `ts-toggle ${done ? 'done' : ''} ${isLocked ? 'locked' : ''}`;
+      const toggleIcon  = isLocked ? (done ? '✓' : '—') : (done ? '✓' : '');
+      const toggleTitle = isPast          ? 'Past day — read only'
         : isTimeLocked    ? `Time ${daySched.start}–${daySched.end} has passed`
         : done            ? 'Mark Not Done'
         : 'Mark Done';
 
       // ── Time badge ─────────────────────────────────────────
       let timeBadge = '';
-      if (isSkipped) {
-        timeBadge = `<span class="ts-skip-badge">⊘ Not scheduled</span>`;
-      } else if (isActive) {
+      if (isActive) {
         timeBadge = `<span class="ts-time-badge active">🟢 Now · ${daySched.start}–${daySched.end}</span>`;
       } else if (isTimeLocked) {
         timeBadge = `<span class="ts-time-badge past">🕒 ${daySched.start}–${daySched.end}</span>`;
-      } else {
+      } else if (hasTimeSched) {
         timeBadge = `<span class="ts-time-badge upcoming">⏰ ${daySched.start}–${daySched.end}</span>`;
+      } else {
+        timeBadge = `<span class="ts-time-badge no-time">Time not set</span>`;
       }
 
       // ── Inline schedule editor ─────────────────────────────
@@ -411,14 +401,13 @@ export class TaskSchedulerController {
               <span class="ts-sched-sep">→</span>
               <input class="ts-sched-input" type="time" id="sched-e-${task.id}" value="${daySched?.end || ''}" placeholder="End" />
               <button class="ts-sched-save-btn" data-id="${task.id}" title="Save">✓ Set</button>
-              <button class="ts-sched-skip-btn" data-id="${task.id}" title="Mark as not needed today">⊘ Skip</button>
             </div>
           `;
         } else {
           // Time-locked today: show read-only
           schedBlock = `
             <div class="ts-sched-locked-row">
-              🔒 ${hasTimeSched ? `${daySched.start} → ${daySched.end}` : 'Not scheduled'}
+              🔒 ${hasTimeSched ? `${daySched.start} → ${daySched.end}` : 'Time not set'}
             </div>
           `;
         }
@@ -428,7 +417,7 @@ export class TaskSchedulerController {
       }
 
       return `
-        <div class="ts-task-card ${done ? 'done' : 'pending'} ${isLocked ? 'past-locked' : ''} ${isActive ? 'ts-card-active' : ''} ${isSkipped && !isPast ? 'ts-card-skip' : ''}" data-id="${task.id}">
+        <div class="ts-task-card ${done ? 'done' : 'pending'} ${isLocked ? 'past-locked' : ''} ${isActive ? 'ts-card-active' : ''}" data-id="${task.id}">
           <button class="${toggleClass}" data-id="${task.id}" title="${toggleTitle}" ${toggleDisabled}>
             ${toggleIcon}
           </button>
@@ -440,14 +429,14 @@ export class TaskSchedulerController {
             ${task.description ? `<div class="ts-task-desc">${task.description}</div>` : ''}
             ${schedBlock}
             <div class="ts-task-meta-row">
-              <span class="ts-task-day-badge">${isSkipped ? '⊘ Skip' : `Day ${dayIdx} of ${totalDays}`}</span>
+              <span class="ts-task-day-badge">Day ${dayIdx} of ${totalDays}</span>
               <span class="ts-task-range">${task.start_date} → ${task.end_date}</span>
             </div>
             <div class="ts-progress-row">
               <div class="ts-progress-track">
                 <div class="ts-progress-fill ${task.status}" style="width:${progress.pct}%"></div>
               </div>
-              <span class="ts-progress-label">${progress.done}/${progress.total} scheduled days (${progress.pct}%)</span>
+              <span class="ts-progress-label">${progress.done}/${progress.total} days (${progress.pct}%)</span>
             </div>
           </div>
           <button class="ts-card-edit ${isLocked ? 'locked' : ''}" data-id="${task.id}" title="${isLocked ? 'Cannot edit — locked' : 'Edit task'}" ${isLocked ? 'disabled' : ''}>✏️</button>
@@ -478,17 +467,14 @@ export class TaskSchedulerController {
           const end   = document.getElementById(`sched-e-${id}`)?.value;
           if (start && end) {
             this.saveDaySchedule(id, this.selectedDate, { start, end });
+          } else if (!start && !end) {
+            // Clear schedule
+            this.saveDaySchedule(id, this.selectedDate, null);
           } else {
             // Shake to indicate missing fields
             btn.closest('.ts-sched-editor')?.classList.add('ts-sched-shake');
             setTimeout(() => btn.closest('.ts-sched-editor')?.classList.remove('ts-sched-shake'), 500);
           }
-        });
-      });
-      // Skip day
-      container.querySelectorAll('.ts-sched-skip-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          this.saveDaySchedule(btn.dataset.id, this.selectedDate, null);
         });
       });
     }
@@ -503,20 +489,19 @@ export class TaskSchedulerController {
     const dp = { ...(task.daily_progress || {}) };
 
     if (schedule && schedule.start && schedule.end) {
+      if (schedule.start >= schedule.end) {
+        showToast('End time must be after start time', 'error');
+        return;
+      }
       ds[dateStr] = schedule;
     } else {
-      // Skip this day: remove schedule and progress entry
       delete ds[dateStr];
-      delete dp[dateStr];
     }
 
-    // Recalculate overall status using scheduled days
-    const scheduledDates = Object.entries(ds).filter(([, s]) => s?.start && s?.end).map(([d]) => d);
-    const doneDates = scheduledDates.filter(d => dp[d] === true);
-    const status = scheduledDates.length === 0 ? 'todo'
-      : doneDates.length >= scheduledDates.length ? 'done'
-      : doneDates.length > 0 ? 'in_progress'
-      : 'todo';
+    // Status is purely based on progress over total days
+    const total = this.getDaysDiff(task.start_date, task.end_date) + 1;
+    const done  = Object.values(dp).filter(Boolean).length;
+    const status = done === 0 ? 'todo' : done >= total ? 'done' : 'in_progress';
 
     try {
       const resp = await fetch(`/api/tasks/${taskId}?hub=${this.hubId}`, {
@@ -546,20 +531,9 @@ export class TaskSchedulerController {
     const dp = { ...(task.daily_progress || {}) };
     dp[dateStr] = !dp[dateStr];
 
-    // Derive status from scheduled days
-    const ds = task.daily_schedule || {};
-    const scheduledDates = Object.entries(ds).filter(([, s]) => s?.start && s?.end).map(([d]) => d);
-    let status;
-    if (scheduledDates.length > 0) {
-      const doneDates = scheduledDates.filter(d => dp[d] === true);
-      status = doneDates.length >= scheduledDates.length ? 'done'
-        : doneDates.length > 0 ? 'in_progress' : 'todo';
-    } else {
-      // Fallback
-      const total = this.getDaysDiff(task.start_date, task.end_date) + 1;
-      const done  = Object.values(dp).filter(Boolean).length;
-      status = done === 0 ? 'todo' : done >= total ? 'done' : 'in_progress';
-    }
+    const total = this.getDaysDiff(task.start_date, task.end_date) + 1;
+    const done  = Object.values(dp).filter(Boolean).length;
+    const status = done === 0 ? 'todo' : done >= total ? 'done' : 'in_progress';
 
     try {
       const resp = await fetch(`/api/tasks/${taskId}?hub=${this.hubId}`, {

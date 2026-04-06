@@ -72,5 +72,40 @@
       }
     },
     "daily_progress": {}
+  },
+  {
+    "title": "Read a book",
+    "description": "Spend 30 minutes reading a book",
+    "start_date": "2026-04-07",
+    "end_date": "2026-04-30",
+    "status": "todo",
+    "id": "1775490574137",
+    "daily_schedule": {
+      "2026-04-08": {
+        "start": "23:05",
+        "end": "23:35"
+      },
+      "2026-04-07": {
+        "start": "23:05",
+        "end": "23:35"
+      }
+    },
+    "daily_progress": {}
+  },
+  {
+    "title": "Ôn tập lý thuyết ô tô",
+    "description": "Ôn tập kiến thức bằng lái xe ô tô",
+    "start_date": "2026-04-11",
+    "end_date": "2026-04-24",
+    "status": "todo",
+    "id": "1775490783664"
+  },
+  {
+    "title": "English grammar review",
+    "description": "Review the knowledge related to English grammar.",
+    "start_date": "2026-04-07",
+    "end_date": "2026-04-30",
+    "status": "todo",
+    "id": "1775490886534"
   }
 ]

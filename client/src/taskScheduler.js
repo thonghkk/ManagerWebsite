@@ -191,18 +191,25 @@ export class TaskSchedulerController {
     for (let d = 1; d <= daysInMonth; d++) {
       const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const dayTasks = this.getTasksForDay(dateStr);
+      
+      // Filter out tasks that are skipped on this date (no schedule)
+      const scheduledTasks = dayTasks.filter(t => {
+        const s = t.daily_schedule && t.daily_schedule[dateStr];
+        return s && s.start && s.end;
+      });
+
       const cell = document.createElement('div');
       cell.className = 'ts-cal-cell';
       if (dateStr === today) cell.classList.add('today');
       if (dateStr === this.selectedDate) cell.classList.add('selected');
 
-      // Dots: one per task, green if done that day, else colored
-      const dots = dayTasks.slice(0, 4).map(t => {
+      // Dots: one per scheduled task, green if done that day, else colored
+      const dots = scheduledTasks.slice(0, 4).map(t => {
         const done = t.daily_progress && t.daily_progress[dateStr];
         return `<span class="ts-dot ${done ? 'done' : 'pending'}"></span>`;
       }).join('');
 
-      const hasAny = dayTasks.length > 0;
+      const hasAny = scheduledTasks.length > 0;
       cell.innerHTML = `
         <span class="ts-cal-num">${d}</span>
         <span class="ts-cal-dots">${dots}</span>

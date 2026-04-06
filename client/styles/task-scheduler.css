@@ -1051,20 +1051,35 @@ body.task-scheduler-active aside#sidebar { display: none !important; }
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
+  body.task-scheduler-active #content-area {
+    overflow-y: auto !important;
+  }
+
+  .ts-root {
+    height: auto;
+    min-height: 100%;
+  }
+
   .ts-body {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
   }
 
   .ts-left-panel {
     border-right: none;
     border-bottom: 1px solid var(--border);
     overflow-y: visible;
-    max-height: 420px;
-    overflow-y: auto;
+    max-height: none;
+    flex-shrink: 0;
   }
 
   .ts-day-panel {
-    min-height: 300px;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .ts-day-tasks {
+    overflow: visible;
   }
 }

@@ -1,6 +1,6 @@
 import { $ } from './utils/helpers.js';
 import { getState, loadState, getActiveCatId } from './state/store.js';
-import { getActiveHubId, loadHubsFromServer } from './data/hubs.js';
+import { getActiveHubId, loadHubsFromServer, getActiveHubConfig } from './data/hubs.js';
 import { showDashboard, hideDashboard, updateAppBranding } from './ui/dashboard.js';
 import { eventBus } from './events/eventBus.js';
 import { renderSidebar } from './ui/sidebar.js';
@@ -246,15 +246,9 @@ async function init() {
   wireUpEvents();
   
   await loadHubsFromServer();
-  
-  const activeHub = getActiveHubId();
-  if (activeHub) {
-    updateAppBranding();
-    hideDashboard();
-    loadState();
-  } else {
-    showDashboard();
-  }
+
+  // Always show Dashboard on page load — user must click to enter a hub
+  showDashboard();
 }
 
 if (document.readyState === 'loading') {

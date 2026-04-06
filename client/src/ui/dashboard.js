@@ -94,9 +94,30 @@ export function hideDashboard() {
 export function selectHub(hubId) {
   setActiveHubId(hubId);
   updateAppBranding();
-  hideDashboard();
-  loadState(); // Reload the state for the new hub
+
+  // Hide dashboard
+  $('hub-dashboard').classList.add('hidden');
+
+  const config = getActiveHubConfig();
+  if (config && config.type === 'task-scheduler') {
+    // For task-scheduler: show main (needed for content-area), but hide sidebar + topbar
+    $('main').style.display = 'flex';
+    $('sidebar').style.display = 'none';
+    document.querySelector('.topbar').style.display = 'none';
+
+    import('../taskScheduler.js').then(({ TaskSchedulerController }) => {
+      const tm = new TaskSchedulerController(hubId);
+      tm.init();
+    });
+  } else {
+    // Normal knowledge-hub: show everything
+    $('main').style.display = 'flex';
+    $('sidebar').style.display = 'flex';
+    document.querySelector('.topbar').style.display = 'flex';
+    loadState();
+  }
 }
+
 
 export function updateAppBranding() {
   const config = getActiveHubConfig();

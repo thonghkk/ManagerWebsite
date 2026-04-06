@@ -1,0 +1,9 @@
+{
+  "id": "personal-development-project",
+  "name": "Personal Development Project",
+  "sub": "Knowledge Hub",
+  "icon": "📚",
+  "theme": "#71cf3f",
+  "title": "Personal Development Project Knowledge List",
+  "type": "task-scheduler"
+}

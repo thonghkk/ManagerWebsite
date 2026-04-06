@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles/detail.css" />
   <link rel="stylesheet" href="styles/dashboard.css" />
   <link rel="stylesheet" href="styles/english-detail.css" />
+  <link rel="stylesheet" href="styles/task-scheduler.css" />
 </head>
 <body>
   <!-- Hub Dashboard -->
@@ -174,6 +175,49 @@
       <div class="modal-footer">
         <button class="btn-secondary" id="modal-category-cancel">Hủy</button>
         <button class="btn-primary" id="modal-category-save">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Task -->
+  <div class="modal-overlay" id="modal-task" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-task-title">Add Task</h2>
+        <button class="modal-close" id="modal-task-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="task-id-input" />
+        <label class="form-label">Task Title <span class="required">*</span></label>
+        <input class="form-input" type="text" id="task-title-input" placeholder="e.g. Do research" />
+        
+        <label class="form-label" style="margin-top:16px">Description</label>
+        <textarea class="form-textarea" id="task-desc-input" placeholder="Detailed description..."></textarea>
+        
+        <div style="display: flex; gap: 16px; margin-top: 16px;">
+          <div style="flex: 1;">
+            <label class="form-label">Start Date</label>
+            <input class="form-input" type="date" id="task-start-input" />
+          </div>
+          <div style="flex: 1;">
+            <label class="form-label">End Date</label>
+            <input class="form-input" type="date" id="task-end-input" />
+          </div>
+        </div>
+
+        <label class="form-label" style="margin-top:16px">Status</label>
+        <select class="form-input" id="task-status-input" style="height: auto; padding: 10px;">
+          <option value="todo">To Do</option>
+          <option value="in_progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn-danger" id="task-delete-btn" style="display: none;">Delete</button>
+        <div style="display: flex; gap: 10px; margin-left: auto;">
+          <button class="btn-secondary" id="modal-task-cancel">Cancel</button>
+          <button class="btn-primary" id="modal-task-save">Save</button>
+        </div>
       </div>
     </div>
   </div>

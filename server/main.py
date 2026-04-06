@@ -13,6 +13,7 @@ from server.handlers.data_handler import handle_get_data, handle_post_data
 from server.handlers.questions_handler import handle_get_questions, handle_post_questions
 from server.handlers.hubs_handler import handle_get_hubs, handle_post_hubs
 from server.handlers.details_handler import handle_get_details, handle_post_details
+from server.handlers.tasks_handler import handle_get_tasks, handle_post_tasks, handle_put_tasks, handle_delete_tasks
 
 storage = FileStorage()
 
@@ -37,6 +38,8 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
             handle_get_hubs(self, storage)
         elif self.path.startswith('/api/details'):
             handle_get_details(self, storage)
+        elif self.path.startswith('/api/tasks'):
+            handle_get_tasks(self, storage)
         else:
             super().do_GET()
 
@@ -49,6 +52,22 @@ class AppHandler(CORSMixin, http.server.SimpleHTTPRequestHandler):
             handle_post_hubs(self, storage)
         elif self.path.startswith('/api/details'):
             handle_post_details(self, storage)
+        elif self.path.startswith('/api/tasks'):
+            handle_post_tasks(self, storage)
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def do_PUT(self):
+        if self.path.startswith('/api/tasks'):
+            handle_put_tasks(self, storage)
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def do_DELETE(self):
+        if self.path.startswith('/api/tasks'):
+            handle_delete_tasks(self, storage)
         else:
             self.send_response(404)
             self.end_headers()

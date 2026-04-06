@@ -1,0 +1,1023 @@
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE DAILY TASK TRACKING — task-scheduler.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Filter Chips (Overview) ─────────────────────────────────── */
+.ts-filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.ts-filter-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ts-filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+  background: var(--bg-hover);
+}
+
+.ts-filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* Date label in overview row */
+.ts-overview-date-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: 'Fira Code', monospace;
+  margin-bottom: 4px;
+}
+
+/* ── Time Badges ─────────────────────────────────────────────── */
+.ts-task-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.ts-time-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ts-time-badge.active {
+  background: rgba(34, 211, 160, 0.15);
+  color: var(--green);
+  border: 1px solid var(--green);
+  animation: ts-pulse-badge 1.5s ease-in-out infinite;
+}
+
+.ts-time-badge.past {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.ts-time-badge.upcoming {
+  background: rgba(108, 99, 255, 0.1);
+  color: var(--accent-light);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+}
+
+@keyframes ts-pulse-badge {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 211, 160, 0.4); }
+  50%       { opacity: 0.85; box-shadow: 0 0 0 4px rgba(34, 211, 160, 0); }
+}
+
+/* ── Active task card (currently running) ────────────────────── */
+.ts-card-active {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 0 1px rgba(34, 211, 160, 0.25),
+              0 4px 20px rgba(34, 211, 160, 0.12) !important;
+}
+
+.ts-card-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--green);
+  border-radius: 14px 0 0 14px;
+  animation: ts-active-bar 2s ease-in-out infinite;
+}
+
+@keyframes ts-active-bar {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Skip badge ──────────────────────────────────────────────── */
+.ts-skip-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+}
+
+/* Skip card: muted, no glow */
+.ts-card-skip {
+  opacity: 0.55;
+  border-style: dashed !important;
+}
+
+.ts-card-skip .ts-task-title {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Toggle skip icon */
+.ts-toggle.skip {
+  border: 2px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: not-allowed;
+  font-size: 16px;
+  opacity: 0.4;
+}
+
+/* ── Inline schedule editor ──────────────────────────────────── */
+.ts-sched-editor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0 4px;
+  padding: 8px 10px;
+  background: var(--bg-hover);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.ts-sched-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ts-sched-input {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  outline: none;
+  width: 96px;
+  font-family: 'Fira Code', monospace;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.ts-sched-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.ts-sched-sep {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.ts-sched-save-btn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.ts-sched-save-btn:hover {
+  background: var(--accent-light);
+  transform: scale(1.04);
+}
+
+.ts-sched-skip-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.ts-sched-skip-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239,68,68,0.08);
+}
+
+/* Shake animation for validation error */
+@keyframes ts-shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
+}
+.ts-sched-shake { animation: ts-shake 0.4s ease; }
+
+/* Read-only schedule rows */
+.ts-sched-locked-row {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 5px 10px;
+  background: var(--bg-hover);
+  border-radius: 6px;
+  border: 1px dashed var(--border);
+  margin: 6px 0 4px;
+  font-family: 'Fira Code', monospace;
+}
+
+.ts-sched-past-row {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 4px 0;
+  font-family: 'Fira Code', monospace;
+  opacity: 0.7;
+}
+
+/* ── Root Layout ─────────────────────────────────────────────── */
+.ts-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.ts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg-surface);
+}
+
+.ts-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Home / Back button */
+.ts-home-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.ts-home-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--accent-light);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transform: translateX(-2px);
+}
+
+.ts-header-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.ts-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.ts-header-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.ts-add-btn {
+  white-space: nowrap;
+}
+
+/* ── Body ────────────────────────────────────────────────────── */
+.ts-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Left Panel ──────────────────────────────────────────────── */
+.ts-left-panel {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  background: var(--bg-surface);
+  gap: 0;
+}
+
+/* ── Calendar Card ───────────────────────────────────────────── */
+.ts-calendar-card {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ts-cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.ts-cal-month-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.ts-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.ts-nav-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+/* Days-of-week row */
+.ts-cal-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 8px;
+  gap: 2px;
+}
+
+.ts-cal-header span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+/* Grid cells */
+.ts-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.ts-cal-cell {
+  border-radius: 8px;
+  padding: 4px 2px;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.ts-cal-cell.empty {
+  pointer-events: none;
+  cursor: default;
+}
+
+.ts-cal-cell:not(.empty):hover {
+  background: var(--bg-hover);
+}
+
+.ts-cal-cell.today .ts-cal-num {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.ts-cal-cell.selected {
+  background: var(--bg-hover);
+  border: 1px solid var(--accent);
+}
+
+.ts-cal-cell.selected .ts-cal-num {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.ts-cal-num {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 26px;
+  width: 26px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ts-cal-cell.has-tasks .ts-cal-num {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.ts-cal-dots {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.ts-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.ts-dot.done {
+  background: var(--green);
+  box-shadow: 0 0 4px var(--green);
+}
+
+.ts-dot.pending {
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+/* ── Task Overview ───────────────────────────────────────────── */
+.ts-overview-card {
+  padding: 16px;
+  flex: 1;
+}
+
+.ts-overview-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.ts-overview-count {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.ts-overview-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 4px;
+}
+
+.ts-overview-row:hover {
+  background: var(--bg-hover);
+}
+
+.ts-overview-status-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.ts-overview-status-icon.todo {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.ts-overview-status-icon.in_progress {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+}
+
+.ts-overview-status-icon.done {
+  background: var(--green-light);
+  color: var(--green);
+  border: 1px solid var(--green);
+}
+
+.ts-overview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ts-overview-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+}
+
+.ts-overview-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ts-overview-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-hover);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ts-overview-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.ts-overview-bar-fill.todo { background: var(--border); }
+.ts-overview-bar-fill.in_progress { background: var(--yellow); }
+.ts-overview-bar-fill.done { background: var(--green); }
+
+.ts-overview-pct {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+.ts-overview-edit-btn {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  font-size: 12px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.ts-overview-row:hover .ts-overview-edit-btn {
+  opacity: 1;
+}
+
+.ts-overview-edit-btn:hover {
+  background: var(--bg-card);
+  color: var(--accent-light);
+}
+
+.ts-overview-empty {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px 0;
+  line-height: 1.8;
+}
+
+/* ── Day Panel (Right) ───────────────────────────────────────── */
+.ts-day-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+.ts-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.ts-day-date-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ts-day-num {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--accent-light);
+  line-height: 1;
+  letter-spacing: -2px;
+  filter: drop-shadow(0 0 12px var(--accent-glow));
+}
+
+.ts-day-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-today-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+}
+
+/* Past day badge */
+.ts-past-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  letter-spacing: 0.3px;
+}
+
+/* Past day read-only note in header summary */
+.ts-past-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Past day number - muted color */
+.ts-day-num.past {
+  color: var(--text-muted);
+  filter: none;
+}
+
+.ts-day-month {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.ts-day-summary {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+/* Task list in day panel */
+.ts-day-tasks {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Empty day state */
+.ts-empty-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.ts-empty-icon { font-size: 48px; margin-bottom: 16px; }
+
+.ts-empty-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.ts-empty-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Task Card (Day Panel) ───────────────────────────────────── */
+.ts-task-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  animation: ts-slide-in 0.2s ease;
+  position: relative;
+}
+
+@keyframes ts-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ts-task-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(108, 99, 255, 0.1);
+}
+
+.ts-task-card.done {
+  border-left: 4px solid var(--green);
+  background: rgba(34, 211, 160, 0.04);
+}
+
+.ts-task-card.pending {
+  border-left: 4px solid var(--accent);
+}
+
+/* Toggle button */
+.ts-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+}
+
+.ts-toggle:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-light);
+  transform: scale(1.1);
+}
+
+.ts-toggle.done {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(34, 211, 160, 0.4);
+}
+
+.ts-toggle.done:hover {
+  background: transparent;
+  color: var(--green);
+  border-color: var(--green);
+  box-shadow: none;
+}
+
+/* Locked toggle — past days */
+.ts-toggle.locked {
+  border: 2px dashed var(--border);
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+  font-size: 14px;
+}
+
+.ts-toggle.locked.done {
+  border-style: solid;
+  border-color: var(--green);
+  background: rgba(34, 211, 160, 0.12);
+  color: var(--green);
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.ts-toggle.locked:hover,
+.ts-toggle.locked.done:hover {
+  transform: none;  /* no scale on hover */
+  cursor: not-allowed;
+}
+
+/* Past-locked task card */
+.ts-task-card.past-locked {
+  opacity: 0.7;
+}
+
+.ts-task-card.past-locked .ts-task-title {
+  color: var(--text-secondary);
+}
+
+.ts-task-card.past-locked.done .ts-task-title {
+  color: var(--green);
+  opacity: 0.75;
+}
+
+
+.ts-task-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ts-task-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.ts-task-card.done .ts-task-title {
+  color: var(--green);
+}
+
+.ts-task-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.ts-task-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.ts-task-day-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent-glow);
+  color: var(--accent-light);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+}
+
+.ts-task-range {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Fira Code', monospace;
+}
+
+/* Progress bar inside task card */
+.ts-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ts-progress-track {
+  flex: 1;
+  height: 5px;
+  background: var(--bg-hover);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ts-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.ts-progress-fill.todo    { background: var(--border); }
+.ts-progress-fill.in_progress {
+  background: linear-gradient(90deg, var(--yellow), #f59e0b);
+}
+.ts-progress-fill.done {
+  background: linear-gradient(90deg, var(--green), #10b981);
+  box-shadow: 0 0 6px rgba(34, 211, 160, 0.4);
+}
+
+.ts-progress-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-family: 'Fira Code', monospace;
+}
+
+.ts-card-edit {
+  opacity: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.ts-task-card:hover .ts-card-edit {
+  opacity: 1;
+}
+
+.ts-card-edit:hover {
+  background: var(--bg-hover);
+  color: var(--accent-light);
+}
+
+/* Locked edit button — past days */
+.ts-card-edit.locked {
+  opacity: 0;         /* stays hidden on hover too */
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ts-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .ts-left-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  .ts-day-panel {
+    min-height: 300px;
+  }
+}

@@ -523,12 +523,123 @@
     "id": "mn3b5jnifyemx",
     "name": "Speaking",
     "icon": "🗣",
+    "items": [],
+    "completed": false
+  },
+  {
+    "id": "mn3epmlsk3ee2",
+    "name": "IPA",
+    "icon": "📦",
     "items": [
       {
-        "id": "mn3b7q9fsqcy2",
-        "name": "Shadowing",
+        "id": "mn3eq0po010g0",
+        "name": "/ɪ/ vs /i:/ (it vs eat)",
+        "done": true,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eqay8288nr",
+        "name": "/s/ - /ʃ/ (so vs show)",
         "done": false,
-        "note": "ddd",
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eql87d52b1",
+        "name": "/t/ - /θ/ (tank vs thank)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3etogo1pgak",
+        "name": "/e/ - /ɪ/ (bet vs bit)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3etvs6dw0pr",
+        "name": "/e/ - /eɪ/ (wet vs wait)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eu1tnvaqcv",
+        "name": "/æ/ - /ʌ/ (cat vs cut)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eu7guuomyr",
+        "name": "/əʊ/ - /ɔ:/ - /ɑː/ (low vs law)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3euf6elgmhi",
+        "name": "/ɒ/ - /ɑː/ - /əʊ/ (want vs won't)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eujxrvri4q",
+        "name": "/æ/ - /e/ (bad vs bed)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3eupbb0b5ro",
+        "name": "/ɑ:/ - /ɜ:/ (far vs fur)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3euudm1jfs9",
+        "name": "/æ/ - /ɑ:/ (had vs hard)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3euyitg6gy3",
+        "name": "/ɒ/ - /ɑː/ - /ɔ:/ (swan vs sworn)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3ev50dwwmjw",
+        "name": "/əʊ/ - /oʊ/ - /aʊ/ (know vs now)",
+        "done": false,
+        "note": "",
+        "customQuestions": [],
+        "answers": {}
+      },
+      {
+        "id": "mn3ev9b4vx30y",
+        "name": "/b/ - /v/ (ban vs van)",
+        "done": false,
+        "note": "",
         "customQuestions": [],
         "answers": {}
       }

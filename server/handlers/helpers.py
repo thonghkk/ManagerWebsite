@@ -24,3 +24,7 @@ def get_questions_filepath(hub):
 def get_config_filepath(hub):
     hub_dir = _ensure_hub_dir(hub)
     return os.path.join(hub_dir, "config.json")
+
+def get_tasks_filepath(hub):
+    hub_dir = _ensure_hub_dir(hub)
+    return os.path.join(hub_dir, "tasks.json")

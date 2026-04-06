@@ -247,8 +247,12 @@ async function init() {
   
   await loadHubsFromServer();
 
-  // Always show Dashboard on page load — user must click to enter a hub
-  showDashboard();
+  const activeHub = getActiveHubId();
+  if (activeHub) {
+    import('./ui/dashboard.js').then(({ selectHub }) => selectHub(activeHub));
+  } else {
+    showDashboard();
+  }
 }
 
 if (document.readyState === 'loading') {

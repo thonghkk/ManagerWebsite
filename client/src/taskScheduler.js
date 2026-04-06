@@ -290,7 +290,74 @@ export class TaskSchedulerController {
       return;
     }
 
-    container.innerHTML = dayTasks.map(task => {
+    // ── Gantt Chart ──
+    const scheduledTasksForGantt = dayTasks.filter(t => {
+      const s = t.daily_schedule && t.daily_schedule[this.selectedDate];
+      return s && s.start && s.end;
+    });
+
+    let ganttHTML = '';
+    if (scheduledTasksForGantt.length > 0) {
+      let minHour = 24, maxHour = 0;
+      scheduledTasksForGantt.forEach(t => {
+        const s = t.daily_schedule[this.selectedDate];
+        const sh = parseInt(s.start.split(':')[0], 10);
+        const eh = parseInt(s.end.split(':')[0], 10) + (s.end.split(':')[1] === '00' ? 0 : 1);
+        if (sh < minHour) minHour = sh;
+        if (eh > maxHour) maxHour = eh;
+      });
+      if (minHour > 0) minHour -= 1;
+      if (maxHour < 24) maxHour += 1;
+      const totalSpan = maxHour - minHour;
+      
+      let gridLines = '';
+      if (totalSpan > 0) {
+        for (let i = 0; i <= totalSpan; i++) {
+          const h = minHour + i;
+          let label = `${String(h).padStart(2,'0')}:00`;
+          gridLines += `<div class="ts-gantt-grid-line" style="left: ${(i / totalSpan) * 100}%"><span class="ts-gantt-label">${label}</span></div>`;
+        }
+      }
+
+      let bars = scheduledTasksForGantt.map((t, idx) => {
+        const s = t.daily_schedule[this.selectedDate];
+        const timeStatus = isToday ? this.getTaskTimeStatus(t, this.selectedDate) : 'none';
+        const isActive = isToday && timeStatus === 'active';
+        const isTimeLocked = isToday && timeStatus === 'past';
+        const isLckd = isPast || isTimeLocked;
+
+        const sh = parseInt(s.start.split(':')[0], 10) + parseInt(s.start.split(':')[1], 10)/60;
+        const eh = parseInt(s.end.split(':')[0], 10) + parseInt(s.end.split(':')[1], 10)/60;
+        
+        let leftPct = 0, widthPct = 100;
+        if (totalSpan > 0) {
+          leftPct = ((sh - minHour) / totalSpan) * 100;
+          widthPct = ((eh - sh) / totalSpan) * 100;
+        }
+        
+        let barClass = 'ts-gantt-bar';
+        if (isActive) barClass += ' active';
+        else if (isLckd) barClass += ' past';
+        else barClass += ' pending';
+
+        return `
+          <div class="${barClass}" style="left: ${leftPct}%; width: ${widthPct}%; top: ${idx * 28 + 24}px;" title="${t.title} (${s.start}-${s.end})">
+            <span class="ts-gantt-title-text">${t.title}</span>
+          </div>
+        `;
+      }).join('');
+
+      ganttHTML = `
+        <div class="ts-gantt-wrapper">
+          <div class="ts-gantt-container" style="height: ${scheduledTasksForGantt.length * 28 + 36}px">
+            ${gridLines}
+            ${bars}
+          </div>
+        </div>
+      `;
+    }
+
+    const cardsHTML = dayTasks.map(task => {
       const dp = task.daily_progress || {};
       const ds = task.daily_schedule || {};
 
@@ -387,6 +454,8 @@ export class TaskSchedulerController {
         </div>
       `;
     }).join('');
+
+    container.innerHTML = ganttHTML + cardsHTML;
 
     // Only bind events for non-past days
     if (!isPast) {

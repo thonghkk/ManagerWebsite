@@ -735,6 +735,14 @@
 }
 
 /* ── Day Panel (Right) ───────────────────────────────────────── */
+body.task-scheduler-active .topbar { display: none !important; }
+body.task-scheduler-active aside#sidebar { display: none !important; }
+
+/* ── Overrides for Hub integration ── */
+#content-area {
+  overflow: hidden;
+}
+
 .ts-day-panel {
   display: flex;
   flex-direction: column;

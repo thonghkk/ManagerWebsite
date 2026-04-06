@@ -101,6 +101,7 @@ export function selectHub(hubId) {
   const config = getActiveHubConfig();
   if (config && config.type === 'task-scheduler') {
     // For task-scheduler: show main (needed for content-area), but hide sidebar + topbar
+    document.body.classList.add('task-scheduler-active');
     $('main').style.display = 'flex';
     $('sidebar').style.display = 'none';
     document.querySelector('.topbar').style.display = 'none';
@@ -111,6 +112,7 @@ export function selectHub(hubId) {
     });
   } else {
     // Normal knowledge-hub: show everything
+    document.body.classList.remove('task-scheduler-active');
     $('main').style.display = 'flex';
     $('sidebar').style.display = 'flex';
     document.querySelector('.topbar').style.display = 'flex';
